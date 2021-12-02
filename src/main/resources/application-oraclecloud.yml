@@ -1,0 +1,56 @@
+micronaut:
+  application:
+    name: bttc
+  server:
+    dual-protocol: true
+    ssl:
+      enabled: true
+      port: 8443
+datasources:
+  default:
+    dialect: ORACLE
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    ocid: ${DB_OCID}
+    walletPassword: ${DB_WALLET_PASSWORD}
+    connection-factory-class-name: oracle.jdbc.pool.OracleDataSource
+jpa.default.properties.hibernate.show_sql: true
+mqtt:
+  client:
+    server-uri: ${MQTT_SERVER_URI}
+    client-id: bttc-client
+    user-name: ${MQTT_USERNAME}
+    password: ${MQTT_PASSWORD}
+codes:
+  recursive:
+    xbox-gamertag: ${XBOX_GAMERTAG}
+    functions:
+      recent-matches-ocid: ${FN_RECENT_MATCHES_OCID}
+      recent-matches-invoke-endpoint: ${FN_RECENT_MATCHES_INVOKE_URL}
+oci:
+  config:
+    instance-principal:
+      enabled: true
+acme:
+  enabled: true
+  tos-agree: true
+  cert-location: /certs
+  domains:
+    - ${DOMAIN_NAME}
+  refresh:
+    delay: 1m
+    frequency: 24h
+  domain-key: |
+    ${SSL_BTTC_KEY}
+  account-key: |
+    ${SSL_ACME_KEY}
+  acme-server: https://acme-v02.api.letsencrypt.org/directory
+  order:
+    pause: 3s
+    refresh-attempts: 10
+  auth:
+    pause: 1m
+    refresh-attempts: 10
+  renew-within: 30
+  challenge-type: http
+  timeout: 10s

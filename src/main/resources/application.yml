@@ -1,0 +1,25 @@
+micronaut:
+  application:
+    name: bttc
+datasources:
+  default:
+    dialect: ORACLE
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    ocid: ${DB_OCID}
+    walletPassword: ${DB_WALLET_PASSWORD}
+    connection-factory-class-name: oracle.jdbc.pool.OracleDataSource
+jpa.default.properties.hibernate.show_sql: true
+mqtt:
+  client:
+    server-uri: ${MQTT_SERVER_URI}
+    client-id: bttc-client
+    user-name: ${MQTT_USERNAME}
+    password: ${MQTT_PASSWORD}
+oci.config.profile: DEFAULT
+codes:
+  recursive:
+    xbox-gamertag: ${XBOX_GAMERTAG}
+    functions:
+      recent-matches-ocid: ${FN_RECENT_MATCHES_OCID}
+      recent-matches-invoke-endpoint: ${FN_RECENT_MATCHES_INVOKE_URL}

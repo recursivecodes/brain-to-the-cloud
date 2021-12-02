@@ -1,0 +1,16 @@
+micronaut:
+  application:
+    name: bttc
+  config-client:
+    enabled: true
+oraclecloud:
+  vault:
+    config:
+      enabled: true
+    vaults:
+      - ocid: ${VAULT_OCID}
+        compartment-ocid: ${VAULT_COMPARTMENT_OCID}
+    use-instance-principal: true
+    path-to-config: ~/.oci/config
+    profile: DEFAULT
+    region: US-PHOENIX-1
