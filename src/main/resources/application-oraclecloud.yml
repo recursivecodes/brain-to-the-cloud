@@ -2,10 +2,10 @@ micronaut:
   application:
     name: bttc
   server:
+    port: 80
     dual-protocol: true
     ssl:
       enabled: true
-      port: 8443
 datasources:
   default:
     dialect: ORACLE
@@ -48,9 +48,6 @@ acme:
   order:
     pause: 3s
     refresh-attempts: 10
-  auth:
-    pause: 1m
-    refresh-attempts: 10
   renew-within: 30
-  challenge-type: http
+  challenge-type: tls
   timeout: 10s
