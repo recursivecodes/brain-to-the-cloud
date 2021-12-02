@@ -2,10 +2,11 @@ micronaut:
   application:
     name: bttc
   server:
-    port: 80
     dual-protocol: true
     ssl:
       enabled: true
+  ssl:
+    port: 8443
 datasources:
   default:
     dialect: ORACLE
@@ -37,17 +38,9 @@ acme:
   cert-location: /certs
   domains:
     - ${DOMAIN_NAME}
-  refresh:
-    delay: 1m
-    frequency: 24h
   domain-key: |
     ${SSL_BTTC_KEY}
   account-key: |
     ${SSL_ACME_KEY}
   acme-server: https://acme-v02.api.letsencrypt.org/directory
-  order:
-    pause: 3s
-    refresh-attempts: 10
-  renew-within: 30
   challenge-type: tls
-  timeout: 10s
