@@ -72,7 +72,7 @@ java {
 
 dockerfile {
     baseImage("adoptopenjdk/openjdk11-openj9:jdk-11.0.11_9_openj9-0.26.0-alpine-slim")
-    exportPorts(8080)
+    exportPorts(8080,80,443,8443)
 }
 
 dockerBuild {

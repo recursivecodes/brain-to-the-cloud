@@ -5,8 +5,6 @@ micronaut:
     dual-protocol: true
     ssl:
       enabled: true
-  ssl:
-    port: 8443
 datasources:
   default:
     dialect: ORACLE
@@ -29,3 +27,4 @@ codes:
     functions:
       recent-matches-ocid: ${FN_RECENT_MATCHES_OCID}
       recent-matches-invoke-endpoint: ${FN_RECENT_MATCHES_INVOKE_URL}
+oci.config.profile: DEFAULT

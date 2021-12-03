@@ -5,8 +5,9 @@ micronaut:
     dual-protocol: true
     ssl:
       enabled: true
+    port: 80
   ssl:
-    port: 8443
+    port: 443
 datasources:
   default:
     dialect: ORACLE
@@ -43,4 +44,4 @@ acme:
   account-key: |
     ${SSL_ACME_KEY}
   acme-server: https://acme-v02.api.letsencrypt.org/directory
-  challenge-type: tls
+  challenge-type: http
