@@ -47,7 +47,7 @@ dependencies {
     runtimeOnly("io.micronaut:micronaut-discovery-client:2.0.1")
 
     // ojdbc driver
-    implementation("com.oracle.database.jdbc:ojdbc11:21.1.0.0")
+    implementation("com.oracle.database.jdbc:ojdbc11-production:21.1.0.0")
     // oci sdk
     implementation("com.oracle.oci.sdk:oci-java-sdk-functions:2.10.0")
     implementation("com.oracle.oci.sdk:oci-java-sdk-vault:2.10.0")

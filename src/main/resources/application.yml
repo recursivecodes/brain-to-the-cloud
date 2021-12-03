@@ -1,6 +1,12 @@
 micronaut:
   application:
     name: bttc
+  server:
+    dual-protocol: true
+    ssl:
+      enabled: true
+  ssl:
+    port: 8443
 datasources:
   default:
     dialect: ORACLE
