@@ -24,7 +24,7 @@ import java.sql.Date;
 
 @Entity
 public class Brain {
-    @Id @GeneratedValue(strategy= GenerationType.IDENTITY) private Integer id;
+    @Id @GeneratedValue(strategy= GenerationType.IDENTITY) private Long id;
     @JsonProperty("signalStrength") private Integer signalStrength;
     @JsonProperty("attention") private Integer attention;
     @JsonProperty("meditation") private Integer meditation;
@@ -71,11 +71,11 @@ public class Brain {
     public Brain() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

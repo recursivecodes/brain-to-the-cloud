@@ -20,17 +20,19 @@ import java.util.Map;
 public class Game {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @TypeDef(type = DataType.JSON)
     private String match;
+    private Boolean isHighlighted = false;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     @DateCreated
     private Date createdOn;
 
     @Creator
-    public Game(Integer id, String match, @Nullable Date createdOn) {
+    public Game(Long id, String match, Boolean isHighlighted, @Nullable Date createdOn) {
         this.id = id;
         this.match = match;
+        this.isHighlighted = isHighlighted;
         this.createdOn = createdOn;
     }
 
@@ -44,11 +46,11 @@ public class Game {
 
     public Game() {}
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -63,6 +65,14 @@ public class Game {
 
     public void setMatch(String data) {
         this.match = data;
+    }
+
+    public Boolean getIsHighlighted() {
+        return isHighlighted;
+    }
+
+    public void setIsHighlighted(Boolean highlighted) {
+        isHighlighted = highlighted;
     }
 
     public Date getCreatedOn() {

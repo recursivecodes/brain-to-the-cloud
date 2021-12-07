@@ -5,7 +5,7 @@ import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.PageableRepository;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.DateType;
-import org.hibernate.type.IntegerType;
+import org.hibernate.type.LongType;
 import org.hibernate.type.StringType;
 
 import javax.persistence.EntityManager;
@@ -27,7 +27,7 @@ public abstract class AbstractGameRepository implements PageableRepository<Game,
         return (Game) entityManager.createNativeQuery(sql)
                 .unwrap(org.hibernate.query.NativeQuery.class)
                 .setParameter("matchID", matchID)
-                .addScalar("id", IntegerType.INSTANCE)
+                .addScalar("id", LongType.INSTANCE)
                 .addScalar("match", StringType.INSTANCE)
                 .addScalar("createdOn", DateType.INSTANCE)
                 .setResultTransformer(Transformers.aliasToBean(Game.class))
