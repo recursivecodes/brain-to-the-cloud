@@ -178,7 +178,51 @@ const initCharts = () => {
   });
 
   chartsInit = true;
-  connect();
+}
+
+const init = () => {
+
+  initCharts();
+
+  document.querySelector('#connectBtn').addEventListener('click', () => {
+    if(typeof ws === 'undefined' || ws.readyState === WebSocket.CLOSED) {
+      connect();
+    }
+    else {
+      ws.close();
+      ws = undefined;
+      brainReadings = [];
+      attentionReadings = [];
+      meditationReadings = [];
+      meditationHigh = 0;
+      meditationLow = 100;
+      attentionHigh = 0;
+      attentionLow = 100;
+      deltaReadings = [];
+      thetaReadings = [];
+      lowAlphaReadings = [];
+      highAlphaReadings = [];
+      lowBetaReadings = [];
+      highBetaReadings = [];
+      lowGammaReadings = [];
+      highGammaReadings = [];
+      document.querySelector('#meditationHigh').innerHTML = "N/A";
+      document.querySelector('#meditationLow').innerHTML = "N/A";
+      document.querySelector('#attentionHigh').innerHTML = "N/A";
+      document.querySelector('#attentionLow').innerHTML = "N/A";
+
+      document.querySelector('#currentSignalStrength').innerHTML = 0;
+      document.querySelector('#currentAttention').innerHTML = "N/A";
+      document.querySelector('#currentMeditation').innerHTML = "N/A";
+      if (chartsInit) {
+        attentionChart.destroy();
+        meditationChart.destroy();
+        activityChart.destroy();
+        chartsInit = false;
+        initCharts();
+      }
+    }
+  });
 };
 
 class Brain {
@@ -215,9 +259,12 @@ class Brain {
 const connect = () => {
   console.log('Connecting to WebSocket...')
   const protocol = location.protocol.indexOf("https") > -1 ? "wss" : "ws";
-  const ws = new WebSocket(`${protocol}://${location.hostname}:${location.port}/ws/demo`);
+  ws = new WebSocket(`${protocol}://${location.hostname}:${location.port}/ws/demo`);
   ws.onopen = (msg) => {
     console.log('Connected!')
+    document.querySelector('#connectBtnLbl').innerHTML = 'Disconnect';
+    document.querySelector('#connectBtn').classList.add('btn-reset')
+    document.querySelector('#connectBtn').classList.remove('btn-primary')
   };
   ws.onmessage = (msg) => {
     const parsedMsg = JSON.parse(msg.data);
@@ -269,10 +316,15 @@ const connect = () => {
     document.querySelector('#currentMeditation').innerHTML = brain.meditation;
   };
   ws.onclose = (e) => {
+    /*
     console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
     setTimeout(function() {
       connect();
     }, 1000);
+     */
+    document.querySelector('#connectBtnLbl').innerHTML = 'Connect';
+    document.querySelector('#connectBtn').classList.add('btn-primary')
+    document.querySelector('#connectBtn').classList.remove('btn-reset')
   };
   ws.onerror = function(err) {
     console.error('Socket encountered error: ', err.message, 'Closing socket');
@@ -297,4 +349,4 @@ const getAnnotation = (label, value) => {
   }
 }
 
-document.addEventListener('DOMContentLoaded', initCharts);
+document.addEventListener('DOMContentLoaded', init);

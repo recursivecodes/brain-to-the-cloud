@@ -233,3 +233,104 @@ table tbody tr.active-row {
 .text-white {
     color: #fff!important;
 }
+.btn {
+    display: inline-block;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 5px;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.btn-primary {
+    color: #ffffff;
+    background-color: #2c0098;
+    border-color: #120080;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+    color: #ffffff;
+    background-color: #3c03d2;
+    border-color: #120080;
+}
+
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+    background-image: none;
+}
+
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #005998;
+    border-color: #003D69;
+}
+
+.btn-primary .badge {
+    color: #005998;
+    background-color: #ffffff;
+}
+.btn-reset {
+    color: #FFFFFF;
+    background-color: #980000;
+    border-color: #630000;
+}
+
+.btn-reset:hover,
+.btn-reset:focus,
+.btn-reset:active,
+.btn-reset.active,
+.open .dropdown-toggle.btn-reset {
+    color: #FFFFFF;
+    background-color: #C72020;
+    border-color: #630000;
+}
+
+.btn-reset:active,
+.btn-reset.active,
+.open .dropdown-toggle.btn-reset {
+    background-image: none;
+}
+
+.btn-reset.disabled,
+.btn-reset[disabled],
+fieldset[disabled] .btn-reset,
+.btn-reset.disabled:hover,
+.btn-reset[disabled]:hover,
+fieldset[disabled] .btn-reset:hover,
+.btn-reset.disabled:focus,
+.btn-reset[disabled]:focus,
+fieldset[disabled] .btn-reset:focus,
+.btn-reset.disabled:active,
+.btn-reset[disabled]:active,
+fieldset[disabled] .btn-reset:active,
+.btn-reset.disabled.active,
+.btn-reset[disabled].active,
+fieldset[disabled] .btn-reset.active {
+    background-color: #980000;
+    border-color: #630000;
+}
+
+.btn-reset .badge {
+    color: #980000;
+    background-color: #FFFFFF;
+}

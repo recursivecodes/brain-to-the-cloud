@@ -31,7 +31,10 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><span class="jumbo" id="currentSignalStrength">0</span></td>
+                    <td>
+                        <span class="jumbo" id="currentSignalStrength">0</span>
+                        <button id="connectBtn" class="btn btn-primary" style="margin-bottom: 10px;"><span id="connectBtnLbl">Connect</span></button>
+                    </td>
                     <td>
                         <span class="jumbo" id="currentMeditation">N/A</span>
                         <span class="text-danger" id="meditationHigh">N/A</span> /
@@ -47,7 +50,6 @@
             </table>
         </div>
     </div>
-
     <div class="row">
         <div class="col-6">
             <canvas id="attentionChart" style="height: 300px; width:100%;"></canvas>
@@ -59,7 +61,7 @@
 
     <div class="row">
         <div class="col-12">
-            <canvas id="activityChart" style="height: 600px; width:100%;"></canvas>
+            <canvas id="activityChart" style="height: 400px; width:100%;"></canvas>
         </div>
     </div>
 </section>

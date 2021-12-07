@@ -68,6 +68,9 @@ public class Brain {
                this.isDistracted = isDistracted;
     }
 
+    public Brain() {
+    }
+
     public Integer getId() {
         return id;
     }
