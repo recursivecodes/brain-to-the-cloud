@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutFile :: head(~{::title}, ~{:: #extraHead})}">
+    <title>Home</title>
+    <!--/*/
+    <div id="extraHead" th:remove="tag">
+    /*/-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" type="application/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js" type="application/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+    <script src="/scripts/demo.js" type="application/javascript"></script>
+    <!--/*/
+    </div>
+    /*/-->
+</head>
+<body th:replace="~{layoutFile :: body(~{::section})}">
+<section>
+    <div th:replace="fragments/header :: header()"></div>
+    <div th:replace="fragments/nav :: navmenu(${currentView})"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <table>
+                <thead>
+                <tr>
+                    <th>Signal Strength</th>
+                    <th>Current Meditation</th>
+                    <th>Current Attention</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><span class="jumbo" id="currentSignalStrength">0</span></td>
+                    <td>
+                        <span class="jumbo" id="currentMeditation">N/A</span>
+                        <span class="text-danger" id="meditationHigh">N/A</span> /
+                        <span class="text-success" id="meditationLow">N/A</span>
+                    </td>
+                    <td>
+                        <span class="jumbo" id="currentAttention">N/A</span>
+                        <span class="text-danger" id="attentionHigh">N/A</span> /
+                        <span class="text-success" id="attentionLow">N/A</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <canvas id="attentionChart" style="height: 300px; width:100%;"></canvas>
+        </div>
+        <div class="col-6">
+            <canvas id="meditationChart" style="height: 300px; width:100%;"></canvas>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <canvas id="activityChart" style="height: 600px; width:100%;"></canvas>
+        </div>
+    </div>
+</section>
+</body>
+</html>

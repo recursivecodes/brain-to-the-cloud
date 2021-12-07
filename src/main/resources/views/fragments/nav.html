@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="navmenu(currentPage)" class="row">
+    <div class="col-12 nav-container">
+        <ul class="nav">
+            <li><a th:classappend="${currentPage == 'home'} ? 'active' : ''" href="/">Home</a></li>
+            <li><a th:classappend="${currentPage == 'demo'} ? 'active' : ''" href="/demo">Demo</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

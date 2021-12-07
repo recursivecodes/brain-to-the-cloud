@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title, extraHead)">
+    <title th:replace="${title}">Layout Title</title>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--/*/<div th:replace="${extraHead}"></div> /*/-->
+</head>
+<body th:fragment="body(content)">
+    <div th:replace="${content}">
+        <p>Layout content</p>
+    </div>
+    <footer class="footer">
+        <div class="row">
+            <div class="col-12">
+                <p>
+                    Brain to the Cloud &copy; 2021-2022 &bull; <a href="https://recursive.codes">recursive.codes</a>
+                </p>
+                <p>
+                    Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

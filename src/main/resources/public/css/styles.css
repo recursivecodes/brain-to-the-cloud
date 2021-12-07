@@ -1,0 +1,235 @@
+* {
+    box-sizing: border-box;
+}
+
+.jumbo {
+    font-size: 32px;
+}
+
+.row::after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+}
+
+html {
+}
+body {
+    font-family: 'Open Sans', serif;
+}
+.header {
+    background-color: #2c0098;
+    color: #ffffff;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    padding: 8px;
+    margin-bottom: 7px;
+    background-color: #33b5e5;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.menu li:hover {
+    background-color: #0099cc;
+}
+
+.aside {
+    background-color: #33b5e5;
+    padding: 15px;
+    color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.footer {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    text-align: center;
+    font-size: 12px;
+    padding: 15px;
+    border-radius: 5px;
+}
+.footer a {
+    color: #c7c8ff;
+}
+
+.footer a:hover {
+    color: white;
+    text-decoration: none;
+}
+/* For desktop: */
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+        width: 100%;
+        padding: 5px;
+    }
+    .nav-container {
+        padding: 0 5px !important;
+    }
+    .jumbo {
+        font-size: 18px;
+    }
+    table {
+        margin: 5px 0 !important;
+    }
+    table, thead, tr, th, td {
+        font-size: 12px !important;
+    }
+    table th, table td {
+        padding: 10px !important;
+    }
+    canvas {
+        min-height: 250px;
+    }
+}
+canvas {
+    border: thin solid #2c0098;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+table {
+    border-spacing: 0;
+    margin: 10px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+table tr:last-child td:first-child thead th:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+table tr:last-child td:last-child thead th:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+th {
+    position: sticky;
+    top: 0;
+    background-color: #2c0098;
+    color: #ffffff;
+}
+
+table thead tr {
+    text-align: left;
+}
+table th, table td {
+    padding: 12px 15px;
+}
+table tbody tr {
+    border-bottom: thin solid #dddddd;
+}
+table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+table tbody tr:last-of-type {
+    border-bottom: 2px solid #2c0098;
+}
+table tbody tr.active-row {
+    font-weight: bold;
+    color: #2c0098;
+}
+.nav-container {
+    padding: 0 15px;
+}
+
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #2c0098;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.nav > li {
+    float: left;
+}
+
+.nav > li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.nav > li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #005998;
+}
+
+.text-primary {
+    color: #007bff!important;
+}
+.text-secondary {
+    color: #6c757d!important;
+}
+.text-success {
+    color: #28a745!important;
+}
+.text-danger {
+    color: #dc3545!important;
+}
+.text-warning {
+    color: #ffc107!important;
+}
+.text-info {
+    color: #17a2b8!important;
+}
+.text-light {
+    color: #f8f9fa!important;
+}
+.bg-dark {
+    background-color: #343a40!important;
+}
+.text-dark {
+    color: #343a40!important;
+}
+.text-muted {
+    color: #6c757d!important;
+}
+.text-white {
+    color: #fff!important;
+}
