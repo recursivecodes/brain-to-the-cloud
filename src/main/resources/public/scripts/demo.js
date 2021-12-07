@@ -214,7 +214,8 @@ class Brain {
 
 const connect = () => {
   console.log('Connecting to WebSocket...')
-  const ws = new WebSocket("ws://" + location.hostname + ":" + location.port + "/ws/demo");
+  const protocol = location.protocol.indexOf("https") > -1 ? "wss" : "ws";
+  const ws = new WebSocket(`${protocol}://${location.hostname}:${location.port}/ws/demo`);
   ws.onopen = (msg) => {
     console.log('Connected!')
   };

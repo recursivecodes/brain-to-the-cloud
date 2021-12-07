@@ -20,7 +20,7 @@ jpa.default.properties.hibernate.show_sql: true
 mqtt:
   client:
     server-uri: ${MQTT_SERVER_URI}
-    client-id: bttc-client
+    client-id: bttc-client-prod
     user-name: ${MQTT_USERNAME}
     password: ${MQTT_PASSWORD}
 codes:
