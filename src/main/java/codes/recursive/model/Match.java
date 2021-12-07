@@ -1,11 +1,15 @@
 package codes.recursive.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.micronaut.core.annotation.Introspected;
 
 import java.math.BigInteger;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Introspected
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -76,5 +80,16 @@ public class Match {
         this.team2Score = team2Score;
         this.isPresentAtEnd = isPresentAtEnd;
         this.playerStats = playerStats;
+    }
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ssZ")
+    public ZonedDateTime getMatchStart() {
+        return ZonedDateTime.ofInstant(Instant.ofEpochSecond(this.utcStartSeconds), ZoneId.of("America/New_York"));
+    }
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ssZ")
+    public ZonedDateTime getMatchEnd() {
+        return ZonedDateTime.ofInstant(Instant.ofEpochSecond(this.utcEndSeconds), ZoneId.of("America/New_York"));
+
     }
 }

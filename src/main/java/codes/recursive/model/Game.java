@@ -52,11 +52,6 @@ public class Game {
         this.id = id;
     }
 
-    public Map getMatchAsMap() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(match, Map.class);
-    }
-
     public Match getMatchSerialized() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(match, Match.class);

@@ -1,25 +1,39 @@
 package codes.recursive.controller;
 
+import codes.recursive.model.Game;
+import codes.recursive.repository.AbstractGameRepository;
+import codes.recursive.repository.GameRepository;
 import codes.recursive.task.RecentMatches;
 import io.micronaut.core.util.CollectionUtils;
+import io.micronaut.data.model.Page;
+import io.micronaut.data.model.Pageable;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.views.ModelAndView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
 @Controller("/")
 public class DefaultController {
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultController.class);
 
     private final RecentMatches recentMatches;
+    private final GameRepository gameRepository;
+    private final AbstractGameRepository abstractGameRepository;
 
     public DefaultController(
-            RecentMatches recentMatches
+            RecentMatches recentMatches,
+            GameRepository gameRepository,
+            AbstractGameRepository abstractGameRepository
     ) {
         this.recentMatches = recentMatches;
+        this.gameRepository = gameRepository;
+        this.abstractGameRepository = abstractGameRepository;
     }
 
     @Get("/")
@@ -32,6 +46,12 @@ public class DefaultController {
         return new ModelAndView("demo", CollectionUtils.mapOf("currentView", "demo"));
     }
 
+    @Get("/recentMatches")
+    public Page<Game> getRecentMatches() {
+        Pageable pageable = Pageable.from(0, 25);
+        return gameRepository.findAll(pageable);
+    }
+    
     @Post(uri = "/token", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     public HttpResponse saveToken(Map<String, String> data) {
         recentMatches.setActivisionToken(data.get("token"));
