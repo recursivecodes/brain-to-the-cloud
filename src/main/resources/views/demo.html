@@ -5,11 +5,11 @@
     <!--/*/
     <div id="extraHead" th:remove="tag">
     /*/-->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" type="application/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js" type="application/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js" integrity="sha512-tMabqarPtykgDtdtSqCL3uLVM0gS1ZkUAVhRFu1vSEFgvB73niFQWJuvviDyBGBH22Lcau4rHB5p2K2T0Xvr6Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.1.0/chartjs-plugin-annotation.min.js" integrity="sha512-uxcl+YXF0LbFyZFEb6HHmxl1NEI4X/5rjojm/13M1CBXBDj8wkmM99cKADkmtuky28pC/EpNTDHOEb/c3nDZsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
-    <script src="/scripts/demo.js" type="application/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-moment/1.0.0/chartjs-adapter-moment.min.js" integrity="sha512-oh5t+CdSBsaVVAvxcZKy3XJdP7ZbYUBSRCXDTVn0ODewMDDNnELsrG9eDm8rVZAQg7RsDD/8K3MjPAFB13o6eA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/scripts/demo.js" type="module"></script>
     <!--/*/
     </div>
     /*/-->
@@ -20,13 +20,13 @@
     <div th:replace="fragments/nav :: navmenu(${currentView})"></div>
 
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 pt-0">
             <table>
                 <thead>
                 <tr>
                     <th>Signal Strength</th>
+                    <th>Attention</th>
                     <th>Meditation</th>
-                    <th>\Attention</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -36,14 +36,14 @@
                         <button id="connectBtn" class="btn btn-primary btn-sm" style="margin-bottom: 10px;"><span id="connectBtnLbl">Connect</span></button>
                     </td>
                     <td>
-                        <span class="jumbo" id="currentMeditation">N/A</span>
-                        <span class="text-danger" id="meditationHigh">N/A</span> /
-                        <span class="text-success" id="meditationLow">N/A</span>
-                    </td>
-                    <td>
                         <span class="jumbo" id="currentAttention">N/A</span>
                         <span class="text-danger" id="attentionHigh">N/A</span> /
                         <span class="text-success" id="attentionLow">N/A</span>
+                    </td>
+                    <td>
+                        <span class="jumbo" id="currentMeditation">N/A</span>
+                        <span class="text-danger" id="meditationHigh">N/A</span> /
+                        <span class="text-success" id="meditationLow">N/A</span>
                     </td>
                 </tr>
                 </tbody>
@@ -51,16 +51,16 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 col-12">
+        <div class="col-sm-6 col-12 pt-0">
             <canvas id="attentionChart" style="height: 300px; width:100%;"></canvas>
         </div>
-        <div class="col-sm-6 col-12">
+        <div class="col-sm-6 col-12 pt-0">
             <canvas id="meditationChart" style="height: 300px; width:100%;"></canvas>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 pt-0">
             <canvas id="activityChart" style="height: 400px; width:100%;"></canvas>
         </div>
     </div>
