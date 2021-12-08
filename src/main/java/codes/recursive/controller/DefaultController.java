@@ -55,9 +55,11 @@ public class DefaultController {
         return new ModelAndView("demo", CollectionUtils.mapOf("currentView", "demo"));
     }
 
-    @Get(uri = "/recentMatches")
-    public Page<Game> getRecentMatches() {
-        Pageable pageable = Pageable.from(0, 25);
+    @Get(uri = "/recentMatches{/offsetParam}{/maxParam}")
+    public Page<Game> getRecentMatches(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
+        Integer offset = offsetParam.orElse(0);
+        Integer max = maxParam.orElse(25);
+        Pageable pageable = Pageable.from(offset, max);
         return gameRepository.findAll(pageable);
     }
 

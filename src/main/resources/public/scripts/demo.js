@@ -263,7 +263,7 @@ const connect = () => {
   ws.onopen = (msg) => {
     console.log('Connected!')
     document.querySelector('#connectBtnLbl').innerHTML = 'Disconnect';
-    document.querySelector('#connectBtn').classList.add('btn-reset')
+    document.querySelector('#connectBtn').classList.add('btn-danger')
     document.querySelector('#connectBtn').classList.remove('btn-primary')
   };
   ws.onmessage = (msg) => {
@@ -324,7 +324,7 @@ const connect = () => {
      */
     document.querySelector('#connectBtnLbl').innerHTML = 'Connect';
     document.querySelector('#connectBtn').classList.add('btn-primary')
-    document.querySelector('#connectBtn').classList.remove('btn-reset')
+    document.querySelector('#connectBtn').classList.remove('btn-danger')
   };
   ws.onerror = function(err) {
     console.error('Socket encountered error: ', err.message, 'Closing socket');

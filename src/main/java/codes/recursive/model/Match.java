@@ -45,7 +45,9 @@ public class Match {
     @JsonProperty("isPresentAtEnd")
     public Boolean isPresentAtEnd;
     @JsonProperty("playerStats")
-    PlayerStats playerStats;
+    public PlayerStats playerStats;
+    @JsonProperty("player")
+    public Player player;
 
     @JsonCreator
     public Match(@JsonProperty("utcStartSeconds") Long utcStartSeconds,
@@ -63,7 +65,8 @@ public class Match {
                  @JsonProperty("team1Score") Integer team1Score,
                  @JsonProperty("team2Score") Integer team2Score,
                  @JsonProperty("isPresentAtEnd") Boolean isPresentAtEnd,
-                 @JsonProperty("playerStats") PlayerStats playerStats) {
+                 @JsonProperty("playerStats") PlayerStats playerStats,
+                 @JsonProperty("player") Player player) {
         this.utcStartSeconds = utcStartSeconds;
         this.utcEndSeconds = utcEndSeconds;
         this.map = map;
@@ -80,6 +83,7 @@ public class Match {
         this.team2Score = team2Score;
         this.isPresentAtEnd = isPresentAtEnd;
         this.playerStats = playerStats;
+        this.player = player;
     }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ssZ")

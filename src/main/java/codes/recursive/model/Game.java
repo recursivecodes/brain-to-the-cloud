@@ -1,6 +1,8 @@
 package codes.recursive.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micronaut.core.annotation.Creator;
@@ -22,6 +24,7 @@ public class Game {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     @TypeDef(type = DataType.JSON)
+    @JsonIgnore
     private String match;
     private Boolean isHighlighted = false;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
@@ -54,6 +57,7 @@ public class Game {
         this.id = id;
     }
 
+    @JsonProperty("match")
     public Match getMatchSerialized() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(match, Match.class);
