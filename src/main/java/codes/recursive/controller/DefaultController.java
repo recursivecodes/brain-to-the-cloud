@@ -5,6 +5,7 @@ import codes.recursive.model.Game;
 import codes.recursive.repository.AbstractGameRepository;
 import codes.recursive.repository.BrainRepository;
 import codes.recursive.repository.GameRepository;
+import codes.recursive.service.CodPublicClient;
 import codes.recursive.task.RecentMatches;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.data.model.Page;
@@ -28,17 +29,20 @@ import java.util.Optional;
 public class DefaultController {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultController.class);
 
+    private final CodPublicClient codPublicClient;
     private final RecentMatches recentMatches;
     private final GameRepository gameRepository;
     private final BrainRepository brainRepository;
     private final AbstractGameRepository abstractGameRepository;
 
     public DefaultController(
+            CodPublicClient codPublicClient,
             RecentMatches recentMatches,
             GameRepository gameRepository,
             BrainRepository brainRepository,
             AbstractGameRepository abstractGameRepository
     ) {
+        this.codPublicClient = codPublicClient;
         this.recentMatches = recentMatches;
         this.gameRepository = gameRepository;
         this.brainRepository = brainRepository;
@@ -50,9 +54,16 @@ public class DefaultController {
         return new ModelAndView("match-analysis", CollectionUtils.mapOf("currentView", "match-analysis"));
     }
 
-    @Get(uri ="/demo")
-    ModelAndView demo() {
-        return new ModelAndView("demo", CollectionUtils.mapOf("currentView", "demo"));
+    @Get(uri ="/live")
+    ModelAndView live() {
+        return new ModelAndView("live", CollectionUtils.mapOf("currentView", "live"));
+    }
+
+    @Get(uri = "/codLookups")
+    public HttpResponse getCodLookups() {
+        return HttpResponse.ok(
+                codPublicClient.getLookupValues()
+        );
     }
 
     @Get(uri = "/recentMatches{/offsetParam}{/maxParam}")

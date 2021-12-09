@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
     <script src="/scripts/rivets.js" type="application/javascript"></script>
+    <script src="/scripts/rivetsstdlib.js" type="application/javascript"></script>
     <script src="/scripts/match-analysis.js" type="module"></script>
     <!--/*/
     </div>
@@ -20,15 +21,19 @@
     <div th:replace="fragments/header :: header()"></div>
     <div th:replace="fragments/nav :: navmenu(${currentView})"></div>
 
-    <div class="row">
+    <div class="row" rv-show="model.recentMatches.content | default 0 | length | gt 0">
         <div class="col-12">
             <div class="row row-cols-3 row-cols-md-4 g-4 p-2">
-                <div class="col p-2 match-card pointer rounded" rv-each-match="model.recentMatches.content"  data-bs-toggle="offcanvas" data-bs-target="#matchDetails‰" rv-on-click="model.selectMatch">
+                <div class="col p-2 match-card pointer rounded" rv-each-match="model.recentMatches.content"  data-bs-toggle="offcanvas" data-bs-target="#matchDetails" rv-on-click="model.selectMatch">
                     <div class="card">
-                        <img rv-src="match.match.map" class="card-img-top" alt="...">
+                        <img rv-mapsrc="match.match.map" class="card-img-top" rv-alt="match.match.map | map">
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <h5 class="card-title">
+                                {model.selectedMatch.match.mode | gameMode} - {match.match.map | map}
+                                <span class="badge" rv-winlossbg="match.match.result">
+                                    {match.match.result | winLoss}
+                                </span>
+                            </h5>
                         </div>
                     </div>
                 </div>
@@ -38,27 +43,61 @@
     </div>
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="matchDetails" aria-labelledby="matchDetailsLbl">
-
         <div class="offcanvas-header">
-            <h4 class="offcanvas-title" id="matchDetailsLbl">Match Details</h4>
+            <h4 class="offcanvas-title" id="matchDetailsLbl">{model.selectedMatch.match.mode | gameMode}</h4>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-
         <div class="offcanvas-body">
-            <h5>{model.selectedMatch.map | map}</h5>
-            <div>
-                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+            <img rv-mapsrc="model.selectedMatch.match.map" class="img-fluid border rounded" rv-alt="model.selectedMatch.match.map | map">
+            <div class="row">
+                <div class="col-8">
+                    <h1>{model.selectedMatch.match.map | map}</h1>
+                </div>
+                <div class="col-4 text-end">
+                    <span class="badge" rv-winlossbg="model.selectedMatch.match.result">
+                        {model.selectedMatch.match.result | winLoss}
+                    </span>
+                </div>
             </div>
-            <div class="dropdown mt-3">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                    Dropdown button
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-            </div>
+            <table>
+                <tr>
+                    <th scope="row">Start</th>
+                    <td>{model.selectedMatch.match.matchStart | date}</td>
+                </tr>
+                <tr>
+                    <th scope="row">End</th>
+                    <td>{model.selectedMatch.match.matchEnd | date}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Kill/Deaths (Ratio)</th>
+                    <td>
+                        {model.selectedMatch.match.playerStats.kills}/
+                        {model.selectedMatch.match.playerStats.deaths}(
+                        {model.selectedMatch.match.playerStats.kdRatio})
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Damage (Done/Taken)</th>
+                    <td>
+                        {model.selectedMatch.match.playerStats.damageDone}/{model.selectedMatch.match.playerStats.damageTaken}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Score (Per Minute)</th>
+                    <td>
+                        {model.selectedMatch.match.playerStats.score}({model.selectedMatch.match.playerStats.scorePerMinute})
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Accuracy (Shots Fired/Landed/Missed)</th>
+                    <td>
+                        {model.selectedMatch.match.playerStats.accuracy | percent}%
+                        ({model.selectedMatch.match.playerStats.shotsFired}/
+                        {model.selectedMatch.match.playerStats.shotsLanded}/
+                        {model.selectedMatch.match.playerStats.shotsMissed})
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 

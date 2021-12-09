@@ -92,11 +92,11 @@ table {
     overflow: hidden;
 }
 
-table tr:last-child td:first-child thead th:first-child {
+.summary-table tr:last-child td:first-child thead th:first-child {
     border-bottom-left-radius: 5px;
 }
 
-table tr:last-child td:last-child thead th:last-child {
+.summary-table tr:last-child td:last-child thead th:last-child {
     border-bottom-right-radius: 5px;
 }
 
