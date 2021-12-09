@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutFile :: head(~{::title}, ~{:: #extraHead})}">
+    <title>BttC: Match Analysis</title>
+    <!--/*/
+    <div id="extraHead" th:remove="tag">
+    /*/-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" type="application/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js" type="application/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+    <script src="/scripts/rivets.js" type="application/javascript"></script>
+    <script src="/scripts/match-analysis.js" type="module"></script>
+    <!--/*/
+    </div>
+    /*/-->
+</head>
+<body th:replace="~{layoutFile :: body(~{::section})}">
+<section>
+    <div th:replace="fragments/header :: header()"></div>
+    <div th:replace="fragments/nav :: navmenu(${currentView})"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="row row-cols-3 row-cols-md-4 g-4 p-2">
+                <div class="col p-2 match-card pointer rounded" rv-each-match="model.recentMatches.content"  data-bs-toggle="offcanvas" data-bs-target="#matchDetails‰" rv-on-click="model.selectMatch">
+                    <div class="card">
+                        <img rv-src="match.match.map" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="matchDetails" aria-labelledby="matchDetailsLbl">
+
+        <div class="offcanvas-header">
+            <h4 class="offcanvas-title" id="matchDetailsLbl">Match Details</h4>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+
+        <div class="offcanvas-body">
+            <h5>{model.selectedMatch.map | map}</h5>
+            <div>
+                Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+            </div>
+            <div class="dropdown mt-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                    Dropdown button
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

@@ -46,8 +46,8 @@ public class DefaultController {
     }
 
     @Get()
-    ModelAndView home() {
-        return new ModelAndView("home", CollectionUtils.mapOf("currentView", "home"));
+    ModelAndView matchAnalysis() {
+        return new ModelAndView("match-analysis", CollectionUtils.mapOf("currentView", "match-analysis"));
     }
 
     @Get(uri ="/demo")
@@ -61,6 +61,14 @@ public class DefaultController {
         Integer max = maxParam.orElse(25);
         Pageable pageable = Pageable.from(offset, max);
         return gameRepository.findAll(pageable);
+    }
+
+    @Get(uri = "/highlightedMatches{/offsetParam}{/maxParam}")
+    public Page<Game> getHighlightedMatches(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
+        Integer offset = offsetParam.orElse(0);
+        Integer max = maxParam.orElse(25);
+        Pageable pageable = Pageable.from(offset, max);
+        return gameRepository.findAllByIsHighlightedEqual(true, pageable);
     }
 
     @Get(uri = "/brainForMatch/{startTime}/{endTime}")

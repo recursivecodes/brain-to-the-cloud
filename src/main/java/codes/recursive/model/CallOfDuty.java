@@ -137,7 +137,8 @@ public class CallOfDuty {
             "vg-mp_red_star", "Red Star",
             "vg-mp_subpen", "Sub Pens",
             "vg-mp_tuscan", "Tuscan",
-            "vg-mp_arena_evo", "Champion Hill"
+            "vg-mp_arena_evo", "Champion Hill",
+            "vg-mp_shipment_s4", "Shipment"
     );
 
     public static String lookupMap(String game, String codeName) {

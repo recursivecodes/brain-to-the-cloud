@@ -140,3 +140,11 @@ table tbody tr.active-row {
     background-color: #2c0098;
     border-color: #120080;
 }
+
+.pointer {
+    cursor: pointer;
+}
+
+.offcanvas {
+    width : 800px !important;
+}
