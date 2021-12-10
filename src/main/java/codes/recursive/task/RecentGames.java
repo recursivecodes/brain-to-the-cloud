@@ -22,8 +22,8 @@ import java.util.Map;
 
 @Singleton
 @Requires(notEnv="test")
-public class RecentMatches {
-    private static final Logger LOG = LoggerFactory.getLogger(RecentMatches.class);
+public class RecentGames {
+    private static final Logger LOG = LoggerFactory.getLogger(RecentGames.class);
 
     private final String recentMatchesFnOcid;
     private final String gamerTag;
@@ -32,7 +32,7 @@ public class RecentMatches {
     private final AbstractGameRepository abstractGameRepository;
     private String activisionToken = "ODI5NjQ2NDoxNjM5NDI5NDQ2MDMzOjg5ZmRjNGU3YzM2YmI5MDA3MmZhZmRjZWQ1ZmM3YWM1";
 
-    public RecentMatches(
+    public RecentGames(
             @Property(name = "codes.recursive.functions.recent-matches-ocid") String recentMatchesFnOcid,
             @Property(name = "codes.recursive.xbox-gamertag") String gamerTag,
             FunctionService functionService,

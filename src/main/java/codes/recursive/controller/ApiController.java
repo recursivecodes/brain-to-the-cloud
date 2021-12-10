@@ -6,7 +6,7 @@ import codes.recursive.repository.AbstractGameRepository;
 import codes.recursive.repository.BrainRepository;
 import codes.recursive.repository.GameRepository;
 import codes.recursive.service.CodPublicClient;
-import codes.recursive.task.RecentMatches;
+import codes.recursive.task.RecentGames;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
 import io.micronaut.http.HttpResponse;
@@ -28,14 +28,14 @@ public class ApiController {
     private static final Logger LOG = LoggerFactory.getLogger(ApiController.class);
 
     private final CodPublicClient codPublicClient;
-    private final RecentMatches recentMatches;
+    private final RecentGames recentMatches;
     private final GameRepository gameRepository;
     private final BrainRepository brainRepository;
     private final AbstractGameRepository abstractGameRepository;
 
     public ApiController(
             CodPublicClient codPublicClient,
-            RecentMatches recentMatches,
+            RecentGames recentMatches,
             GameRepository gameRepository,
             BrainRepository brainRepository,
             AbstractGameRepository abstractGameRepository
@@ -54,23 +54,23 @@ public class ApiController {
         );
     }
 
-    @Get(uri = "/recentMatches{/offsetParam}{/maxParam}")
-    public Page<Game> getRecentMatches(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
+    @Get(uri = "/recentGames{/offsetParam}{/maxParam}")
+    public Page<Game> getRecentGames(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
         Integer offset = offsetParam.orElse(0);
         Integer max = maxParam.orElse(25);
         Pageable pageable = Pageable.from(offset, max);
         return gameRepository.findAll(pageable);
     }
 
-    @Get(uri = "/highlightedMatches{/offsetParam}{/maxParam}")
-    public Page<Game> getHighlightedMatches(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
+    @Get(uri = "/highlightedGames{/offsetParam}{/maxParam}")
+    public Page<Game> getHighlightedGames(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
         Integer offset = offsetParam.orElse(0);
         Integer max = maxParam.orElse(25);
         Pageable pageable = Pageable.from(offset, max);
         return gameRepository.findAllByIsHighlightedEqual(true, pageable);
     }
 
-    @Get(uri = "/brainForMatch/{startTime}/{endTime}")
+    @Get(uri = "/brainForGame/{startTime}/{endTime}")
     public List<Brain> getBrainForMatch(Integer startTime, Integer endTime) {
         return brainRepository.getBrainForMatch(startTime, endTime);
     }

@@ -17,8 +17,8 @@ public class DefaultController {
     }
 
     @Get()
-    ModelAndView matchAnalysis() {
-        return new ModelAndView("match-analysis", CollectionUtils.mapOf("currentView", "match-analysis"));
+    ModelAndView gameAnalysis() {
+        return new ModelAndView("game-analysis", CollectionUtils.mapOf("currentView", "game-analysis"));
     }
 
     @Get(uri ="/live")

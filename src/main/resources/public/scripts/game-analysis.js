@@ -50,19 +50,19 @@ rivets.formatters.showNext = function(value){
 }
 
 window.model = {
-  recentMatches: {content: []},
-  highlightedMatches: [],
-  selectedMatch: null,
+  recentGames: {content: []},
+  highlightedGames: [],
+  selectedGame: null,
   codLookups: {},
-  decorateMatch: (el) => {
-    document.querySelectorAll('.match-card').forEach((m) => m.classList.remove('border', 'border-secondary', 'border-3'))
+  decorateGame: (el) => {
+    document.querySelectorAll('.game-card').forEach((m) => m.classList.remove('border', 'border-secondary', 'border-3'))
     if(el) {
       el.classList.add('border', 'border-secondary', 'border-3')
     }
   },
-  selectMatch: (event, binding) => {
-    window.model.decorateMatch(event.currentTarget)
-    window.model.selectedMatch = binding.match;
+  selectGame: (event, binding) => {
+    window.model.decorateGame(event.currentTarget)
+    window.model.selectedGame = binding.game;
   },
   toggleLoader: (show) => {
     let loader = document.querySelector('#loader');
@@ -73,30 +73,35 @@ window.model = {
       loader.classList.add('d-none')
     }
   },
-  loadRecentMatches: (offset=0) => {
+  loadRecentGames: (offset=0) => {
     window.model.toggleLoader(true);
-    document.querySelector('#matches').classList.add('d-none')
-    fetch(`/api/recentMatches/${offset}/20`)
+    document.querySelector('#games').classList.add('d-none')
+    fetch(`/api/recentGames/${offset}/20`)
       .then(result => result.json())
-      .then(matches => {
-        window.model.recentMatches = matches
+      .then(games => {
+        window.model.recentGames = games;
         window.model.toggleLoader(false);
       });
-      document.querySelector('#matches').classList.remove('d-none')
+      document.querySelector('#games').classList.remove('d-none')
   },
-  highlightMatch: (el, binding) => {
-    fetch(`/api/highlightGame/${window.model.selectedMatch.id}`, {method: 'PUT'})
-      .then(response => console.log(response))
+  highlightGame: (el, binding) => {
+    fetch(`/api/highlightGame/${window.model.selectedGame.id}`, {method: 'PUT'})
+      .then(response => {
+        if(response.status === 204) {
+          window.model.selectedGame.isHighlighted = true;
+        }
+        console.log(response)
+      })
   },
   paginate: (direction) => {
-    window.model.selectedMatch = null;
-    window.model.decorateMatch();
-    let matches = window.model.recentMatches
+    window.model.selectedGame = null;
+    window.model.decorateGame();
+    let games = window.model.recentGames;
     if(direction === 'prev') {
-      window.model.loadRecentMatches(matches.pageable.number - 1)
+      window.model.loadRecentGames(games.pageable.number - 1)
     }
     else {
-      window.model.loadRecentMatches(matches.pageable.number + 1)
+      window.model.loadRecentGames(games.pageable.number + 1)
     }
   },
 };
@@ -105,7 +110,7 @@ const init = async () => {
   // this is a bit dangerous, relying on a third party service...
   let lookupRequest = await fetch('/api/codLookups');
   window.model.codLookups = await lookupRequest.json();
-  window.model.loadRecentMatches();
+  window.model.loadRecentGames();
   rivets.bind(document.querySelector('body'), {model: window.model})
 };
 

@@ -1,6 +1,5 @@
 package codes.recursive.match
 
-import codes.recursive.model.CallOfDuty
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification
 
@@ -8,9 +7,9 @@ import spock.lang.Specification
 class MatchSpec extends Specification {
     void "test map lookup"() {
         given:
-        String resolvedName = CallOfDuty.lookupMap(CallOfDuty.VANGUARD, "mp_berlin_01")
+        String foo = 'bar'
 
         expect:
-        assert resolvedName == "Berlin"
+        assert foo.reverse() == 'rab'
     }
 }
