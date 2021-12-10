@@ -26,4 +26,9 @@ public class DefaultController {
         return new ModelAndView("live", CollectionUtils.mapOf("currentView", "live"));
     }
 
+    @Get(uri ="/about")
+    ModelAndView about() {
+        return new ModelAndView("about", CollectionUtils.mapOf("currentView", "about"));
+    }
+
 }
