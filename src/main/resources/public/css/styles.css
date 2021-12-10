@@ -21,6 +21,9 @@ html {}
 body {
     font-family: 'Open Sans', serif;
 }
+h1, h2, h3, h4, h5, .alt-font {
+    font-family: 'Bebas Neue', cursive;
+}
 .header {
     background-color: #2c0098;
     color: #ffffff;

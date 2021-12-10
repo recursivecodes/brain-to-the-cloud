@@ -32,12 +32,12 @@
         <div class="row" rv-show="model.recentGames.content | default 0 | length | gt 0">
             <div class="col-12">
                 <div class="row row-cols-3 row-cols-md-4 g-4 p-2">
-                    <div class="col p-2 game-card pointer rounded" rv-selectedGame="game" rv-each-game="model.recentGames.content"  data-bs-toggle="offcanvas" data-bs-target="#gameDetails" rv-on-click="model.selectGame">
-                        <div class="card shadow">
+                    <div class="col p-2 game-card pointer rounded mt-0" rv-selectedGame="game" rv-each-game="model.recentGames.content"  data-bs-toggle="offcanvas" data-bs-target="#gameDetails" rv-on-click="model.selectGame">
+                        <div class="card shadow border border-dark">
                             <div class="position-relative">
                                 <img rv-mapsrc="game.match.map" class="card-img-top" rv-alt="game.match.map | map">
-                                <div class="position-absolute top-0 end-0">
-                                    <span class="badge text-white" rv-winlossbg="game.match.result">
+                                <div class="position-absolute top-0 end-0 d-flex">
+                                    <span class="badge text-white text-shadow" rv-winlossbg="game.match.result">
                                         <strong>{game.match.result | winLoss}</strong>
                                     </span>
                                 </div>
@@ -45,10 +45,10 @@
                                     <img src="/img/star-sm.png" alt="highlighted match" class="shadow-lg" />
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    {game.match.mode | gameMode} - {game.match.map | map}
-                                </h5>
+                            <div class="card-body rounded-bottom">
+                                <span class="card-title fs-5 alt-font">
+                                    {game.match.map | map} ({game.match.mode | gameMode})
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -74,12 +74,12 @@
                 <div class="position-relative">
                     <img rv-mapsrc="model.selectedGame.match.map" class="img-fluid border rounded" rv-alt="model.selectedGame.match.map | map">
                     <div class="position-absolute top-0 end-0 p-1">
-                        <span class="badge fs-1 opacity-75 text-white" rv-winlossbg="model.selectedGame.match.result">
+                        <span class="badge fs-1 bg-gradient text-white bg-opacity-50 text-shadow" rv-winlossbg="model.selectedGame.match.result">
                             <strong>{model.selectedGame.match.result | winLoss}</strong>
                         </span>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-1" style="z-index: 1;" rv-hide="model.selectedGame.isHighlighted">
-                        <button id="highlightMatchBtn" rv-on-click="model.highlightGame" class="btn btn-light">Highlight</button>
+                        <button id="highlightMatchBtn" rv-on-click="model.highlightGame" class="btn btn-sm btn-light">Highlight</button>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-1" rv-show="model.selectedGame.isHighlighted">
                         <img src="/img/star.png" alt="highlighted match" class="shadow-lg" />
@@ -88,15 +88,15 @@
                 <div class="card-img-overlay">
                     <h1 class="pt-2 text-shadow text-outline">{model.selectedGame.match.map | map}</h1>
                     <h2 class="text-shadow text-outline">{model.selectedGame.match.mode | gameMode}</h2>
-                    <h3 class="text-shadow text-outline">{model.selectedGame.game.matchStart | date} - {model.selectedGame.game.matchEnd | time}</h3>
+                    <h3 class="text-shadow text-outline">{model.selectedGame.match.matchStart | date} - {model.selectedGame.match.matchEnd | time}</h3>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark shadow">
+                    <div class="card text-center text-white bg-dark bg-gradient shadow">
                         <div class="card-body">
-                            <p class="fs-1 mb-0">{model.selectedGame.match.playerStats.kills}/{model.selectedGame.match.playerStats.deaths} ({model.selectedGame.match.playerStats.kdRatio | tofixed})</p>
+                            <p class="fs-1 mb-0 text-shadow text-outline">{model.selectedGame.match.playerStats.kills}/{model.selectedGame.match.playerStats.deaths} ({model.selectedGame.match.playerStats.kdRatio | tofixed})</p>
                         </div>
                         <div class="card-footer text-muted border-secondary">
                             <span class="fs-5 mb-0">Kills/Deaths (Ratio)</span>
@@ -104,9 +104,9 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark shadow">
+                    <div class="card text-center text-white bg-dark bg-gradient shadow">
                         <div class="card-body">
-                            <p class="fs-1 mb-0">{model.selectedGame.match.playerStats.damageDone}/{model.selectedGame.match.playerStats.damageTaken}</p>
+                            <p class="fs-1 mb-0 text-shadow text-outline">{model.selectedGame.match.playerStats.damageDone}/{model.selectedGame.match.playerStats.damageTaken}</p>
                         </div>
                         <div class="card-footer text-muted border-secondary">
                             <span class="fs-5 mb-0">Damage (Done/Taken)</span>
@@ -117,9 +117,9 @@
 
             <div class="row">
                 <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark shadow">
+                    <div class="card text-center text-white bg-dark bg-gradient shadow">
                         <div class="card-body">
-                            <p class="fs-1 mb-0">{model.selectedGame.match.playerStats.headshots}</p>
+                            <p class="fs-1 mb-0 text-shadow text-outline">{model.selectedGame.match.playerStats.headshots}</p>
                         </div>
                         <div class="card-footer text-muted border-secondary">
                             <span class="fs-5 mb-0">Headshots</span>
@@ -127,9 +127,9 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark shadow">
+                    <div class="card text-center text-white bg-dark bg-gradient shadow">
                         <div class="card-body">
-                            <p class="fs-1 mb-0"> {model.selectedGame.match.playerStats.executions}</p>
+                            <p class="fs-1 mb-0 text-shadow text-outline"> {model.selectedGame.match.playerStats.executions}</p>
                         </div>
                         <div class="card-footer text-muted border-secondary">
                             <span class="fs-5 mb-0">Executions</span>
@@ -140,9 +140,9 @@
 
             <div class="row">
                 <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark shadow">
+                    <div class="card text-center text-white bg-dark bg-gradient shadow">
                         <div class="card-body">
-                            <p class="fs-1 mb-0">{model.selectedGame.match.playerStats.score} ({model.selectedGame.match.playerStats.scorePerMinute | tofixed})</p>
+                            <p class="fs-1 mb-0 text-shadow text-outline">{model.selectedGame.match.playerStats.score} ({model.selectedGame.match.playerStats.scorePerMinute | tofixed})</p>
                         </div>
                         <div class="card-footer text-muted border-secondary">
                             <span class="fs-5 mb-0">Score (Per Minute)</span>
@@ -150,9 +150,9 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark shadow">
+                    <div class="card text-center text-white bg-dark bg-gradient shadow">
                         <div class="card-body">
-                            <p class="fs-1 mb-0"> {model.selectedGame.match.playerStats.accuracy | percent}%  ({model.selectedGame.match.playerStats.shotsFired}/{model.selectedGame.match.playerStats.shotsMissed})</p>
+                            <p class="fs-1 mb-0 text-shadow text-outline"> {model.selectedGame.match.playerStats.accuracy | percent}%  ({model.selectedGame.match.playerStats.shotsFired}/{model.selectedGame.match.playerStats.shotsMissed})</p>
                         </div>
                         <div class="card-footer text-muted border-secondary">
                             <span class="fs-5 mb-0">Accuracy (Shots Fired/Missed)</span>
@@ -163,9 +163,9 @@
 
             <div class="row">
                 <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark shadow">
+                    <div class="card text-center text-white bg-dark bg-gradient shadow">
                         <div class="card-body">
-                            <p class="fs-1 mb-0">{model.selectedGame.match.playerStats.longestStreak}</p>
+                            <p class="fs-1 mb-0 text-shadow text-outline">{model.selectedGame.match.playerStats.longestStreak}</p>
                         </div>
                         <div class="card-footer text-muted border-secondary">
                             <span class="fs-5 mb-0">Longest Streak</span>
@@ -173,9 +173,9 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark shadow">
+                    <div class="card text-center text-white bg-dark bg-gradient shadow">
                         <div class="card-body">
-                            <p class="fs-1 mb-0"> {model.selectedGame.match.playerStats.percentTimeMoving | tofixed}%  ({model.selectedGame.match.playerStats.averageSpeedDuringMatch | tofixed})</p>
+                            <p class="fs-1 mb-0 text-shadow text-outline"> {model.selectedGame.match.playerStats.percentTimeMoving | tofixed}%  ({model.selectedGame.match.playerStats.averageSpeedDuringMatch | tofixed})</p>
                         </div>
                         <div class="card-footer text-muted border-secondary">
                             <span class="fs-5 mb-0">% Moving/Avg. Speed</span>
