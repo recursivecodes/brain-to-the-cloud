@@ -92,11 +92,11 @@ table {
     overflow: hidden;
 }
 
-.summary-table tr:last-child td:first-child thead th:first-child {
+table tr:last-child td:first-child thead th:first-child {
     border-bottom-left-radius: 5px;
 }
 
-.summary-table tr:last-child td:last-child thead th:last-child {
+table tr:last-child td:last-child thead th:last-child {
     border-bottom-right-radius: 5px;
 }
 
@@ -119,7 +119,7 @@ table tbody tr {
 table tbody tr:nth-of-type(even) {
     background-color: #f3f3f3;
 }
-table tbody tr:last-of-type {
+.summary-table tbody tr:last-of-type {
     border-bottom: 2px solid #2c0098;
 }
 table tbody tr.active-row {
@@ -147,4 +147,23 @@ table tbody tr.active-row {
 
 .offcanvas {
     width : 800px !important;
+}
+.text-win {
+    color: #07ff03 !important;
+}
+.border-win {
+    border-color: #07ff03 !important;
+}
+.text-loss {
+    color: #ff0018 !important;
+}
+.border-loss {
+    border-color: #ff0018 !important;
+}
+.text-shadow {
+    text-shadow: 2px 2px rgba(21, 21, 21, 0.8);
+}
+.text-outline {
+    -webkit-text-stroke-width: 0.25px;
+    -webkit-text-stroke-color: rgba(21, 21, 21, 0.8);
 }

@@ -21,83 +21,160 @@
     <div th:replace="fragments/header :: header()"></div>
     <div th:replace="fragments/nav :: navmenu(${currentView})"></div>
 
-    <div class="row" rv-show="model.recentMatches.content | default 0 | length | gt 0">
-        <div class="col-12">
-            <div class="row row-cols-3 row-cols-md-4 g-4 p-2">
-                <div class="col p-2 match-card pointer rounded" rv-each-match="model.recentMatches.content"  data-bs-toggle="offcanvas" data-bs-target="#matchDetails" rv-on-click="model.selectMatch">
-                    <div class="card">
-                        <img rv-mapsrc="match.match.map" class="card-img-top" rv-alt="match.match.map | map">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                {model.selectedMatch.match.mode | gameMode} - {match.match.map | map}
-                                <span class="badge" rv-winlossbg="match.match.result">
-                                    {match.match.result | winLoss}
+
+    <div class="row" id="loader">
+        <div class="col-12 d-flex align-items-center justify-content-center fs-2">
+            <span class="spinner-border"></span>&nbsp; &nbsp;Loading...
+        </div>
+    </div>
+
+    <div id="matches" class="d-none">
+        <div class="row" rv-show="model.recentMatches.content | default 0 | length | gt 0">
+            <div class="col-12">
+                <div class="row row-cols-3 row-cols-md-4 g-4 p-2">
+                    <div class="col p-2 match-card pointer rounded" rv-selectedmatch="match" rv-each-match="model.recentMatches.content"  data-bs-toggle="offcanvas" data-bs-target="#matchDetails" rv-on-click="model.selectMatch">
+                        <div class="card shadow">
+                            <div class="position-relative">
+                                <img rv-mapsrc="match.match.map" class="card-img-top" rv-alt="match.match.map | map">
+                                <span class="badge position-absolute top-0 end-0 text-white" rv-winlossbg="match.match.result">
+                                    <strong>{match.match.result | winLoss}</strong>
                                 </span>
-                            </h5>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {match.match.mode | gameMode} - {match.match.map | map}
+                                </h5>
+                            </div>
                         </div>
                     </div>
                 </div>
-
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <button id="prevBtn" rv-show="model.recentMatches | showPrev" rv-on-click="model.paginate | wrap 'prev'" class="btn btn-primary">&laquo; Prev</button>
+                <button id="nextBtn" rv-show="model.recentMatches | showNext" rv-on-click="model.paginate | wrap 'next'" class="btn btn-primary">Next &raquo;</button>
             </div>
         </div>
     </div>
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="matchDetails" aria-labelledby="matchDetailsLbl">
         <div class="offcanvas-header">
-            <h4 class="offcanvas-title" id="matchDetailsLbl">{model.selectedMatch.match.mode | gameMode}</h4>
+            <h4 class="offcanvas-title" id="matchDetailsLbl"></h4>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <img rv-mapsrc="model.selectedMatch.match.map" class="img-fluid border rounded" rv-alt="model.selectedMatch.match.map | map">
-            <div class="row">
-                <div class="col-8">
-                    <h1>{model.selectedMatch.match.map | map}</h1>
+
+            <div class="card text-white">
+                <div class="position-relative">
+                    <img rv-mapsrc="model.selectedMatch.match.map" class="img-fluid border rounded" rv-alt="model.selectedMatch.match.map | map">
+                    <div class="position-absolute top-0 end-0 p-1">
+                        <span class="badge fs-1 opacity-75 text-white" rv-winlossbg="model.selectedMatch.match.result">
+                            <strong>{model.selectedMatch.match.result | winLoss}</strong>
+                        </span>
+                    </div>
+                    <div class="position-absolute bottom-0 end-0 p-1" style="z-index: -1;">
+                        <button id="highlightMatchBtn" rv-on-click="model.highlightMatch" class="btn btn-light">Highlight</button>
+                    </div>
                 </div>
-                <div class="col-4 text-end">
-                    <span class="badge" rv-winlossbg="model.selectedMatch.match.result">
-                        {model.selectedMatch.match.result | winLoss}
-                    </span>
+                <div class="card-img-overlay">
+                    <h1 class="pt-2 text-shadow text-outline">{model.selectedMatch.match.map | map}</h1>
+                    <h2 class="text-shadow text-outline">{model.selectedMatch.match.mode | gameMode}</h2>
+                    <h3 class="text-shadow text-outline">{model.selectedMatch.match.matchStart | date} - {model.selectedMatch.match.matchEnd | time}</h3>
                 </div>
             </div>
-            <table>
-                <tr>
-                    <th scope="row">Start</th>
-                    <td>{model.selectedMatch.match.matchStart | date}</td>
-                </tr>
-                <tr>
-                    <th scope="row">End</th>
-                    <td>{model.selectedMatch.match.matchEnd | date}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Kill/Deaths (Ratio)</th>
-                    <td>
-                        {model.selectedMatch.match.playerStats.kills}/
-                        {model.selectedMatch.match.playerStats.deaths}(
-                        {model.selectedMatch.match.playerStats.kdRatio})
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Damage (Done/Taken)</th>
-                    <td>
-                        {model.selectedMatch.match.playerStats.damageDone}/{model.selectedMatch.match.playerStats.damageTaken}
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Score (Per Minute)</th>
-                    <td>
-                        {model.selectedMatch.match.playerStats.score}({model.selectedMatch.match.playerStats.scorePerMinute})
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Accuracy (Shots Fired/Landed/Missed)</th>
-                    <td>
-                        {model.selectedMatch.match.playerStats.accuracy | percent}%
-                        ({model.selectedMatch.match.playerStats.shotsFired}/
-                        {model.selectedMatch.match.playerStats.shotsLanded}/
-                        {model.selectedMatch.match.playerStats.shotsMissed})
-                    </td>
-                </tr>
-            </table>
+
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="card text-center text-white bg-dark shadow">
+                        <div class="card-body">
+                            <p class="fs-1 mb-0">{model.selectedMatch.match.playerStats.kills}/{model.selectedMatch.match.playerStats.deaths} ({model.selectedMatch.match.playerStats.kdRatio | tofixed})</p>
+                        </div>
+                        <div class="card-footer text-muted border-secondary">
+                            <span class="fs-5 mb-0">Kills/Deaths (Ratio)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="card text-center text-white bg-dark shadow">
+                        <div class="card-body">
+                            <p class="fs-1 mb-0">{model.selectedMatch.match.playerStats.damageDone}/{model.selectedMatch.match.playerStats.damageTaken}</p>
+                        </div>
+                        <div class="card-footer text-muted border-secondary">
+                            <span class="fs-5 mb-0">Damage (Done/Taken)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="card text-center text-white bg-dark shadow">
+                        <div class="card-body">
+                            <p class="fs-1 mb-0">{model.selectedMatch.match.playerStats.headshots}</p>
+                        </div>
+                        <div class="card-footer text-muted border-secondary">
+                            <span class="fs-5 mb-0">Headshots</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="card text-center text-white bg-dark shadow">
+                        <div class="card-body">
+                            <p class="fs-1 mb-0"> {model.selectedMatch.match.playerStats.executions}</p>
+                        </div>
+                        <div class="card-footer text-muted border-secondary">
+                            <span class="fs-5 mb-0">Executions</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="card text-center text-white bg-dark shadow">
+                        <div class="card-body">
+                            <p class="fs-1 mb-0">{model.selectedMatch.match.playerStats.score} ({model.selectedMatch.match.playerStats.scorePerMinute | tofixed})</p>
+                        </div>
+                        <div class="card-footer text-muted border-secondary">
+                            <span class="fs-5 mb-0">Score (Per Minute)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="card text-center text-white bg-dark shadow">
+                        <div class="card-body">
+                            <p class="fs-1 mb-0"> {model.selectedMatch.match.playerStats.accuracy | percent}%  ({model.selectedMatch.match.playerStats.shotsFired}/{model.selectedMatch.match.playerStats.shotsMissed})</p>
+                        </div>
+                        <div class="card-footer text-muted border-secondary">
+                            <span class="fs-5 mb-0">Accuracy (Shots Fired/Missed)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div class="card text-center text-white bg-dark shadow">
+                        <div class="card-body">
+                            <p class="fs-1 mb-0">{model.selectedMatch.match.playerStats.longestStreak}</p>
+                        </div>
+                        <div class="card-footer text-muted border-secondary">
+                            <span class="fs-5 mb-0">Longest Streak</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <div class="card text-center text-white bg-dark shadow">
+                        <div class="card-body">
+                            <p class="fs-1 mb-0"> {model.selectedMatch.match.playerStats.percentTimeMoving | tofixed}%  ({model.selectedMatch.match.playerStats.averageSpeedDuringMatch | tofixed})</p>
+                        </div>
+                        <div class="card-footer text-muted border-secondary">
+                            <span class="fs-5 mb-0">% Moving/Avg. Speed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

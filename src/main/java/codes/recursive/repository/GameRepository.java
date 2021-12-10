@@ -23,4 +23,12 @@ public interface GameRepository extends PageableRepository<Game, Long> {
     Page<Game> findAllByIsHighlightedEqual(Boolean isHighlighted, Pageable pageable);
 
     void update(@Id Long id, Boolean isHighlighted);
+
+    @Query(
+            value = "select * FROM Game g order by g.match.utcStartSeconds desc",
+            nativeQuery = true,
+            countQuery = "select count(g.id) FROM Game g"
+    )
+    Page<Game> findAll(Pageable pageable);
+
 }
