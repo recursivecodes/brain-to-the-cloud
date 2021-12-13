@@ -20,17 +20,34 @@
             <p>The goal of this project is to determine the relationship between cognitive function and video game performance. In other words, when I'm focused and attentive, do I play better? Or, when I'm distracted, do I play worse? Or, is there no connection at all? Can I even test this? Who knows! Let's find out!</p>
 
             <h2>Questions</h2>
+            <p>Like all good experiments, this project begins with a few questions:</p>
             <ul>
-                <li>Can video game performance be improved when the player is focused and concentrating?</li>
-                <li>Is performance negatively impacted when the player is distracted?</li>
-                <li>Is there a direct measurable relationship between superior performance and high levels of attention and meditation?</li>
+                <li>Can I read my own brain data?</li>
+                <li>If so, is the data valid?</li>
+                <li>Can I improve my performance in video games by being super focused and concentrating?</li>
+                <li>
+                    If I'm distracted, will I play poorly?
+                    <ul>
+                        <li>Will a "bad game" be visible in my brain activity?</li>
+                    </ul>
+                </li>
+
+                <li>
+                    Is there a direct measurable relationship between superior gaming performance and high levels of attention?
+                    <ul>
+                        <li>Or, are there just too many factors at play?</li>
+                    </ul>
+                </li>
             </ul>
 
             <h2>Goals & Constraints</h2>
             <ul>
-                <li>Can brain activity be captured (at home) in an accurate, yet cost-effective manner?</li>
-                <li>Can video game performance be quantified?</li>
-                <li>Can a relationship be established between cognitive measures and game performance?</li>
+                <li>Capture brain data (at home) in an accurate, and cost-effective manner</li>
+                <li>Establish a "baseline" mental state</li>
+                <li>Observe the difference between the baseline state and the "game playing" state</li>
+                <li>Observe my brain's "relaxation" state while playing the game</li>
+                <li>Quantify video game performance (via stats)</li>
+                <li>Establish and visualize a relationship between my cognitive measures and my game performance</li>
                 <li>
                     Can outside factors be excluded?
                     <ul>
@@ -42,8 +59,13 @@
             </ul>
             
             <h2>Hypothesis</h2>
-            <p>The more focused the player is, the better they will perform at a multiplayer "first-person shooter" (Call of Duty: Vanguard). Conversely, when distracted, the statistics will show that the performance will be negatively impacted.</p>
-            
+
+            <div class="p-5 mb-4 bg-light rounded-3">
+                <div class="row">
+                    <div class="col-md-8 fs-4 border-3 border-start">The more focused I am, the better I will perform at a multiplayer "first-person shooter" (Call of Duty: Vanguard). Conversely, when I'm distracted, my performance will be negatively impacted.</div>
+                </div>
+            </div>
+
             <h2>Detailed Approach</h2>
             <ul>
                 <li>Using a "mind flex" toy, brain activity will be captured by "hacking" the serial output of the device to collect the EEG related information from the toy.</li>
@@ -91,12 +113,12 @@
                             </ul>
                         </li>
                         <li>
-                            Create interface to demo "live" brain data
+                            Create a user interface (UI) to demo "live" brain data
                             <ul>
-                                <li>Chart metrics in real time</li>
+                                <li>Chart metrics in near real-time</li>
                             </ul>
                         </li>
-                        <li>Create interface to compare persisted brain data with persisted video game stats</li>
+                        <li>Create a user interface (UI) to compare persisted brain data with persisted video game stats</li>
                     </ul>
                 </li>
     
@@ -118,7 +140,11 @@
             <h2>Result details</h2>
             <h2>Modify hypothesis (optional - back to step 1)</h2>
             <h2>Summary</h2>
-            
+
+            <h2>Credits</h2>
+
+            <p>Much of the work on hacking the Mind Flex toy is based heavily (but not entirely) on the <a href="http://frontiernerds.com/brain-hack">work done by Frontier Nerds</a>.</p>
+            <p>Call of Duty stats were obtained via the <a href="https://www.npmjs.com/package/@callofduty/api">Call of Duty API</a> by <a href="https://stagg.co">Stagg.co</a>.</p>
         </div>
     </div>
 

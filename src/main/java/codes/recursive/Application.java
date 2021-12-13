@@ -12,6 +12,7 @@ public class Application {
         if (null == Security.getProvider("OraclePKI")) {
             Security.insertProviderAt(new OraclePKIProvider(), Integer.MAX_VALUE);
         }
+        System.setProperty("oracle.jdbc.fanEnabled", "false");
         Micronaut.run(Application.class, args);
     }
 }

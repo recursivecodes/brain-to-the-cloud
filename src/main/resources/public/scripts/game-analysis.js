@@ -1,3 +1,7 @@
+import {BrainCharts} from "./BrainCharts.js";
+
+window.brainChart = null;
+
 rivets.binders.mapsrc = function(el, value) {
   el.src = `/img/maps/${value}.jpg`;
 };
@@ -51,18 +55,64 @@ rivets.formatters.showNext = function(value){
 
 window.model = {
   recentGames: {content: []},
-  highlightedGames: [],
   selectedGame: null,
+  brainDataForSelectedGame: [],
+  GAME_TYPE_ALL: 'recentGames',
+  GAME_TYPE_HIGHLIGHTED: 'highlightedGames',
+  GAME_TYPE_WITH_BRAIN_READINGS: 'gamesWithBrainReadings',
+  selectedGameType: 'recentGames',
   codLookups: {},
   decorateGame: (el) => {
-    document.querySelectorAll('.game-card').forEach((m) => m.classList.remove('border', 'border-secondary', 'border-3'))
+    document.querySelectorAll('.game-card').forEach((m) => m.classList.remove('border', 'border-secondary', 'border-1', 'bg-dark', 'bg-gradient'))
     if(el) {
-      el.classList.add('border', 'border-secondary', 'border-3')
+      el.classList.add('border', 'border-secondary', 'border-1', 'bg-dark', 'bg-gradient')
     }
+  },
+  changeGameType: (el) => {
+    window.model.selectedGameType = el.target.value;
+    window.model.loadRecentGames(0);
   },
   selectGame: (event, binding) => {
     window.model.decorateGame(event.currentTarget)
     window.model.selectedGame = binding.game;
+    window.model.loadBrainDataForSelectedGame();
+  },
+  loadBrainDataForSelectedGame: () => {
+    window.model.brainDataForSelectedGame = [];
+    if(window.brainChart != null) window.brainChart.destroy();
+
+    let start = window.model.selectedGame.match.utcStartSeconds;
+    let end = window.model.selectedGame.match.utcEndSeconds;
+    fetch(`/api/brainForGame/${start}/${end}`)
+      .then(result => result.json())
+      .then(brainData => {
+        if(brainData.length > 0) {
+          window.model.brainDataForSelectedGame = brainData
+          brainChart
+          let datasource = [{
+              label: 'Attention',
+              pointBackgroundColor: '#f14343',
+              backgroundColor: '#ee8e8e',
+              borderColor: '#CC0000',
+              fill: false,
+              data: brainData.map(brain => {
+                return {y: brain.attention, x: new Date(brain.createdOn)}
+              }),
+            },
+            {
+              label: 'Meditation',
+              pointBackgroundColor: '#2126c0',
+              backgroundColor: '#2178c0',
+              borderColor: '#216bc0',
+              fill: false,
+              data: brainData.map(brain => {
+                return {y: brain.meditation, x: new Date(brain.createdOn)}
+              }),
+            }
+          ];
+          window.brainChart = window.brainCharts.renderLineChart('brainChart', 'Attention/Meditation', true, window.brainCharts.xAxes, datasource);
+        }
+      });
   },
   toggleLoader: (show) => {
     let loader = document.querySelector('#loader');
@@ -76,7 +126,7 @@ window.model = {
   loadRecentGames: (offset=0) => {
     window.model.toggleLoader(true);
     document.querySelector('#games').classList.add('d-none')
-    fetch(`/api/recentGames/${offset}/20`)
+    fetch(`/api/${window.model.selectedGameType}/${offset}/18`)
       .then(result => result.json())
       .then(games => {
         window.model.recentGames = games;
@@ -90,7 +140,14 @@ window.model = {
         if(response.status === 204) {
           window.model.selectedGame.isHighlighted = true;
         }
-        console.log(response)
+      })
+  },
+  markDistracted: (el, binding) => {
+    fetch(`/api/markGameDistracted/${window.model.selectedGame.id}`, {method: 'PUT'})
+      .then(response => {
+        if(response.status === 204) {
+          window.model.selectedGame.isDistracted = true;
+        }
       })
   },
   paginate: (direction) => {
@@ -107,6 +164,7 @@ window.model = {
 };
 
 const init = async () => {
+  window.brainCharts = new BrainCharts();
   // this is a bit dangerous, relying on a third party service...
   let lookupRequest = await fetch('/api/codLookups');
   window.model.codLookups = await lookupRequest.json();

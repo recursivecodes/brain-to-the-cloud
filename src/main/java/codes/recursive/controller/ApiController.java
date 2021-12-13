@@ -70,23 +70,44 @@ public class ApiController {
         return gameRepository.findAllByIsHighlightedEqual(true, pageable);
     }
 
+    @Get(uri = "/gamesWithBrainReadings{/offsetParam}{/maxParam}")
+    public Page<Game> getGamesWithBrainReadings(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
+        Integer offset = offsetParam.orElse(0);
+        Integer max = maxParam.orElse(25);
+        Pageable pageable = Pageable.from(offset, max);
+        return gameRepository.findAllWithBrainReadings(pageable);
+    }
+
     @Get(uri = "/brainForGame/{startTime}/{endTime}")
     public List<Brain> getBrainForMatch(Integer startTime, Integer endTime) {
         return brainRepository.getBrainForMatch(startTime, endTime);
     }
 
-    @Put(uri = "/highlightGame/{matchId}", consumes = MediaType.APPLICATION_JSON)
+    @Put(uri = "/highlightGame/{matchId}")
     public HttpResponse highlightGame(Long matchId) {
         Optional<Game> result = gameRepository.findById(matchId);
         if(result.isPresent()) {
             Game game = result.get();
-            gameRepository.update(game.getId(), true);
+            gameRepository.updateIsHighlighted(game.getId(), true);
+        }
+        return HttpResponse.noContent();
+    }
+
+    @Put(uri = "/markGameDistracted/{matchId}")
+    public HttpResponse markGameDistracted(Long matchId) {
+        Optional<Game> result = gameRepository.findById(matchId);
+        if(result.isPresent()) {
+            Game game = result.get();
+            gameRepository.updateIsDistracted(game.getId(), true);
         }
         return HttpResponse.noContent();
     }
 
     @Post(uri = "/token", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
     public HttpResponse saveToken(Map<String, String> data) {
+        /*
+        expects a JSON object containing a token. ex: {"token": "OD15...."}
+        */
         recentMatches.setActivisionToken(data.get("token"));
         return HttpResponse.ok();
     }

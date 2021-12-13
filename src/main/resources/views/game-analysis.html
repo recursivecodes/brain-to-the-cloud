@@ -5,10 +5,10 @@
     <!--/*/
     <div id="extraHead" th:remove="tag">
     /*/-->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" type="application/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js" type="application/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js" integrity="sha512-tMabqarPtykgDtdtSqCL3uLVM0gS1ZkUAVhRFu1vSEFgvB73niFQWJuvviDyBGBH22Lcau4rHB5p2K2T0Xvr6Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.1.0/chartjs-plugin-annotation.min.js" integrity="sha512-uxcl+YXF0LbFyZFEb6HHmxl1NEI4X/5rjojm/13M1CBXBDj8wkmM99cKADkmtuky28pC/EpNTDHOEb/c3nDZsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-moment/1.0.0/chartjs-adapter-moment.min.js" integrity="sha512-oh5t+CdSBsaVVAvxcZKy3XJdP7ZbYUBSRCXDTVn0ODewMDDNnELsrG9eDm8rVZAQg7RsDD/8K3MjPAFB13o6eA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/scripts/rivets.js" type="application/javascript"></script>
     <script src="/scripts/rivetsstdlib.js" type="application/javascript"></script>
     <script src="/scripts/game-analysis.js" type="module"></script>
@@ -29,9 +29,18 @@
     </div>
 
     <div id="games" class="d-none">
+        <div class="row">
+            <div class="col-3 offset-9 d-flex justify-content-end">
+                <select name="gameType" id="gameType" class="form-select" rv-on-change="model.changeGameType">
+                    <option rv-value="model.GAME_TYPE_ALL"> Recent Games</option>
+                    <option rv-value="model.GAME_TYPE_HIGHLIGHTED">Highlighted Games</option>
+                    <option rv-value="model.GAME_TYPE_WITH_BRAIN_READINGS">Games With Brain Readings</option>
+                </select>
+            </div>
+        </div>
         <div class="row" rv-show="model.recentGames.content | default 0 | length | gt 0">
             <div class="col-12">
-                <div class="row row-cols-3 row-cols-md-4 g-4 p-2">
+                <div class="row row-cols-1 row-cols-md-3 g-4 p-2">
                     <div class="col p-2 game-card pointer rounded mt-0" rv-selectedGame="game" rv-each-game="model.recentGames.content"  data-bs-toggle="offcanvas" data-bs-target="#gameDetails" rv-on-click="model.selectGame">
                         <div class="card shadow border border-dark">
                             <div class="position-relative">
@@ -44,11 +53,27 @@
                                 <div class="position-absolute bottom-0 end-0 p-1" rv-show="game.isHighlighted">
                                     <img src="/img/star-sm.png" alt="highlighted match" class="shadow-lg" />
                                 </div>
+                                <div class="position-absolute bottom-0 end-0 distracted-indicator" rv-show="game.isDistracted">
+                                    <span>&#128534;</span>
+                                </div>
+                                <div class="position-absolute bottom-0 start-0 d-flex">
+                                    <div class="ms-1">
+                                        <h5 class="mb-0 text-white text-outline text-shadow">{game.match.playerStats.kdRatio | tofixed}</h5>
+                                        <h5 class="mb-0 text-somewhat-muted text-outline text-shadow">K/D Ratio</h5>
+                                    </div>
+                                    <div class="ms-5">
+                                        <h5 class="mb-0 text-white text-outline text-shadow">{game.match.playerStats.kills}</h5>
+                                        <h5 class="mb-0 text-somewhat-muted text-outline text-shadow">Kills</h5>
+                                    </div>
+                                    <div class="ms-5">
+                                        <h5 class="mb-0 text-white text-outline text-shadow">{game.match.playerStats.scorePerMinute | tofixed}</h5>
+                                        <h5 class="mb-0 text-somewhat-muted text-outline text-shadow">SPM</h5>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body rounded-bottom">
-                                <span class="card-title fs-5 alt-font">
-                                    {game.match.map | map} ({game.match.mode | gameMode})
-                                </span>
+
+                            <div class="card-img-overlay p-1">
+                                <h4 class="text-white text-shadow text-outline">{game.match.map | map} ({game.match.mode | gameMode})</h4>
                             </div>
                         </div>
                     </div>
@@ -81,8 +106,14 @@
                     <div class="position-absolute bottom-0 end-0 p-1" style="z-index: 1;" rv-hide="model.selectedGame.isHighlighted">
                         <button id="highlightMatchBtn" rv-on-click="model.highlightGame" class="btn btn-sm btn-light">Highlight</button>
                     </div>
+                    <div class="position-absolute bottom-0 end-0 p-1 distracted-btn" style="z-index: 1;" rv-hide="model.selectedGame.isDistracted">
+                        <button id="markDistractedBtn" rv-on-click="model.markDistracted" class="btn btn-sm btn-danger">Distracted</button>
+                    </div>
                     <div class="position-absolute bottom-0 end-0 p-1" rv-show="model.selectedGame.isHighlighted">
                         <img src="/img/star.png" alt="highlighted match" class="shadow-lg" />
+                    </div>
+                    <div class="position-absolute bottom-0 end-0 distracted-indicator distracted-indicator-details" rv-show="model.selectedGame.isDistracted">
+                        <span>&#128534;</span>
                     </div>
                 </div>
                 <div class="card-img-overlay">
@@ -91,6 +122,8 @@
                     <h3 class="text-shadow text-outline">{model.selectedGame.match.matchStart | date} - {model.selectedGame.match.matchEnd | time}</h3>
                 </div>
             </div>
+
+            <h2>Game Data</h2>
 
             <div class="row">
                 <div class="col-12 col-lg-6">
@@ -182,6 +215,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div id="brainData" rv-show="model.brainDataForSelectedGame | default 0 | length | gt 0">
+                <h2>Brain Data</h2>
+                <canvas id="brainChart"></canvas>
             </div>
         </div>
     </div>
