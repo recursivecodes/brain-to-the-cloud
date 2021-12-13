@@ -188,5 +188,5 @@ table tbody tr.active-row {
 }
 #brainChart {
     width: 100%;
-    height: 300px !important;
+    height: 300px;
 }
