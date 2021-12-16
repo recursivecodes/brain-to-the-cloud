@@ -1,11 +1,12 @@
 package codes.recursive.controller;
 
+import codes.recursive.config.CodClientConfig;
 import codes.recursive.model.Brain;
 import codes.recursive.model.Game;
 import codes.recursive.repository.AbstractGameRepository;
 import codes.recursive.repository.BrainRepository;
 import codes.recursive.repository.GameRepository;
-import codes.recursive.service.CodPublicClient;
+import codes.recursive.client.CodPublicClient;
 import codes.recursive.task.RecentGames;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
@@ -32,19 +33,22 @@ public class ApiController {
     private final GameRepository gameRepository;
     private final BrainRepository brainRepository;
     private final AbstractGameRepository abstractGameRepository;
+    private final CodClientConfig codClientConfig;
 
     public ApiController(
             CodPublicClient codPublicClient,
             RecentGames recentMatches,
             GameRepository gameRepository,
             BrainRepository brainRepository,
-            AbstractGameRepository abstractGameRepository
+            AbstractGameRepository abstractGameRepository,
+            CodClientConfig codClientConfig
     ) {
         this.codPublicClient = codPublicClient;
         this.recentMatches = recentMatches;
         this.gameRepository = gameRepository;
         this.brainRepository = brainRepository;
         this.abstractGameRepository = abstractGameRepository;
+        this.codClientConfig = codClientConfig;
     }
 
     @Get(uri = "/codLookups")
@@ -108,7 +112,7 @@ public class ApiController {
         /*
         expects a JSON object containing a token. ex: {"token": "OD15...."}
         */
-        recentMatches.setActivisionToken(data.get("token"));
+        codClientConfig.setSsoToken(data.get("token"));
         return HttpResponse.ok();
     }
 }

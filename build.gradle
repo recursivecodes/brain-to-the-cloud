@@ -49,7 +49,6 @@ dependencies {
     // ojdbc driver
     implementation("com.oracle.database.jdbc:ojdbc11-production:21.1.0.0")
     // oci sdk
-    implementation("com.oracle.oci.sdk:oci-java-sdk-functions:2.10.0")
     implementation("com.oracle.oci.sdk:oci-java-sdk-vault:2.10.0")
     implementation("com.oracle.oci.sdk:oci-java-sdk-secrets:2.10.0")
     implementation("com.oracle.oci.sdk:oci-java-sdk-common:2.10.0")

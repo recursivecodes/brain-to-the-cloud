@@ -42,14 +42,27 @@ export class BrainCharts {
     };
   }
 
+  renderDonutChart(chartId, title, showLegend, datasource) {
+    return new Chart(document.getElementById(chartId).getContext('2d'), {
+      type: 'doughnut',
+      options: {
+        plugins: {
+          legend: {display: showLegend},
+          title: {text: title, display: true},
+        },
+      },
+      data: datasource
+    });
+  }
+
   renderLineChart(chartId, title, showLegend, xAxes, datasource) {
     return new Chart(document.getElementById(chartId).getContext('2d'), {
       type: 'line',
       options: {
-        annotation: {
-          annotations: []
-        },
         plugins: {
+          annotation: {
+            annotations: {}
+          },
           legend: {display: showLegend},
           title: {text: title, display: true},
         },
@@ -70,5 +83,21 @@ export class BrainCharts {
       dataset.data.pop();
     });
     chart.update();
+  }
+
+  getAnnotation(label, value, mode, color="red") {
+    return {
+      drawTime: "afterDatasetsDraw",
+      type: "line",
+      yMin: value,
+      yMax: value,
+      borderWidth: 2,
+      borderColor: color,
+      label: {
+        content: label,
+        enabled: true,
+        position: "top"
+      }
+    }
   }
 }

@@ -26,9 +26,8 @@ mqtt:
 codes:
   recursive:
     xbox-gamertag: ${XBOX_GAMERTAG}
-    functions:
-      recent-matches-ocid: ${FN_RECENT_MATCHES_OCID}
-      recent-matches-invoke-endpoint: ${FN_RECENT_MATCHES_INVOKE_URL}
+cod:
+  sso-token:
 oci:
   config:
     instance-principal:

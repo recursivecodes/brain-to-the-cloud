@@ -7,4 +7,6 @@ public class CallOfDuty {
     public static String MODERN_WARFARE = "mw";
     public static String COLD_WAR = "cw";
     public static String VANGUARD = "vg";
+
+    public static String XBL = "xbl";
 }

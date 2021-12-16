@@ -24,7 +24,7 @@
 
     <div class="row" id="loader">
         <div class="col-12 d-flex align-items-center justify-content-center fs-2">
-            <span class="spinner-border"></span>&nbsp; &nbsp;Loading...
+            <span class="spinner-border"></span>&nbsp;&nbsp;Loading...
         </div>
     </div>
 
@@ -38,7 +38,7 @@
                 </select>
             </div>
         </div>
-        <div class="row" rv-show="model.recentGames.content | default 0 | length | gt 0">
+        <div class="row" rv-show="model.recentGames.content | length | gt 0">
             <div class="col-12">
                 <div class="row row-cols-1 row-cols-md-3 g-4 p-2">
                     <div class="col p-2 game-card pointer rounded mt-0" rv-selectedGame="game" rv-each-game="model.recentGames.content"  data-bs-toggle="offcanvas" data-bs-target="#gameDetails" rv-on-click="model.selectGame">
@@ -104,10 +104,10 @@
                         </span>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-1" style="z-index: 1;" rv-hide="model.selectedGame.isHighlighted">
-                        <button id="highlightMatchBtn" rv-on-click="model.highlightGame" class="btn btn-sm btn-light">Highlight</button>
+                        <button id="highlightMatchBtn" rv-on-click="model.highlightGame" class="btn btn-sm btn-outline-light highlight-btn">Highlight</button>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-1 distracted-btn" style="z-index: 1;" rv-hide="model.selectedGame.isDistracted">
-                        <button id="markDistractedBtn" rv-on-click="model.markDistracted" class="btn btn-sm btn-danger">Distracted</button>
+                        <button id="markDistractedBtn" rv-on-click="model.markDistracted" class="btn btn-sm btn-outline-danger highlight-btn">Distracted</button>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-1" rv-show="model.selectedGame.isHighlighted">
                         <img src="/img/star.png" alt="highlighted match" class="shadow-lg" />
@@ -126,100 +126,44 @@
             <h2 class="pt-3 pb-0 mb-0">Game Data</h2>
 
             <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark bg-gradient shadow">
-                        <div class="card-body">
-                            <p class="fs-1 mb-0 text-shadow text-outline">{model.selectedGame.match.playerStats.kills}/{model.selectedGame.match.playerStats.deaths} ({model.selectedGame.match.playerStats.kdRatio | tofixed})</p>
-                        </div>
-                        <div class="card-footer text-muted border-secondary">
-                            <span class="fs-5 mb-0">Kills/Deaths (Ratio)</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark bg-gradient shadow">
-                        <div class="card-body">
-                            <p class="fs-1 mb-0 text-shadow text-outline">{model.selectedGame.match.playerStats.damageDone}/{model.selectedGame.match.playerStats.damageTaken}</p>
-                        </div>
-                        <div class="card-footer text-muted border-secondary">
-                            <span class="fs-5 mb-0">Damage (Done/Taken)</span>
-                        </div>
-                    </div>
-                </div>
+                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.kills}/{model.selectedGame.match.playerStats.deaths} ({model.selectedGame.match.playerStats.kdRatio | tofixed})', 'Kills/Deaths (Ratio)')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.damageDone}/{model.selectedGame.match.playerStats.damageTaken}', 'Damage (Done/Taken)')"></div>
             </div>
 
             <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark bg-gradient shadow">
-                        <div class="card-body">
-                            <p class="fs-1 mb-0 text-shadow text-outline">{model.selectedGame.match.playerStats.headshots}</p>
-                        </div>
-                        <div class="card-footer text-muted border-secondary">
-                            <span class="fs-5 mb-0">Headshots</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark bg-gradient shadow">
-                        <div class="card-body">
-                            <p class="fs-1 mb-0 text-shadow text-outline"> {model.selectedGame.match.playerStats.executions}</p>
-                        </div>
-                        <div class="card-footer text-muted border-secondary">
-                            <span class="fs-5 mb-0">Executions</span>
-                        </div>
-                    </div>
-                </div>
+                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.headshots}', 'Headshots')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.executions}', 'Executions')"></div>
             </div>
 
             <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark bg-gradient shadow">
-                        <div class="card-body">
-                            <p class="fs-1 mb-0 text-shadow text-outline">{model.selectedGame.match.playerStats.score} ({model.selectedGame.match.playerStats.scorePerMinute | tofixed})</p>
-                        </div>
-                        <div class="card-footer text-muted border-secondary">
-                            <span class="fs-5 mb-0">Score (Per Minute)</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark bg-gradient shadow">
-                        <div class="card-body">
-                            <p class="fs-1 mb-0 text-shadow text-outline"> {model.selectedGame.match.playerStats.accuracy | percent}%  ({model.selectedGame.match.playerStats.shotsFired}/{model.selectedGame.match.playerStats.shotsLanded})</p>
-                        </div>
-                        <div class="card-footer text-muted border-secondary">
-                            <span class="fs-5 mb-0">Accuracy (Shots Fired/Landed)</span>
-                        </div>
-                    </div>
-                </div>
+                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.score} ({model.selectedGame.match.playerStats.scorePerMinute | tofixed})', 'Score (Per Minute)')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.accuracy | percent}%  ({model.selectedGame.match.playerStats.shotsFired}/{model.selectedGame.match.playerStats.shotsLanded})', 'Accuracy (Shots Fired/Landed)')"></div>
             </div>
 
             <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark bg-gradient shadow">
-                        <div class="card-body">
-                            <p class="fs-1 mb-0 text-shadow text-outline">{model.selectedGame.match.playerStats.longestStreak}</p>
-                        </div>
-                        <div class="card-footer text-muted border-secondary">
-                            <span class="fs-5 mb-0">Longest Streak</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div class="card text-center text-white bg-dark bg-gradient shadow">
-                        <div class="card-body">
-                            <p class="fs-1 mb-0 text-shadow text-outline"> {model.selectedGame.match.playerStats.percentTimeMoving | tofixed}%  ({model.selectedGame.match.playerStats.averageSpeedDuringMatch | tofixed})</p>
-                        </div>
-                        <div class="card-footer text-muted border-secondary">
-                            <span class="fs-5 mb-0">% Moving/Avg. Speed</span>
-                        </div>
-                    </div>
-                </div>
+                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.longestStreak}', 'Longest Streak')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.percentTimeMoving | tofixed}%  ({model.selectedGame.match.playerStats.averageSpeedDuringMatch | tofixed})', '% Moving/Avg. Speed')"></div>
             </div>
 
-            <div id="brainData" rv-show="model.brainDataForSelectedGame | default 0 | length | gt 0">
+            <div id="brainData" rv-show="model.brainDataForSelectedGame | length | gt 0">
                 <h2>Brain Data</h2>
-                <canvas id="brainChart"></canvas>
+                <div class="row">
+                    <div th:replace="fragments/detailcard :: detailcard('{model.brainDataForSelectedGame | avg \'attention\'}', 'Average Attention')"></div>
+                    <div th:replace="fragments/detailcard :: detailcard('{model.brainDataForSelectedGame | avg \'meditation\'}', 'Average Meditation')"></div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <canvas id="brainChart"></canvas>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <canvas id="scoreAttentionChart" class="donut-chart p-2"></canvas>
+                    </div>
+                    <div class="col-6">
+                        <canvas id="scoreMeditationChart" class="donut-chart p-2"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -210,21 +210,4 @@ const connect = () => {
   };
 };
 
-const getAnnotation = (label, value) => {
-  return {
-    drawTime: "afterDatasetsDraw",
-    type: "line",
-    mode: "vertical",
-    scaleID: "x-axis-0",
-    value: value,
-    borderWidth: 5,
-    borderColor: "red",
-    label: {
-      content: label,
-      enabled: true,
-      position: "top"
-    }
-  }
-}
-
 document.addEventListener('DOMContentLoaded', init);

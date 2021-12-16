@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="detailcard(value, label)" class="col-12 col-lg-6">
+    <div class="card text-center text-white bg-dark bg-gradient shadow">
+        <div class="card-body">
+            <p class="fs-1 mb-0 text-shadow text-outline" th:utext="${value}"></p>
+        </div>
+        <div class="card-footer text-muted border-secondary">
+            <span class="fs-5 mb-0" th:utext="${label}"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

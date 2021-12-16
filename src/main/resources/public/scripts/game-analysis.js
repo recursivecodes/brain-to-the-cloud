@@ -1,6 +1,8 @@
 import {BrainCharts} from "./BrainCharts.js";
 
 window.brainChart = null;
+window.scoreAttentionChart = null;
+window.scoreMeditationChart = null;
 
 rivets.binders.mapsrc = function(el, value) {
   el.src = `/img/maps/${value}.jpg`;
@@ -20,6 +22,10 @@ rivets.formatters.map = function(value){
   let map = `maps:vg-${value}:1`
   if(!window.model.codLookups.hasOwnProperty(map)) return value;
   return window.model.codLookups[map];
+}
+rivets.formatters.avg = function(arr, key){
+  // takes an array of objects, returns an avg for 'key'
+  return arr.map((item) => item[key]).reduce((a, b) => (a + b), 0) / arr.length;
 }
 rivets.formatters.gameMode = function(value){
   // we're making an inflexible assumption here by hardcoding vanguard
@@ -63,9 +69,9 @@ window.model = {
   selectedGameType: 'recentGames',
   codLookups: {},
   decorateGame: (el) => {
-    document.querySelectorAll('.game-card').forEach((m) => m.classList.remove('border', 'border-secondary', 'border-1', 'bg-dark', 'bg-gradient'))
+    document.querySelectorAll('.game-card').forEach((m) => m.classList.remove('border', 'border-primary', 'border-3', 'bg-dark', 'bg-gradient', 'bg-opacity-10'))
     if(el) {
-      el.classList.add('border', 'border-secondary', 'border-1', 'bg-dark', 'bg-gradient')
+      el.classList.add('border', 'border-primary', 'border-3', 'bg-dark', 'bg-gradient', 'bg-opacity-10')
     }
   },
   changeGameType: (el) => {
@@ -75,8 +81,40 @@ window.model = {
   selectGame: (event, binding) => {
     window.model.decorateGame(event.currentTarget)
     window.model.selectedGame = binding.game;
+    document.querySelector('.offcanvas-body').scrollTop = 0;
     window.model.loadBrainDataForSelectedGame();
   },
+
+  renderScoreChart: (element, chartId, title) => {
+    if(typeof window[chartId] !== 'undefined' && window[chartId] != null) window[chartId].destroy();
+    let attentionFactor = rivets.formatters.avg(window.model.brainDataForSelectedGame, element) / 100;
+    let spm = Number(window.model.selectedGame.match.playerStats.scorePerMinute).toFixed(0);
+    let adjustedSpm = spm * attentionFactor;
+    adjustedSpm = Number(adjustedSpm).toFixed(0);
+    let diff = spm - adjustedSpm;
+
+    const data = {
+      labels: [
+        'Adjusted SPM',
+        'Diff',
+        'SPM'
+      ],
+      datasets: [{
+        label: 'Adjusted Score',
+        data: [adjustedSpm, diff, spm],
+        backgroundColor: [
+          'rgb(140,11,192)',
+          'rgb(109,109,109)',
+          'rgb(99,23,126)',
+        ],
+        hoverOffset: 4
+      }]
+    };
+
+    window[chartId] = window.brainCharts.renderDonutChart(chartId, title, true, data);
+    window[chartId].update();
+  },
+
   loadBrainDataForSelectedGame: () => {
     window.model.brainDataForSelectedGame = [];
     if(window.brainChart != null) window.brainChart.destroy();
@@ -88,7 +126,6 @@ window.model = {
       .then(brainData => {
         if(brainData.length > 0) {
           window.model.brainDataForSelectedGame = brainData
-          brainChart
           let datasource = [{
               label: 'Attention',
               pointBackgroundColor: '#f14343',
@@ -111,6 +148,8 @@ window.model = {
             }
           ];
           window.brainChart = window.brainCharts.renderLineChart('brainChart', 'Attention/Meditation', true, window.brainCharts.xAxes, datasource);
+          window.model.renderScoreChart('meditation', 'scoreMeditationChart', 'Score Adjusted for Meditation');
+          window.model.renderScoreChart('attention', 'scoreAttentionChart', 'Score Adjusted for Attention');
         }
       });
   },
@@ -173,3 +212,49 @@ const init = async () => {
 };
 
 document.addEventListener('DOMContentLoaded', init);
+
+/* donut with multi series
+
+const data = {
+  datasets: [
+    {
+      labels: ['SPM', 'Average SPM'],
+      data: [1350, 501],
+      backgroundColor: Object.values(Utils.CHART_COLORS),
+    },
+    {
+      labels: ['Attention', 'Average Attention'],
+      data: [73, 60],
+      backgroundColor: Object.values(Utils.CHART_COLORS),
+    }
+  ]
+};
+
+const config = {
+  type: 'doughnut',
+  data: data,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Chart.js Doughnut Chart'
+      },
+      tooltip: {
+          callbacks: {
+              label: function (context) {
+                  var label = context.dataset.labels[context.dataIndex];
+                  var value = context.dataset.data[context.dataIndex];
+                  return label + ': ' + value;
+              }
+          }
+      }
+
+    }
+  },
+};
+
+*/
