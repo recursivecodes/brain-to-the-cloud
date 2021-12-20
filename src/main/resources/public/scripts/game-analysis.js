@@ -17,6 +17,7 @@ rivets.binders.winlossbg = function(el, value) {
 };
 rivets.formatters.map = function(value){
   // we're making an inflexible assumption here by hardcoding vanguard
+  if( value === 'mp_shipmas_s4' ) return 'Shipmas'; //not in the lookup table yet
   if( value === 'mp_paradise' ) return 'Paradise'; //not in the lookup table yet
   if( value === 'mp_radar' ) return 'Radar'; //not in the lookup table yet
   let map = `maps:vg-${value}:1`
@@ -29,6 +30,7 @@ rivets.formatters.avg = function(arr, key){
 }
 rivets.formatters.gameMode = function(value){
   // we're making an inflexible assumption here by hardcoding vanguard
+  if( value === "kspoint" ) return 'Armageddon';
   let mode = `game-modes:vg-${value}:1`
   return window.model.codLookups[mode];
 }
@@ -190,6 +192,7 @@ window.model = {
       })
   },
   paginate: (direction) => {
+    window.scrollTo(0,0);
     window.model.selectedGame = null;
     window.model.decorateGame();
     let games = window.model.recentGames;
