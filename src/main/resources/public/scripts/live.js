@@ -3,7 +3,7 @@ import Brain from './Brain.js';
 import {BrainCharts} from "./BrainCharts.js";
 
 window.chartsInit = false;
-window.maxPoints = 25;
+window.maxPoints = 24;
 
 const initCharts = () => {
   window.brainCharts = new BrainCharts()
@@ -89,7 +89,7 @@ const initCharts = () => {
 
   window.attentionChart = window.brainCharts.renderLineChart('attentionChart', 'Attention', false, window.brainCharts.xAxes, attentionDatasource);
   window.meditationChart = window.brainCharts.renderLineChart('meditationChart', 'Meditation', false, window.brainCharts.xAxes, meditationDatasource);
-  window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', false, window.brainCharts.activityXAxes, activityDatasource);
+  window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, window.brainCharts.activityXAxes, activityDatasource);
 }
 const init = () => {
   initCharts();
@@ -97,11 +97,12 @@ const init = () => {
 
   document.querySelector('#connectBtn').addEventListener('click', () => {
     if(typeof window.ws === 'undefined' || window.ws.readyState === WebSocket.CLOSED) {
-      connect();
-    }
-    else {
-      window.ws.close();
-      window.ws = undefined;
+      if (window.chartsInit) {
+        brainCharts.removeData(window.attentionChart);
+        brainCharts.removeData(window.meditationChart);
+        brainCharts.removeData(window.activityChart);
+      }
+
       window.brainCharts.brainReadings = [];
       window.brainCharts.meditationHigh = 0;
       window.brainCharts.meditationLow = 100;
@@ -125,11 +126,13 @@ const init = () => {
       document.querySelector('#currentSignalStrength').innerHTML = 0;
       document.querySelector('#currentAttention').innerHTML = "N/A";
       document.querySelector('#currentMeditation').innerHTML = "N/A";
-      if (window.chartsInit) {
-        brainCharts.removeData(window.attentionChart);
-        brainCharts.removeData(window.meditationChart);
-        brainCharts.removeData(window.activityChart);
-      }
+
+      connect();
+    }
+    else {
+      window.ws.close();
+      window.ws = undefined;
+      document.querySelector('#currentSignalStrength').innerHTML = 0;
     }
   });
 };
@@ -150,17 +153,7 @@ const connect = () => {
       return
     }
     const brain = new Brain(parsedMsg);
-    window.brainCharts.brainReadings.push(brain);
-    window.attentionChart.data.datasets[0].data.push({y: brain.attention, x: brain.createdOn});
-    window.meditationChart.data.datasets[0].data.push({y: brain.meditation, x: brain.createdOn});
-    window.activityChart.data.datasets[0].data.push({y: brain.delta, x: brain.createdOn});
-    window.activityChart.data.datasets[1].data.push({y: brain.theta, x: brain.createdOn});
-    window.activityChart.data.datasets[2].data.push({y: brain.lowAlpha, x: brain.createdOn});
-    window.activityChart.data.datasets[3].data.push({y: brain.highAlpha, x: brain.createdOn});
-    window.activityChart.data.datasets[4].data.push({y: brain.lowBeta, x: brain.createdOn});
-    window.activityChart.data.datasets[5].data.push({y: brain.highBeta, x: brain.createdOn});
-    window.activityChart.data.datasets[6].data.push({y: brain.lowGamma, x: brain.createdOn});
-    window.activityChart.data.datasets[7].data.push({y: brain.highGamma, x: brain.createdOn});
+
     // keep the latest `maxPoints`
     if( window.brainCharts.brainReadings.length > window.maxPoints ) window.brainCharts.brainReadings.shift();
     if( window.attentionChart.data.datasets[0].data.length > window.maxPoints ) window.attentionChart.data.datasets[0].data.shift();
@@ -174,11 +167,25 @@ const connect = () => {
     if( window.activityChart.data.datasets[6].data.length > window.maxPoints ) window.activityChart.data.datasets[6].data.shift();
     if( window.activityChart.data.datasets[7].data.length > window.maxPoints ) window.activityChart.data.datasets[7].data.shift();
 
+    window.brainCharts.brainReadings.push(brain);
+    window.attentionChart.data.datasets[0].data.push({y: brain.attention, x: brain.createdOn});
+    window.meditationChart.data.datasets[0].data.push({y: brain.meditation, x: brain.createdOn});
+    window.activityChart.data.datasets[0].data.push({y: brain.delta, x: brain.createdOn});
+    window.activityChart.data.datasets[1].data.push({y: brain.theta, x: brain.createdOn});
+    window.activityChart.data.datasets[2].data.push({y: brain.lowAlpha, x: brain.createdOn});
+    window.activityChart.data.datasets[3].data.push({y: brain.highAlpha, x: brain.createdOn});
+    window.activityChart.data.datasets[4].data.push({y: brain.lowBeta, x: brain.createdOn});
+    window.activityChart.data.datasets[5].data.push({y: brain.highBeta, x: brain.createdOn});
+    window.activityChart.data.datasets[6].data.push({y: brain.lowGamma, x: brain.createdOn});
+    window.activityChart.data.datasets[7].data.push({y: brain.highGamma, x: brain.createdOn});
+
+
     if (window.chartsInit) {
       window.attentionChart.update();
       window.meditationChart.update();
       window.activityChart.update();
     }
+
     if(brain.meditation > window.brainCharts.meditationHigh) window.brainCharts.meditationHigh = brain.meditation;
     if(brain.meditation < window.brainCharts.meditationLow) window.brainCharts.meditationLow = brain.meditation;
     if(brain.attention > window.brainCharts.attentionHigh) window.brainCharts.attentionHigh = brain.attention;
