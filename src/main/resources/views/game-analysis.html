@@ -123,43 +123,43 @@
 
             <h2 class="pt-3 pb-0 mb-0">Game Data</h2>
 
-            <div class="row">
+            <div class="row mb-3">
                 <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.kills}/{model.selectedGame.match.playerStats.deaths} ({model.selectedGame.match.playerStats.kdRatio | tofixed})', 'Kills/Deaths (Ratio)')"></div>
                 <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.damageDone}/{model.selectedGame.match.playerStats.damageTaken}', 'Damage (Done/Taken)')"></div>
             </div>
 
-            <div class="row">
+            <div class="row mb-3">
                 <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.headshots}', 'Headshots')"></div>
                 <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.executions}', 'Executions')"></div>
             </div>
 
-            <div class="row">
+            <div class="row mb-3">
                 <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.score} ({model.selectedGame.match.playerStats.scorePerMinute | tofixed})', 'Score (Per Minute)')"></div>
                 <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.accuracy | percent}%  ({model.selectedGame.match.playerStats.shotsFired}/{model.selectedGame.match.playerStats.shotsLanded})', 'Accuracy (Shots Fired/Landed)')"></div>
             </div>
 
-            <div class="row">
+            <div class="row mb-3">
                 <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.longestStreak}', 'Longest Streak')"></div>
                 <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.percentTimeMoving | tofixed}%  ({model.selectedGame.match.playerStats.averageSpeedDuringMatch | tofixed})', '% Moving/Avg. Speed')"></div>
             </div>
 
             <div id="brainData" rv-show="model.brainDataForSelectedGame | length | gt 0">
                 <h2>Brain Data</h2>
-                <div class="row">
+                <div class="row mb-3">
                     <div th:replace="fragments/detailcard :: detailcard('{model.brainDataForSelectedGame | avg \'attention\'}', 'Average Attention')"></div>
                     <div th:replace="fragments/detailcard :: detailcard('{model.brainDataForSelectedGame | avg \'meditation\'}', 'Average Meditation')"></div>
                 </div>
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-12">
-                        <canvas id="brainChart"></canvas>
+                        <canvas id="brainChart" class="border p-1 rounded shadow"></canvas>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-6">
-                        <canvas id="scoreAttentionChart" class="donut-chart p-2"></canvas>
+                        <canvas id="scoreAttentionChart" class="border rounded shadow donut-chart p-2"></canvas>
                     </div>
                     <div class="col-6">
-                        <canvas id="scoreMeditationChart" class="donut-chart p-2"></canvas>
+                        <canvas id="scoreMeditationChart" class="border rounded shadow donut-chart p-2"></canvas>
                     </div>
                 </div>
             </div>
