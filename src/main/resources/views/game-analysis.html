@@ -18,9 +18,7 @@
 </head>
 <body th:replace="~{layoutFile :: body(~{::section})}">
 <section>
-    <div th:replace="fragments/header :: header()"></div>
     <div th:replace="fragments/nav :: navmenu(${currentView})"></div>
-
 
     <div class="row" id="loader">
         <div class="col-12 d-flex align-items-center justify-content-center fs-2">
@@ -29,7 +27,7 @@
     </div>
 
     <div id="games" class="d-none">
-        <div class="row">
+        <div class="row pb-4">
             <div class="col-3 offset-9 d-flex justify-content-end">
                 <select name="gameType" id="gameType" class="form-select" rv-on-change="model.changeGameType">
                     <option rv-value="model.GAME_TYPE_ALL">All Recent Games</option>
@@ -40,9 +38,9 @@
         </div>
         <div class="row" rv-show="model.recentGames.content | length | gt 0">
             <div class="col-12">
-                <div class="row row-cols-1 row-cols-md-3 g-4 p-2">
-                    <div class="col p-2 game-card pointer rounded mt-0" rv-selectedGame="game" rv-each-game="model.recentGames.content"  data-bs-toggle="offcanvas" data-bs-target="#gameDetails" rv-on-click="model.selectGame">
-                        <div class="card shadow border border-dark">
+                <div class="row row-cols-1 row-cols-md-3 g-3">
+                    <div class="col p-2 mt-0 pointer rounded" rv-selectedGame="game" rv-each-game="model.recentGames.content"  data-bs-toggle="offcanvas" data-bs-target="#gameDetails" rv-on-click="model.selectGame">
+                        <div class="card game-card shadow border border-dark">
                             <div class="position-relative">
                                 <img rv-mapsrc="game.match.map" class="card-img-top" rv-alt="game.match.map | map">
                                 <div class="position-absolute top-0 end-0 d-flex">

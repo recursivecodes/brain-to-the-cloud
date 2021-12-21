@@ -1,6 +1,7 @@
 'use strict';
 import Brain from './Brain.js';
 import {BrainCharts} from "./BrainCharts.js";
+import {mean, median, mode} from "./utils.js";
 
 window.chartsInit = false;
 window.maxPoints = 24;
@@ -120,8 +121,14 @@ const init = () => {
       window.activityChart.data.datasets[7].data = [];
       document.querySelector('#meditationHigh').innerHTML = "N/A";
       document.querySelector('#meditationLow').innerHTML = "N/A";
+      document.querySelector('#meditationMean').innerHTML = "N/A";
+      document.querySelector('#meditationMedian').innerHTML = "N/A";
+      document.querySelector('#meditationMode').innerHTML = "N/A";
       document.querySelector('#attentionHigh').innerHTML = "N/A";
       document.querySelector('#attentionLow').innerHTML = "N/A";
+      document.querySelector('#attentionMean').innerHTML = "N/A";
+      document.querySelector('#attentionMedian').innerHTML = "N/A";
+      document.querySelector('#attentionMode').innerHTML = "N/A";
 
       document.querySelector('#currentSignalStrength').innerHTML = 0;
       document.querySelector('#currentAttention').innerHTML = "N/A";
@@ -155,7 +162,7 @@ const connect = () => {
     const brain = new Brain(parsedMsg);
 
     // keep the latest `maxPoints`
-    if( window.brainCharts.brainReadings.length > window.maxPoints ) window.brainCharts.brainReadings.shift();
+    //if( window.brainCharts.brainReadings.length > window.maxPoints ) window.brainCharts.brainReadings.shift();
     if( window.attentionChart.data.datasets[0].data.length > window.maxPoints ) window.attentionChart.data.datasets[0].data.shift();
     if( window.meditationChart.data.datasets[0].data.length > window.maxPoints ) window.meditationChart.data.datasets[0].data.shift();
     if( window.activityChart.data.datasets[0].data.length > window.maxPoints ) window.activityChart.data.datasets[0].data.shift();
@@ -193,8 +200,16 @@ const connect = () => {
 
     document.querySelector('#meditationHigh').innerHTML = window.brainCharts.meditationHigh;
     document.querySelector('#meditationLow').innerHTML = window.brainCharts.meditationLow;
+    let meditationVals = window.brainCharts.brainReadings.map(b => b.meditation);
+    document.querySelector('#meditationMean').innerHTML = mean(meditationVals);
+    document.querySelector('#meditationMedian').innerHTML = median(meditationVals);
+    document.querySelector('#meditationMode').innerHTML = mode(meditationVals);
     document.querySelector('#attentionHigh').innerHTML = window.brainCharts.attentionHigh;
     document.querySelector('#attentionLow').innerHTML = window.brainCharts.attentionLow;
+    let attentionVals = window.brainCharts.brainReadings.map(b => b.attention);
+    document.querySelector('#attentionMean').innerHTML = mean(attentionVals);
+    document.querySelector('#attentionMedian').innerHTML = median(attentionVals);
+    document.querySelector('#attentionMode').innerHTML = mode(attentionVals);
 
     document.querySelector('#currentSignalStrength').innerHTML = brain.signalStrength;
     document.querySelector('#currentAttention').innerHTML = brain.attention;

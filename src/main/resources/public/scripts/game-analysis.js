@@ -71,10 +71,15 @@ window.model = {
   selectedGameType: 'recentGames',
   codLookups: {},
   decorateGame: (el) => {
-    document.querySelectorAll('.game-card').forEach((m) => m.classList.remove('border', 'border-primary', 'border-3', 'bg-dark', 'bg-gradient', 'bg-opacity-10'))
+    document.querySelectorAll('.game-card').forEach((m) => {
+      m.classList.remove('border-primary', 'border-3');
+      m.classList.add('border-dark');
+    })
     if(el) {
-      el.classList.add('border', 'border-primary', 'border-3', 'bg-dark', 'bg-gradient', 'bg-opacity-10')
+      el.querySelector('.card').classList.add('border-primary', 'border-3');
+      el.querySelector('.card').classList.remove('border-dark');
     }
+
   },
   changeGameType: (el) => {
     window.model.selectedGameType = el.target.value;

@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="navmenu(currentPage)" class="row">
+<div th:fragment="navmenu(currentPage)" class="row pb-2">
     <div class="col-12 nav-container pt-0">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="collapse navbar-collapse" id="navbarNav">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded shadow">
+            <div class="navbar-brand d-flex align-items-center">
+                <div class="">
+                    <img src="/img/cloud-white.png" class="img-fluid" style="width: 50px;">
+                </div>
+                <div class="" style="padding-left: 10px;">
+                    <h1 class="mb-0">Brain to the Cloud</h1>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" th:classappend="${currentPage == 'game-analysis'} ? 'active' : ''" href="/">Game Analysis</a></li>
                     <li class="nav-item"><a class="nav-link" th:classappend="${currentPage == 'live'} ? 'active' : ''" href="/live">Live Demo</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Reports</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Report #1</a></li>
+                            <li><a class="dropdown-item" href="#">Report #2</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Report #3</a></li>
+                        </ul>
+                    </li>
                     <li class="nav-item"><a class="nav-link" th:classappend="${currentPage == 'about'} ? 'active' : ''" href="/about">About</a></li>
                 </ul>
             </div>
