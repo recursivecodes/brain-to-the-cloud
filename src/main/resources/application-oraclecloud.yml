@@ -27,7 +27,9 @@ codes:
   recursive:
     xbox-gamertag: ${XBOX_GAMERTAG}
 cod:
-  sso-token:
+  sso-token: ODI5NjQ2NDoxNjQxNDA0MTU3NDQ3OmI0YmVhMzg0MDU4OWZmYzQxYzc3YTA2ZjIxMzM2NDRh
+  xsrf-token: ${random.uuid}
+  user-agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36w"
 oci:
   config:
     instance-principal:
