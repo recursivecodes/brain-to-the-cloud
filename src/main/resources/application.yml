@@ -7,6 +7,32 @@ micronaut:
         enabled: true
         mapping: /**
         paths: classpath:public
+  security:
+    authentication: session
+    redirect:
+      login-success: /games
+      login-failure: /login/authFailed
+      forbidden:
+        url: /login/auth
+      unauthorized:
+        url: /login/auth
+      logout: /
+    intercept-url-map:
+      - pattern: /css/*
+        http-method: GET
+        access:
+          - isAnonymous()
+      - pattern: /img/**
+        http-method: GET
+        access:
+          - isAnonymous()
+      - pattern: /scripts/*
+        http-method: GET
+        access:
+          - isAnonymous()
+    endpoints:
+      logout:
+        get-allowed: true
 datasources:
   default:
     dialect: ORACLE
@@ -26,6 +52,8 @@ oci.config.profile: DEFAULT
 codes:
   recursive:
     xbox-gamertag: ${XBOX_GAMERTAG}
+    app-user: ${APP_USER}
+    app-password: ${APP_PASSWORD}
 cod:
   sso-token: ODI5NjQ2NDoxNjQxNDA0MTU3NDQ3OmI0YmVhMzg0MDU4OWZmYzQxYzc3YTA2ZjIxMzM2NDRh
   xsrf-token: ${random.uuid}

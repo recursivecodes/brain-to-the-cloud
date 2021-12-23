@@ -9,9 +9,9 @@
     </div>
     /*/-->
 </head>
-<body th:replace="~{layoutFile :: body(~{::section})}">
+<body th:replace="~{layoutFile :: body(content = ~{::section}, bodyClass = 'container')}">
 <section>
-    <div th:replace="fragments/nav :: navmenu(${currentView})"></div>
+    <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
 
     <div class="row ps-3 pe-3">
         <div class="col-12">

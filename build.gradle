@@ -58,6 +58,11 @@ dependencies {
 
     // acme
     implementation("io.micronaut.acme:micronaut-acme")
+
+    // security
+    implementation 'io.projectreactor:reactor-core'
+    implementation("io.micronaut.security:micronaut-security-annotations")
+    implementation("io.micronaut.security:micronaut-security-session")
 }
 
 

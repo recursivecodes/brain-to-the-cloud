@@ -16,6 +16,8 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.Put;
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.rules.SecurityRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller("/api")
+@Secured(SecurityRule.IS_AUTHENTICATED)
 @SuppressWarnings("rawtypes")
 public class ApiController {
     private static final Logger LOG = LoggerFactory.getLogger(ApiController.class);

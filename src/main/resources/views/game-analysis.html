@@ -18,7 +18,7 @@
 </head>
 <body th:replace="~{layoutFile :: body(~{::section})}">
 <section>
-    <div th:replace="fragments/nav :: navmenu(${currentView})"></div>
+    <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
 
     <div class="row" id="loader">
         <div class="col-12 d-flex align-items-center justify-content-center fs-2">
