@@ -18,8 +18,8 @@
 <section>
     <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
 
-    <div class="row mb-3">
-        <div class="col-md-4">
+    <div class="row">
+        <div class="col-md-4 mb-3">
             <div class="card text-center h-100 bg-light shadow">
                 <div class="card-header text-white bg-dark bg-gradient">Signal Strength</div>
                 <div class="card-body d-flex flex-column">
@@ -30,7 +30,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
             <div class="card text-center h-100 bg-light shadow">
                 <div class="card-header text-white bg-dark bg-gradient">Current Attention</div>
                 <div class="card-body d-flex flex-column">
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mb-3">
             <div class="card text-center h-100 bg-light shadow">
                 <div class="card-header text-white bg-dark bg-gradient">Current Meditation</div>
                 <div class="card-body d-flex flex-column">
@@ -62,17 +62,17 @@
         </div>
     </div>
 
-    <div class="row mb-3">
-        <div class="col-md-6 col-12 pt-0">
+    <div class="row">
+        <div class="col-md-6 col-12 pt-0 mb-3">
             <canvas id="attentionChart" class="border p-1 rounded shadow" style="height: 300px; width:100%;"></canvas>
         </div>
-        <div class="col-md-6 col-12 pt-0">
+        <div class="col-md-6 col-12 pt-0 mb-3">
             <canvas id="meditationChart" class="border p-1 rounded shadow" style="height: 300px; width:100%;"></canvas>
         </div>
     </div>
 
-    <div class="row mb-3">
-        <div class="col-12 pt-0">
+    <div class="row">
+        <div class="col-12 pt-0 mb-3">
             <canvas id="activityChart" class="border p-1 rounded shadow" style="height: 400px; width:100%;"></canvas>
         </div>
     </div>

@@ -28,7 +28,7 @@
 
     <div id="games" class="d-none">
         <div class="row pb-4">
-            <div class="col-3 offset-9 d-flex justify-content-end">
+            <div class="col-12 col-md-3 offset-md-9 d-flex justify-content-end">
                 <select name="gameType" id="gameType" class="form-select" rv-on-change="model.changeGameType">
                     <option rv-value="model.GAME_TYPE_ALL">All Recent Games</option>
                     <option rv-value="model.GAME_TYPE_HIGHLIGHTED">Highlighted Games</option>
@@ -97,15 +97,15 @@
                 <div class="position-relative">
                     <img rv-mapsrc="model.selectedGame.match.map" class="img-fluid border rounded" rv-alt="model.selectedGame.match.map | map">
                     <div class="position-absolute top-0 end-0 p-1">
-                        <span class="badge fs-1 bg-gradient text-white bg-opacity-50 text-shadow" rv-winlossbg="model.selectedGame.match.result">
+                        <span class="badge fs-6 fs-md-1 bg-gradient text-white bg-opacity-50 text-shadow" rv-winlossbg="model.selectedGame.match.result">
                             <strong>{model.selectedGame.match.result | winLoss}</strong>
                         </span>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-1" style="z-index: 1;" rv-hide="model.selectedGame.isHighlighted">
-                        <button id="highlightMatchBtn" rv-on-click="model.highlightGame" class="btn btn-sm btn-outline-light highlight-btn">Highlight</button>
+                        <button id="highlightMatchBtn" rv-on-click="model.highlightGame" class="badge badge-sm bg-white border-white text-dark highlight-btn">Highlight</button>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-1 distracted-btn" style="z-index: 1;" rv-hide="model.selectedGame.isDistracted">
-                        <button id="markDistractedBtn" rv-on-click="model.markDistracted" class="btn btn-sm btn-outline-danger highlight-btn">Distracted</button>
+                        <button id="markDistractedBtn" rv-on-click="model.markDistracted" class="badge badge-sm bg-danger border-danger text-white highlight-btn">Distracted</button>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-1" rv-show="model.selectedGame.isHighlighted">
                         <img src="/img/star.png" alt="highlighted match" class="shadow-lg" />
@@ -115,15 +115,16 @@
                     </div>
                 </div>
                 <div class="card-img-overlay">
-                    <h1 class="pt-2 text-shadow text-outline">{model.selectedGame.match.map | map}</h1>
-                    <h2 class="text-shadow text-outline">{model.selectedGame.match.mode | gameMode}</h2>
+                    <h1 class="pt-2 text-shadow text-outline d-none d-md-block">{model.selectedGame.match.map | map}</h1>
+                    <h3 class="pt-2 text-shadow text-outline d-block d-md-none">{model.selectedGame.match.map | map} ({model.selectedGame.match.mode | gameMode})</h3>
+                    <h2 class="text-shadow d-none d-md-block text-outline">{model.selectedGame.match.mode | gameMode}</h2>
                     <h3 class="text-shadow text-outline">{model.selectedGame.match.matchStart | date} - {model.selectedGame.match.matchEnd | time}</h3>
                 </div>
             </div>
 
             <h2 class="pt-3 pb-0 mb-0">Game Data</h2>
 
-            <div class="row mb-3">
+            <div class="row mb-md-3 mb-0">
                 <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.kills}/{model.selectedGame.match.playerStats.deaths} ({model.selectedGame.match.playerStats.kdRatio | tofixed})', 'Kills/Deaths (Ratio)')"></div>
                 <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.damageDone}/{model.selectedGame.match.playerStats.damageTaken}', 'Damage (Done/Taken)')"></div>
             </div>

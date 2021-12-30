@@ -161,7 +161,7 @@ table tbody tr.active-row {
     font-size: 28px !important;
 }
 .distracted-btn {
-    bottom: 35px !important;
+    bottom: 25px !important;
 }
 #brainChart {
     width: 100%;
@@ -173,4 +173,8 @@ table tbody tr.active-row {
 }
 .highlight-btn {
     width: 85px;
+}
+.navbar a {
+    color: inherit;
+    text-decoration: none;
 }

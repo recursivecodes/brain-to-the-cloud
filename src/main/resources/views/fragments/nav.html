@@ -6,12 +6,19 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded shadow">
             <div class="navbar-brand d-flex align-items-center">
                 <div class="">
-                    <img src="/img/cloud-white.png" class="img-fluid" style="width: 50px;">
+                    <a href="/">
+                        <img src="/img/cloud-white.png" class="img-fluid" style="width: 50px;">
+                    </a>
                 </div>
                 <div class="" style="padding-left: 10px;">
-                    <h1 class="mb-0">Brain to the Cloud</h1>
+                    <a href="/">
+                        <h1 class="mb-0">Brain to the Cloud</h1>
+                    </a>
                 </div>
             </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''" href="/">Home</a></li>

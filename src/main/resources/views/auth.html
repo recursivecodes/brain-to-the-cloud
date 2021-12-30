@@ -14,7 +14,7 @@
     <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
     <div class="row mt-5 mb-5">
         <form action="/login" method="POST">
-            <div class="card text-dark bg-light mb-3 col-md-4 offset-4">
+            <div class="card text-dark bg-light mb-3 col-md-4 offset-md-4">
                 <div class="card-header bg-dark text-white bg-gradient">Login</div>
                 <div class="card-body">
                     <div th:if="${errors}" id="errors" class="alert alert-danger">
