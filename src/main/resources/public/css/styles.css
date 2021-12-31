@@ -178,3 +178,7 @@ table tbody tr.active-row {
     color: inherit;
     text-decoration: none;
 }
+.game-card-selected {
+    transform: scale(0.99);
+    opacity: .75!important;
+}

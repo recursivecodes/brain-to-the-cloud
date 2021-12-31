@@ -72,12 +72,10 @@ window.model = {
   codLookups: {},
   decorateGame: (el) => {
     document.querySelectorAll('.game-card').forEach((m) => {
-      m.classList.remove('border-primary', 'border-3');
-      m.classList.add('border-dark');
+      m.classList.remove('game-card-selected');
     })
     if(el) {
-      el.querySelector('.card').classList.add('border-primary', 'border-3');
-      el.querySelector('.card').classList.remove('border-dark');
+      el.querySelector('.card').classList.add('game-card-selected');
     }
 
   },
