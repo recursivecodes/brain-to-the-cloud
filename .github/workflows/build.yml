@@ -44,4 +44,4 @@ jobs:
         key: ${{ secrets.VM_PRIV_KEY }}
         script: |
           echo ${{ secrets.OCIR_PASSWORD }} | docker login phx.ocir.io --username toddrsharp/registry --password-stdin
-          ./restart.sh
+          ./restart-remote.sh
