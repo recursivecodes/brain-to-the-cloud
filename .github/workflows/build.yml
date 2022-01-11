@@ -29,12 +29,12 @@ jobs:
         DOCKER_REGISTRY_URL: phx.ocir.io
       
     - name: 'Docker Build'
-      run: docker build -t phx.ocir.io/toddrsharp/bttc/bttc-client:latest .
+      run: ./gradlew dockerBuild
 
     - name: 'Docker Push'
       uses: actions-hub/docker@master
       with:
-        args: push phx.ocir.io/toddrsharp/bttc/bttc-client:latest
+        args: ./gradlew dockerPush
 
     - name: 'Deploy Container'
       uses: appleboy/ssh-action@master
