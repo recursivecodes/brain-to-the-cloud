@@ -1,0 +1,47 @@
+name: Build & Deploy Brain to the Cloud
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:  
+        java-version: '11.0.3'
+    
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Build with Gradle
+      run: ./gradlew assemble
+      
+    - name: 'Login To OCIR'
+      uses: actions-hub/docker/login@master
+      env:
+        DOCKER_USERNAME: ${{ secrets.OCIR_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.OCIR_PASSWORD }}
+        DOCKER_REGISTRY_URL: phx.ocir.io
+      
+    - name: 'Docker Build'
+      run: docker build -t phx.ocir.io/toddrsharp/bttc/bttc-client:latest .
+
+    - name: 'Docker Push'
+      uses: actions-hub/docker@master
+      with:
+        args: push phx.ocir.io/toddrsharp/bttc/bttc-client:latest
+
+    - name: 'Deploy Container'
+      uses: appleboy/ssh-action@master
+      with:
+        host: bttc.toddrsharp.com
+        username: opc
+        key: ${{ secrets.VM_PRIV_KEY }}
+        script: |
+          echo ${{ secrets.OCIR_PASSWORD }} | docker login phx.ocir.io --username toddrsharp/registry --password-stdin
+          ./restart.sh
