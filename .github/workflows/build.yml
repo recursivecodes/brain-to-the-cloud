@@ -32,9 +32,7 @@ jobs:
       run: ./gradlew dockerBuild
 
     - name: 'Docker Push'
-      uses: actions-hub/docker@master
-      with:
-        args: ./gradlew dockerPush
+      run: ./gradlew dockerPush
 
     - name: 'Deploy Container'
       uses: appleboy/ssh-action@master
