@@ -17,6 +17,11 @@ $ curl -i -X POST -H 'Content-Type: application/json' -d '{"token": "value"}' PO
 ./gradlew dockerPush
 ```
 
+```shell
+$ docker build -t phx.ocir.io/toddrsharp/bttc/bttc-client:latest .
+$ docker push phx.ocir.io/toddrsharp/bttc/bttc-client:latest
+```
+
 ## SSL
 
 Create key
