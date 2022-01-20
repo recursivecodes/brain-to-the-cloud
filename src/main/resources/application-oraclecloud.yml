@@ -27,6 +27,14 @@ micronaut:
         http-method: GET
         access:
           - isAnonymous()
+      - pattern: /ws/**
+        http-method: GET
+        access:
+          - isAnonymous()
+      - pattern: ws**
+        http-method: GET
+        access:
+          - isAnonymous()
       - pattern: /scripts/*
         http-method: GET
         access:
