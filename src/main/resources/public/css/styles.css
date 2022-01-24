@@ -182,3 +182,12 @@ table tbody tr.active-row {
     transform: scale(0.99);
     opacity: .75!important;
 }
+
+.delta { color: #9400D3; }
+.theta { color: #4B0082; }
+.low-alpha { color: #0000FF; }
+.high-alpha { color: #00FF00; }
+.low-beta { color: #FFFF00; }
+.high-beta { color: #FF7F00; }
+.low-gamma { color: #fa61bd; }
+.high-gamma { color: #FF0000; }

@@ -93,6 +93,10 @@ const initCharts = () => {
   window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity (Hz)', true, window.brainCharts.activityXAxes, activityDatasource);
 }
 const init = () => {
+  let tooltipTriggers = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  let tooltips = tooltipTriggers.map(function (el) {
+      return new bootstrap.Tooltip(el)
+  });
   initCharts();
   window.chartsInit = true;
 

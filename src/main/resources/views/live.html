@@ -37,11 +37,11 @@
                     <span class="fs-1" id="currentAttention">N/A</span>
                 </div>
                 <div class="mt-auto p-2">
-                    <span class="badge bg-success bg-gradient"><span class="fw-bold">High:</span><span id="attentionHigh">N/A</span></span>
-                    <span class="badge bg-danger bg-gradient"><span class="fw-bold">Low:</span><span id="attentionLow">N/A</span></span>
-                    <span class="badge bg-primary bg-gradient"><span class="fw-bold">Mean:</span><span id="attentionMean">N/A</span></span>
-                    <span class="badge bg-secondary bg-gradient"><span class="fw-bold">Median:</span><span id="attentionMedian">N/A</span></span>
-                    <span class="badge bg-info bg-gradient"><span class="fw-bold">Mode:</span><span id="attentionMode">N/A</span></span>
+                    <span class="badge bg-success bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Highest value"><span class="fw-bold">High:</span><span id="attentionHigh">N/A</span></span>
+                    <span class="badge bg-danger bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lowest value"><span class="fw-bold">Low:</span><span id="attentionLow">N/A</span></span>
+                    <span class="badge bg-primary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Average value"><span class="fw-bold">Mean:</span><span id="attentionMean">N/A</span></span>
+                    <span class="badge bg-secondary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Middle value"><span class="fw-bold">Median:</span><span id="attentionMedian">N/A</span></span>
+                    <span class="badge bg-info bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Most common value"><span class="fw-bold">Mode:</span><span id="attentionMode">N/A</span></span>
                 </div>
             </div>
         </div>
@@ -52,11 +52,11 @@
                     <span class="fs-1" id="currentMeditation">N/A</span>
                 </div>
                 <div class="mt-auto p-2">
-                    <span class="badge bg-success bg-gradient"><span class="fw-bold">High:</span><span id="meditationHigh">N/A</span></span>
-                    <span class="badge bg-danger bg-gradient"><span class="fw-bold">Low:</span><span id="meditationLow">N/A</span></span>
-                    <span class="badge bg-primary bg-gradient"><span class="fw-bold">Mean:</span><span id="meditationMean">N/A</span></span>
-                    <span class="badge bg-secondary bg-gradient"><span class="fw-bold">Median:</span><span id="meditationMedian">N/A</span></span>
-                    <span class="badge bg-info bg-gradient"><span class="fw-bold">Mode:</span><span id="meditationMode">N/A</span></span>
+                    <span class="badge bg-success bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Highest value"><span class="fw-bold">High:</span><span id="meditationHigh">N/A</span></span>
+                    <span class="badge bg-danger bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lowest value"><span class="fw-bold">Low:</span><span id="meditationLow">N/A</span></span>
+                    <span class="badge bg-primary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Average value"><span class="fw-bold">Mean:</span><span id="meditationMean">N/A</span></span>
+                    <span class="badge bg-secondary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Middle value"><span class="fw-bold">Median:</span><span id="meditationMedian">N/A</span></span>
+                    <span class="badge bg-info bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Most common value"><span class="fw-bold">Mode:</span><span id="meditationMode">N/A</span></span>
                 </div>
             </div>
         </div>
@@ -72,10 +72,38 @@
     </div>
 
     <div class="row">
-        <div class="col-12 pt-0 mb-3">
+        <div class="col-12 pt-0 mb-3 position-relative">
+            <div class="position-absolute top-0 end-0 pe-3 pt-1">
+                <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#activityOffcanvas" aria-controls="activityOffcanvas"><i class="fa fa-question-mark"></i> Help</button>
+            </div>
             <canvas id="activityChart" class="border p-1 rounded shadow" style="height: 400px; width:100%;"></canvas>
         </div>
     </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="activityOffcanvas" aria-labelledby="activityOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="activityOffcanvasLabel">About Brain Waves</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                <dl>
+                    <dt class="fs-1">Delta</dt>
+                    <dd class="fs-3">Delta waves <span class="fw-bold">(1-4 Hz)</span> are slow brainwaves, which begin to appear in stage 3 of the sleep-cycle, and by stage 4 dominate almost all EEG activity.</dd>
+                    <dt class="fs-1">Theta</dt>
+                    <dd class="fs-3">Theta waves <span class="fw-bold">(4-8 Hz)</span> are involved in day-dreaming and sleep.</dd>
+                    <dt class="fs-1">Alpha</dt>
+                    <dd class="fs-3">Alpha waves <span class="fw-bold">(8-12 Hz)</span> dominate during moments of quiet thought, and similar meditative states.</dd>
+                    <dt class="fs-1">Beta</dt>
+                    <dd class="fs-3">Beta waves <span class="fw-bold">(12-38 Hz)</span> represent our normal waking state of consciousness when attention is directed at cognitive tasks and the outside world.  Beta is 'fast wave' activity and dominated when we are alert, attentive and engages in problem-solving, decision-making and focussed mental activity. Low beta <span class="fw-bold">(12-15 Hz)</span> is thought to be 'fast idle', or musing thought, Beta <span class="fw-bold">(15-22 Hz)</span> is high-engagement and actively figuring things out, and finally, High Beta <span class="fw-bold">(22-38 Hz)</span> is highly complex thought, integrating new experiences, high anxiety or excitement.</dd>
+                    <dt class="fs-1">Gamma</dt>
+                    <dd class="fs-3">Gamma brainwaves have the highest frequencies of any brainwave, oscillating between <span class="fw-bold">(~30-100 Hz)</span>. They are associated with peak concentration and high levels of cognitive functioning.</dd>
+                </dl>
+                <p>Credit: <a href="https://neurofeedbackalliance.org/understanding-brain-waves/">https://neurofeedbackalliance.org/understanding-brain-waves/</a></p>
+            </div>
+        </div>
+    </div>
+
 </section>
 </body>
 </html>
