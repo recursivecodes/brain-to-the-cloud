@@ -27,6 +27,42 @@
                 </div>
                 <div class="mt-auto">
                     <button id="connectBtn" class="btn btn-primary btn-sm" style="margin-bottom: 10px;"><span id="connectBtnLbl">Connect</span></button>
+                    <button id="createSessionModalBtn" class="btn btn-success btn-sm" style="margin-bottom: 10px;">Capture Session</button>
+
+                    <div class="modal fade" id="sessionModal" tabindex="-1" aria-labelledby="sessionModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="sessionModalLabel">Capture Session</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="sessionForm" name="sessionForm" class="needs-validation" novalidate>
+                                        <div class="form-floating text-dark mb-3">
+                                            <input type="text" class="form-control" autofocus placeholder="Name" id="sessionName" required="required" />
+                                            <label for="sessionName" class="text-dark">Name</label>
+                                            <div class="invalid-feedback">
+                                                Please enter a name!
+                                            </div>
+                                        </div>
+                                        <div class="form-floating text-dark">
+                                            <textarea class="form-control" placeholder="Notes" id="sessionNotes" style="height: 100px" required="required"></textarea>
+                                            <label for="sessionNotes" class="text-dark">Notes</label>
+                                            <div class="invalid-feedback">
+                                                Please enter some notes!
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button id="createSessionBtn" type="button" class="btn btn-primary">Start Session</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>

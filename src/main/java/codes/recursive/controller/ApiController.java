@@ -2,9 +2,11 @@ package codes.recursive.controller;
 
 import codes.recursive.config.CodClientConfig;
 import codes.recursive.model.Brain;
+import codes.recursive.model.BrainSession;
 import codes.recursive.model.Game;
 import codes.recursive.repository.AbstractGameRepository;
 import codes.recursive.repository.BrainRepository;
+import codes.recursive.repository.BrainSessionRepository;
 import codes.recursive.repository.GameRepository;
 import codes.recursive.client.CodPublicClient;
 import codes.recursive.task.RecentGames;
@@ -33,6 +35,7 @@ public class ApiController {
     private final GameRepository gameRepository;
     private final BrainRepository brainRepository;
     private final AbstractGameRepository abstractGameRepository;
+    private final BrainSessionRepository brainSessionRepository;
     private final CodClientConfig codClientConfig;
 
     public ApiController(
@@ -41,13 +44,14 @@ public class ApiController {
             GameRepository gameRepository,
             BrainRepository brainRepository,
             AbstractGameRepository abstractGameRepository,
-            CodClientConfig codClientConfig
+            BrainSessionRepository brainSessionRepository, CodClientConfig codClientConfig
     ) {
         this.codPublicClient = codPublicClient;
         this.recentMatches = recentMatches;
         this.gameRepository = gameRepository;
         this.brainRepository = brainRepository;
         this.abstractGameRepository = abstractGameRepository;
+        this.brainSessionRepository = brainSessionRepository;
         this.codClientConfig = codClientConfig;
     }
 
@@ -111,6 +115,12 @@ public class ApiController {
     public HttpResponse saveNotes(@PathVariable Long matchId, @Body String notes) {
         gameRepository.updateNotes(matchId, notes);
         return HttpResponse.noContent();
+    }
+
+    @Post(uri = "/brainSession", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+    public HttpResponse saveBrainSession(@Body BrainSession brainSession) {
+        brainSessionRepository.save(brainSession);
+        return HttpResponse.ok();
     }
 
     @Post(uri = "/token", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)

@@ -50,6 +50,6 @@ public interface GameRepository extends PageableRepository<Game, Long> {
     @Query(value = "select * from vw_summary_by_meditation_range", nativeQuery = true)
     List<RangeSummaryDTO> getMeditationSummary();
 
-    @Query(value = "select * from vw_summary_by_time_moving order by range desc", nativeQuery = true)
+    @Query(value = "select * from vw_summary_by_time_moving", nativeQuery = true)
     List<RangeSummaryWithAttentionMeditationDTO> getTimeMovingSummary();
 }
