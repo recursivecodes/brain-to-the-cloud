@@ -19,10 +19,10 @@
         <div class="col-12">
             <h1>Summary by Attention Range</h1>
             <!--/*@thymesVar id="attentionSummary" type="java.util.List"*/-->
-            <div th:replace="fragments/rangetable :: rangetable(${attentionSummary}, false)"></div>
+            <div th:replace="fragments/rangetable :: rangetable(${attentionSummary}, false, true)"></div>
             <h1>Summary by Meditation Range</h1>
             <!--/*@thymesVar id="meditationSummary" type="java.util.List"*/-->
-            <div th:replace="fragments/rangetable :: rangetable(${meditationSummary}, false)"></div>
+            <div th:replace="fragments/rangetable :: rangetable(${meditationSummary}, true, false)"></div>
         </div>
     </div>
 

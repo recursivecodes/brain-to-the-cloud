@@ -45,11 +45,14 @@ public interface GameRepository extends PageableRepository<Game, Long> {
     Page<Game> findAllWithBrainReadings(Pageable pageable);
 
     @Query(value = "select * from vw_summary_by_attention_range", nativeQuery = true)
-    List<RangeSummaryDTO> getAttentionSummary();
+    List<RangeSummaryWithAttentionMeditationDTO> getAttentionSummary();
 
     @Query(value = "select * from vw_summary_by_meditation_range", nativeQuery = true)
-    List<RangeSummaryDTO> getMeditationSummary();
+    List<RangeSummaryWithAttentionMeditationDTO> getMeditationSummary();
 
     @Query(value = "select * from vw_summary_by_time_moving", nativeQuery = true)
-    List<RangeSummaryWithAttentionMeditationDTO> getTimeMovingSummary();
+    List<RangeSummaryDTO> getTimeMovingSummary();
+
+    @Query(value = "select * from vw_summary_by_time_moving_with_brain_data", nativeQuery = true)
+    List<RangeSummaryWithAttentionMeditationDTO> getTimeMovingWithBrainDataSummary();
 }

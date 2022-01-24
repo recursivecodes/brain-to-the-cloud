@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.security.Principal;
 
 @Controller("/reports")
-@Secured(SecurityRule.IS_AUTHENTICATED)
+@Secured(SecurityRule.IS_ANONYMOUS)
 @SuppressWarnings({"rawtypes", "unused", "unchecked"})
 public class ReportController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportController.class);
@@ -39,7 +39,8 @@ public class ReportController {
         return new ModelAndView("time-moving-report", CollectionUtils.mapOf(
                 "currentView", "time-moving-report",
                 "isLoggedIn", principal != null,
-                "timeMovingSummary", gameRepository.getTimeMovingSummary()
+                "timeMovingSummary", gameRepository.getTimeMovingSummary(),
+                "timeMovingWithBrainSummary", gameRepository.getTimeMovingWithBrainDataSummary()
         ));
     }
 

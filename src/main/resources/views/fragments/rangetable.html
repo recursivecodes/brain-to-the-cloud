@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="rangetable(records, addAttentionMeditation)" class="mb-5">
+<div th:fragment="rangetable(records, addAttention, addMeditation)" class="mb-5">
     <table class="">
         <thead class="">
         <tr>
             <th>Range</th>
-            <th th:if="${addAttentionMeditation}">Avg Attention</th>
-            <th th:if="${addAttentionMeditation}">Avg Meditation</th>
+            <th th:if="${addAttention}">Avg Attention</th>
+            <th th:if="${addMeditation}">Avg Meditation</th>
             <th>Total Wins</th>
             <th>Total Losses</th>
             <th>W/L Ratio</th>
@@ -25,8 +25,8 @@
         <!--/*@thymesVar id="record" type="codes.recursive.model.RangeSummaryDTO"*/-->
         <tr th:each="record, s: ${records}">
             <td th:text="${record.range}"></td>
-            <td th:if="${addAttentionMeditation}" th:text="${#numbers.formatDecimal(record.avgAttention, 2, 2)}"></td>
-            <td th:if="${addAttentionMeditation}" th:text="${#numbers.formatDecimal(record.avgMeditation, 2, 2)}"></td>
+            <td th:if="${addAttention}" th:text="${#numbers.formatDecimal(record.avgAttention, 2, 2)}"></td>
+            <td th:if="${addMeditation}" th:text="${#numbers.formatDecimal(record.avgMeditation, 2, 2)}"></td>
             <td th:text="${record.totalWins}"></td>
             <td th:text="${record.totalLosses}"></td>
             <td th:text="${record.wlRatio}"></td>

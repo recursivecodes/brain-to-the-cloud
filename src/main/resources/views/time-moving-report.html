@@ -17,9 +17,12 @@
 
     <div class="row">
         <div class="col-12">
+            <h1>Summary by Time Moving (with Brain Data)</h1>
+            <!--/*@thymesVar id="timeMovingWithBrainSummary" type="java.util.List"*/-->
+            <div th:replace="fragments/rangetable :: rangetable(${timeMovingWithBrainSummary}, true, true)"></div>
             <h1>Summary by Time Moving</h1>
-            <!--/*@thymesVar id="attentionSummary" type="java.util.List"*/-->
-            <div th:replace="fragments/rangetable :: rangetable(${timeMovingSummary}, true)"></div>
+            <!--/*@thymesVar id="timeMovingSummary" type="java.util.List"*/-->
+            <div th:replace="fragments/rangetable :: rangetable(${timeMovingSummary}, false, false)"></div>
         </div>
     </div>
 
