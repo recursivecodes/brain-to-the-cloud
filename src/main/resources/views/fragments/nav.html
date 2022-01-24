@@ -26,8 +26,9 @@
                     <li class="nav-item" th:if="${isLoggedIn}"><a class="nav-link" th:classappend="${currentPage == 'live'} ? 'active' : ''" href="/live">Live Demo</a></li>
                     <li class="nav-item dropdown" th:if="${isLoggedIn}">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Reports</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Report #1</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/reports/attention-meditation">Attention & Meditation Summary</a></li>
+                            <li><a class="dropdown-item" href="/reports/time-moving">Time Moving Summary</a></li>
                             <li><a class="dropdown-item" href="#">Report #2</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Report #3</a></li>

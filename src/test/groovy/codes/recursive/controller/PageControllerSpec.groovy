@@ -13,7 +13,7 @@ import spock.lang.Shared
 import jakarta.inject.Inject
 
 @MicronautTest
-class DefaultControllerSpec extends Specification {
+class PageControllerSpec extends Specification {
 
     @Shared @Inject
     EmbeddedServer embeddedServer

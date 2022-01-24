@@ -2,6 +2,7 @@ package codes.recursive.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +11,7 @@ import io.micronaut.core.annotation.Introspected;
 import io.micronaut.core.annotation.Nullable;
 
 import javax.persistence.Column;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Map;
 
@@ -18,14 +20,18 @@ public class GameDTO {
     private Long id;
     @JsonIgnore
     private String match;
+    @Size(max = 1000)
+    @JsonInclude(JsonInclude.Include.ALWAYS)
+    private String notes;
     private Boolean isHighlighted = false;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date createdOn;
 
     @Creator
-    public GameDTO(Long id, String match, Boolean isHighlighted, Date createdOn) {
+    public GameDTO(Long id, String match, String notes, Boolean isHighlighted, Date createdOn) {
         this.id = id;
         this.match = match;
+        this.notes = notes;
         this.isHighlighted = isHighlighted;
         this.createdOn = createdOn;
     }
@@ -76,5 +82,13 @@ public class GameDTO {
 
     public void setCreatedOn(Date createdOn) {
         this.createdOn = createdOn;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

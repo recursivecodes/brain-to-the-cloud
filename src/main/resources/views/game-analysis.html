@@ -101,6 +101,31 @@
                             <strong>{model.selectedGame.match.result | winLoss}</strong>
                         </span>
                     </div>
+                    <div class="position-absolute bottom-0 start-0 p-1" style="z-index: 1;">
+                        <button id="addNotesModalBtn" data-bs-toggle="modal" data-bs-target="#gameNotesModal" class="badge badge-sm bg-white border-white text-dark highlight-btn">Notes</button>
+
+                        <div class="modal fade" id="gameNotesModal" tabindex="-1" aria-labelledby="gameNotesModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="gameNotesModalLabel">Game Notes</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-floating text-dark">
+                                            <textarea class="form-control" autofocus placeholder="Notes" id="gameNotes" style="height: 100px" rv-value="model.selectedGame.notes" rv-change="model.noteChanged"></textarea>
+                                            <label for="gameNotes" class="text-dark">Notes</label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button rv-on-click="model.saveNotes" type="button" class="btn btn-primary">Save Notes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="position-absolute bottom-0 end-0 p-1" style="z-index: 1;" rv-hide="model.selectedGame.isHighlighted">
                         <button id="highlightMatchBtn" rv-on-click="model.highlightGame" class="badge badge-sm bg-white border-white text-dark highlight-btn">Highlight</button>
                     </div>
@@ -147,8 +172,8 @@
             <div id="brainData" rv-show="model.brainDataForSelectedGame | length | gt 0">
                 <h2>Brain Data</h2>
                 <div class="row mb-3">
-                    <div th:replace="fragments/detailcard :: detailcard('{model.brainDataForSelectedGame | avg \'attention\'}', 'Average Attention')"></div>
-                    <div th:replace="fragments/detailcard :: detailcard('{model.brainDataForSelectedGame | avg \'meditation\'}', 'Average Meditation')"></div>
+                    <div th:replace="fragments/detailcard :: detailcard('{model.brainDataForSelectedGame | avg \'attention\' | tofixed}', 'Average Attention')"></div>
+                    <div th:replace="fragments/detailcard :: detailcard('{model.brainDataForSelectedGame | avg \'meditation\' | tofixed}', 'Average Meditation')"></div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-12">

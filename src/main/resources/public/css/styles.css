@@ -191,3 +191,10 @@ table tbody tr.active-row {
 .high-beta { color: #FF7F00; }
 .low-gamma { color: #fa61bd; }
 .high-gamma { color: #FF0000; }
+
+.offcanvas-backdrop {
+    z-index: 1000;
+}
+.modal-backdrop {
+    z-index: 1001;
+}

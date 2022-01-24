@@ -1,5 +1,6 @@
 package codes.recursive.controller;
 
+import codes.recursive.repository.AbstractGameRepository;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.http.annotation.Controller;
@@ -15,10 +16,10 @@ import java.security.Principal;
 @Controller()
 @Secured(SecurityRule.IS_AUTHENTICATED)
 @SuppressWarnings("rawtypes")
-public class DefaultController {
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultController.class);
+public class PageController {
+    private static final Logger LOG = LoggerFactory.getLogger(PageController.class);
 
-    public DefaultController() {
+    public PageController() {
     }
 
     @Get("/games")

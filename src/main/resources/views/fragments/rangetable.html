@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="rangetable(records, addAttentionMeditation)" class="mb-5">
+    <table class="">
+        <thead class="">
+        <tr>
+            <th>Range</th>
+            <th th:if="${addAttentionMeditation}">Avg Attention</th>
+            <th th:if="${addAttentionMeditation}">Avg Meditation</th>
+            <th>Total Wins</th>
+            <th>Total Losses</th>
+            <th>W/L Ratio</th>
+            <th>Kills</th>
+            <th>Deaths</th>
+            <th>K/D Ratio</th>
+            <th>E/D Ratio</th>
+            <th>Score</th>
+            <th>Avg Score</th>
+            <th>Time Played</th>
+            <th>Score Per Minute</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--/*@thymesVar id="record" type="codes.recursive.model.RangeSummaryDTO"*/-->
+        <tr th:each="record, s: ${records}">
+            <td th:text="${record.range}"></td>
+            <td th:if="${addAttentionMeditation}" th:text="${#numbers.formatDecimal(record.avgAttention, 2, 2)}"></td>
+            <td th:if="${addAttentionMeditation}" th:text="${#numbers.formatDecimal(record.avgMeditation, 2, 2)}"></td>
+            <td th:text="${record.totalWins}"></td>
+            <td th:text="${record.totalLosses}"></td>
+            <td th:text="${record.wlRatio}"></td>
+            <td th:text="${#numbers.formatDecimal(record.kills, 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.deaths, 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${record.kdRatio}"></td>
+            <td th:text="${record.edRatio}"></td>
+            <td th:text="${#numbers.formatDecimal(record.score, 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.avgScore, 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.timePlayed, 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.scorePerMinute, 0, 'COMMA', 0, 'POINT')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutFile :: head(~{::title}, ~{:: #extraHead})}">
+    <title>BttC: Attention & Meditation Reports</title>
+    <!--/*/
+    <div id="extraHead" th:remove="tag">
+    /*/-->
+    <!--/*/
+    </div>
+    /*/-->
+</head>
+<body th:replace="~{layoutFile :: body(content = ~{::section}, bodyClass = 'container')}">
+<section>
+    <!--/*@thymesVar id="currentView" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="isLoggedIn" type="java.lang.Boolean"*/-->
+    <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Summary by Attention Range</h1>
+            <!--/*@thymesVar id="attentionSummary" type="java.util.List"*/-->
+            <div th:replace="fragments/rangetable :: rangetable(${attentionSummary}, false)"></div>
+            <h1>Summary by Meditation Range</h1>
+            <!--/*@thymesVar id="meditationSummary" type="java.util.List"*/-->
+            <div th:replace="fragments/rangetable :: rangetable(${meditationSummary}, false)"></div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

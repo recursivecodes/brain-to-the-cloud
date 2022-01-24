@@ -138,7 +138,7 @@ window.model = {
               borderColor: '#CC0000',
               fill: false,
               data: brainData.map(brain => {
-                return {y: brain.attention, x: new Date(brain.createdOn)}
+                return {y: Number(brain.attention).toFixed(2), x: new Date(brain.createdOn)}
               }),
             },
             {
@@ -148,7 +148,7 @@ window.model = {
               borderColor: '#216bc0',
               fill: false,
               data: brainData.map(brain => {
-                return {y: brain.meditation, x: new Date(brain.createdOn)}
+                return {y: Number(brain.meditation).toFixed(2), x: new Date(brain.createdOn)}
               }),
             }
           ];
@@ -177,6 +177,26 @@ window.model = {
         window.model.toggleLoader(false);
       });
       document.querySelector('#games').classList.remove('d-none')
+  },
+  noteChanged: (el) => {
+    console.log(el);
+    window.model.selectedGame.notes = el.currentTarget.value;
+  },
+  saveNotes: () => {
+    fetch(`/api/notes/${window.model.selectedGame.id}`,
+      {
+              method: 'PUT',
+              headers: new Headers({'content-type': 'text/plain'}),
+              body: window.model.selectedGame.notes,
+            }
+      )
+      .then(response => {
+        if(response.status === 204) {
+          window.model.selectedGame.isHighlighted = true;
+        }
+        let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('gameNotesModal'));
+        modal.hide();
+      })
   },
   highlightGame: (el, binding) => {
     fetch(`/api/highlightGame/${window.model.selectedGame.id}`, {method: 'PUT'})
