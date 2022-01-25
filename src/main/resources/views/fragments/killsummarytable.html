@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="killsummarytable(gameSummaryCollection, highlight, hasMap, mapLookups, game)" class="mb-3 table-responsive">
+    <table class="table table-bordered">
+        <thead class="bg-theme text-white border-2 border-white">
+            <tr>
+                <th th:if="${hasMap}">Map</th>
+                <th>Total Games</th>
+                <th>Total Kills</th>
+                <th>Total Assists</th>
+                <th>Total Deaths</th>
+                <th>Avg Kd Ratio</th>
+                <th>Total Kd Ratio</th>
+                <th>Total Ed Ratio</th>
+                <th>Longest Streak</th>
+            </tr>
+        </thead>
+        <tbody>
+        <!--/*@thymesVar id="gameSummaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
+        <tr th:each="record, s: ${gameSummaryCollection.getGameSummaryDTOList()}">
+            <!--/*@thymesVar id="record" type="codes.recursive.model.GameSummaryDTO"*/-->
+            <!--/*@thymesVar id="mapLookups" type="java.util.HashMap"*/-->
+            <th th:if="${hasMap}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMap(game, record.map)}"></th>
+            <td th:text="${#numbers.formatDecimal(record.getTotalGames(), 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getTotalKills(), 0, 'COMMA', 0, 'POINT')}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getTotalAssists(), 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getTotalDeaths(), 0, 'COMMA', 0, 'POINT')}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getAvgKdRatio(), 0, 'COMMA', 2, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getTotalKdRatio(), 0, 'COMMA', 2, 'POINT')}" th:classappend="${highlight ? gameSummaryCollection.getKdClass(record.getTotalKdRatio) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getTotalEdRatio(), 0, 'COMMA', 2, 'POINT')}" th:classappend="${highlight ? gameSummaryCollection.getEdClass(record.getTotalEdRatio()) : ''}"></td>
+            <td th:text="${record.getLongestStreak()}" th:classappend="${highlight ? gameSummaryCollection.getLongestStreakClass(record.getLongestStreak()) : ''}">/td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

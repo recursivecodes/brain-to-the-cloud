@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="rangetable(records, addAttention, addMeditation, rangeSummaryCollection)" class="mb-5">
-    <table class="">
-        <thead class="">
-        <tr>
-            <th>Range</th>
-            <th th:if="${addAttention}">Avg Attention</th>
-            <th th:if="${addMeditation}">Avg Meditation</th>
-            <th>Total Wins</th>
-            <th>Total Losses</th>
-            <th>W/L Ratio</th>
-            <th>Kills</th>
-            <th>Deaths</th>
-            <th>K/D Ratio</th>
-            <th>E/D Ratio</th>
-            <th>Score</th>
-            <th>Avg Score</th>
-            <th>Time Played</th>
-            <th>Score Per Minute</th>
-        </tr>
+<div th:fragment="rangetable(rangeSummaryCollection, addAttention, addMeditation)" class="mb-3 table-responsive">
+    <table class="table table-bordered">
+        <thead class="bg-theme text-white border-2 border-white">
+            <tr>
+                <th>Range</th>
+                <th th:if="${addAttention}">Avg Attention</th>
+                <th th:if="${addMeditation}">Avg Meditation</th>
+                <th>Total Wins</th>
+                <th>Total Losses</th>
+                <th>W/L Ratio</th>
+                <th>Kills</th>
+                <th>Deaths</th>
+                <th>K/D Ratio</th>
+                <th>E/D Ratio</th>
+                <th>Score</th>
+                <th>Avg Score</th>
+                <th>Time Played</th>
+                <th>Score Per Minute</th>
+            </tr>
         </thead>
         <tbody>
-        <tr th:each="record, s: ${records}">
+        <tr th:each="record, s: ${rangeSummaryCollection.getRangeSummaryDTOList()}">
             <!--/*@thymesVar id="rangeSummaryCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->
             <!--/*@thymesVar id="record" type="codes.recursive.model.RangeSummaryDTO"*/-->
             <th scope="row" th:text="${record.getRange()}"></th>
             <td th:if="${addAttention}"
                 th:text="${#numbers.formatDecimal(record.getAvgAttention(), 2, 2)}"
-                th:classappend="${(rangeSummaryCollection.getMaxAttention() == record.getAvgAttention() ? 'bg-success text-white' : '') + (rangeSummaryCollection.getMinAttention() == record.getAvgAttention() ? 'bg-danger text-white' : '')}"></td>
+                th:classappend="${rangeSummaryCollection.getAttentionClass(record.getAvgAttention())}"></td>
             <td th:if="${addMeditation}"
                 th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 2, 2)}"
-                th:classappend="${(rangeSummaryCollection.getMaxMeditation() == record.getAvgMeditation() ? 'bg-success text-white' : '') + (rangeSummaryCollection.getMinMeditation() == record.getAvgMeditation() ? 'bg-danger text-white' : '')}"></td>
+                th:classappend="${rangeSummaryCollection.getMeditationClass(record.getAvgMeditation())}"></td>
             <td th:text="${record.getTotalWins()}"></td>
             <td th:text="${record.getTotalLosses()}"></td>
             <td th:text="${record.getWlRatio()}"></td>
             <td th:text="${#numbers.formatDecimal(record.getKills(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getDeaths(), 0, 'COMMA', 0, 'POINT')}"></td>
-            <td th:text="${record.getKdRatio()}" th:classappend="${(rangeSummaryCollection.getMaxKd() == record.getKdRatio() ? 'bg-success text-white' : '') + (rangeSummaryCollection.getMinKd() == record.getKdRatio() ? 'bg-danger text-white' : '')}"></td>
-            <td th:text="${record.getEdRatio()}" th:classappend="${(rangeSummaryCollection.getMaxEd() == record.getEdRatio() ? 'bg-success text-white' : '') + (rangeSummaryCollection.getMinEd() == record.getEdRatio() ? 'bg-danger text-white' : '')}"></td>
+            <td th:text="${record.getKdRatio()}" th:classappend="${rangeSummaryCollection.getKdClass(record.getKdRatio())}"></td>
+            <td th:text="${record.getEdRatio()}" th:classappend="${rangeSummaryCollection.getEdClass(record.getEdRatio())}"></td>
             <td th:text="${#numbers.formatDecimal(record.getScore(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getAvgScore(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTimePlayed(), 0, 'COMMA', 0, 'POINT')}"></td>
-            <td th:text="${#numbers.formatDecimal(record.getScorePerMinute(), 0, 'COMMA', 0, 'POINT')}" th:classappend="${(rangeSummaryCollection.getMaxScorePerMinute() == record.getScorePerMinute() ? 'bg-success text-white' : '') + (rangeSummaryCollection.getMinScorePerMinute() == record.getScorePerMinute() ? 'bg-danger text-white' : '')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getScorePerMinute(), 0, 'COMMA', 0, 'POINT')}"
+                th:classappend="${rangeSummaryCollection.getScorePerMinuteClass(record.getScorePerMinute())}"></td>
         </tr>
         </tbody>
     </table>

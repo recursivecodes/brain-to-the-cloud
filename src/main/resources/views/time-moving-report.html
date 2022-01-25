@@ -20,11 +20,11 @@
             <h1>Summary by Time Moving (with Brain Data)</h1>
             <!--/*@thymesVar id="timeMovingWithBrainSummary" type="java.util.List"*/-->
             <!--/*@thymesVar id="brainSummaryCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->
-            <div th:replace="fragments/rangetable :: rangetable(${timeMovingWithBrainSummary}, true, true, ${brainSummaryCollection})"></div>
+            <div th:replace="fragments/rangetable :: rangetable(${brainSummaryCollection}, true, true)"></div>
             <h1>Summary by Time Moving</h1>
             <!--/*@thymesVar id="timeMovingSummary" type="java.util.List"*/-->
             <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->
-            <div th:replace="fragments/rangetable :: rangetable(${timeMovingSummary}, false, false, ${summaryCollection})"></div>
+            <div th:replace="fragments/rangetable :: rangetable(${summaryCollection}, false, false)"></div>
         </div>
     </div>
 

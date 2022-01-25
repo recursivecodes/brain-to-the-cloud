@@ -1,6 +1,8 @@
 package codes.recursive.controller;
 
-import codes.recursive.model.RangeSummaryDTO;
+import codes.recursive.client.CodPublicClient;
+import codes.recursive.model.CallOfDuty;
+import codes.recursive.model.GameSummaryDTOCollection;
 import codes.recursive.model.RangeSummaryDTOCollection;
 import codes.recursive.repository.GameRepository;
 import io.micronaut.core.annotation.Nullable;
@@ -14,9 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.Map;
 
 @Controller("/reports")
 @Secured(SecurityRule.IS_ANONYMOUS)
@@ -24,9 +24,11 @@ import java.util.Optional;
 public class ReportController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportController.class);
     private final GameRepository gameRepository;
+    private final CodPublicClient codPublicClient;
 
-    public ReportController(GameRepository gameRepository) {
+    public ReportController(GameRepository gameRepository, CodPublicClient codPublicClient) {
         this.gameRepository = gameRepository;
+        this.codPublicClient = codPublicClient;
     }
 
     @Get(uri = "/attention-meditation")
@@ -43,8 +45,6 @@ public class ReportController {
         return new ModelAndView("attention-meditation-report", CollectionUtils.mapOf(
                 "currentView", "attention-meditation-report",
                 "isLoggedIn", principal != null,
-                "attentionSummary", attentionCollection.getRangeSummaryDTOList(),
-                "meditationSummary", meditationCollection.getRangeSummaryDTOList(),
                 "attentionCollection", attentionCollection,
                 "meditationCollection", meditationCollection
         ));
@@ -58,10 +58,31 @@ public class ReportController {
         return new ModelAndView("time-moving-report", CollectionUtils.mapOf(
                 "currentView", "time-moving-report",
                 "isLoggedIn", principal != null,
-                "timeMovingSummary", summaryCollection.getRangeSummaryDTOList(),
-                "timeMovingWithBrainSummary", brainSummaryCollection.getRangeSummaryDTOList(),
                 "summaryCollection", summaryCollection,
                 "brainSummaryCollection", brainSummaryCollection
+        ));
+    }
+
+    @Get(uri = "/game-summary")
+    ModelAndView overallSummary(@Nullable Principal principal) {
+        Map<String, Object> lookupValues = codPublicClient.getLookupValues();
+        GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
+                .gameSummaryDTOList(gameRepository.getGameSummary())
+                .codLookups(lookupValues)
+                .build();
+        GameSummaryDTOCollection summaryByMapCollection = GameSummaryDTOCollection.builder()
+                .gameSummaryDTOList(gameRepository.getGameSummaryByMap())
+                .codLookups(lookupValues)
+                .build();
+
+        return new ModelAndView("game-summary", CollectionUtils.mapOf(
+                "currentView", "time-moving-report",
+                "isLoggedIn", principal != null,
+                "summary", summaryCollection.getGameSummaryDTOList(),
+                "summaryByMap", summaryByMapCollection.getGameSummaryDTOList(),
+                "summaryCollection", summaryCollection,
+                "summaryByMapCollection", summaryByMapCollection,
+                "vanguard", CallOfDuty.VANGUARD
         ));
     }
 

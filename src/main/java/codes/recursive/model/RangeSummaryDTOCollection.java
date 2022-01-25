@@ -3,9 +3,9 @@ package codes.recursive.model;
 import io.micronaut.core.annotation.Introspected;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Introspected
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
@@ -17,93 +17,122 @@ import java.util.Optional;
 public class RangeSummaryDTOCollection {
     private List<RangeSummaryDTO> rangeSummaryDTOList;
 
-    public Double getMaxKd() {
+    public String getKdClass(BigDecimal val) {
+        if(val.compareTo(getMinKd()) == 0) return "bg-danger text-white";
+        if(val.compareTo(getMaxKd()) == 0) return "bg-success text-white";
+        return "";
+    }
+
+    public String getEdClass(BigDecimal val) {
+        if(val.compareTo(getMinEd()) == 0) return "bg-danger text-white";
+        if(val.compareTo(getMaxEd()) == 0) return "bg-success text-white";
+        return "";
+    }
+
+    public String getAttentionClass(BigDecimal val) {
+        if(val.compareTo(getMinAttention()) == 0) return "bg-danger text-white";
+        if(val.compareTo(getMaxAttention()) == 0) return "bg-success text-white";
+        return "";
+    }
+
+    public String getMeditationClass(BigDecimal val) {
+        if(val.compareTo(getMinMeditation()) == 0) return "bg-danger text-white";
+        if(val.compareTo(getMaxMeditation()) == 0) return "bg-success text-white";
+        return "";
+    }
+
+    public String getScorePerMinuteClass(BigDecimal val) {
+        if(val.compareTo(getMinScorePerMinute()) == 0) return "bg-danger text-white";
+        if(val.compareTo(getMaxScorePerMinute()) == 0) return "bg-success text-white";
+        return "";
+    }
+
+    public BigDecimal getMaxKd() {
         return rangeSummaryDTOList
                 .stream()
                 .map(RangeSummaryDTO::getKdRatio)
-                .max(Double::compare)
-                .orElse(0D);
+                .max(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
     }
 
-    public Double getMaxEd() {
-        return rangeSummaryDTOList
-                .stream()
-                .map(RangeSummaryDTO::getEdRatio)
-                .max(Double::compare)
-                .orElse(0D);
-    }
-
-    public Double getMinKd() {
+    public BigDecimal getMinKd() {
         return rangeSummaryDTOList
                 .stream()
                 .map(RangeSummaryDTO::getKdRatio)
-                .filter(e -> e > 0)
-                .min(Double::compare)
-                .orElse(0D);
+                .filter(e -> e.compareTo(new BigDecimal(0)) > 0)
+                .min(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
     }
 
-    public Double getMinEd() {
+    public BigDecimal getMaxEd() {
         return rangeSummaryDTOList
                 .stream()
                 .map(RangeSummaryDTO::getEdRatio)
-                .filter(e -> e > 0)
-                .min(Double::compare)
-                .orElse(0D);
+                .max(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
     }
 
-    public Double getMinAttention() {
+    public BigDecimal getMinEd() {
+        return rangeSummaryDTOList
+                .stream()
+                .map(RangeSummaryDTO::getEdRatio)
+                .filter(e -> e.compareTo(new BigDecimal(0)) > 0)
+                .min(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
+    }
+
+    public BigDecimal getMaxAttention() {
         return rangeSummaryDTOList
                 .stream()
                 .map(RangeSummaryDTO::getAvgAttention)
                 .filter(Objects::nonNull)
-                .filter(e -> e > 0)
-                .min(Double::compare)
-                .orElse(0D);
+                .max(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
     }
 
-    public Double getMinMeditation() {
-        return rangeSummaryDTOList
-                .stream()
-                .map(RangeSummaryDTO::getAvgMeditation)
-                .filter(Objects::nonNull)
-                .filter(e -> e > 0)
-                .min(Double::compare)
-                .orElse(0D);
-    }
-
-
-    public Double getMaxAttention() {
+    public BigDecimal getMinAttention() {
         return rangeSummaryDTOList
                 .stream()
                 .map(RangeSummaryDTO::getAvgAttention)
                 .filter(Objects::nonNull)
-                .max(Double::compare)
-                .orElse(0D);
+                .filter(e -> e.compareTo(new BigDecimal(0)) > 0)
+                .min(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
     }
 
-    public Double getMaxMeditation() {
+    public BigDecimal getMaxMeditation() {
         return rangeSummaryDTOList
                 .stream()
                 .map(RangeSummaryDTO::getAvgMeditation)
                 .filter(Objects::nonNull)
-                .max(Double::compare)
-                .orElse(0D);
+                .max(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
     }
 
-    public Double getMaxScorePerMinute() {
+    public BigDecimal getMinMeditation() {
+        return rangeSummaryDTOList
+                .stream()
+                .map(RangeSummaryDTO::getAvgMeditation)
+                .filter(Objects::nonNull)
+                .filter(e -> e.compareTo(new BigDecimal(0)) > 0)
+                .min(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
+    }
+
+    public BigDecimal getMaxScorePerMinute() {
         return rangeSummaryDTOList
                 .stream()
                 .map(RangeSummaryDTO::getScorePerMinute)
-                .max(Double::compare)
-                .orElse(0D);
+                .max(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
     }
 
-    public Double getMinScorePerMinute() {
+    public BigDecimal getMinScorePerMinute() {
         return rangeSummaryDTOList
                 .stream()
                 .map(RangeSummaryDTO::getScorePerMinute)
-                .filter(e -> e > 0)
-                .min(Double::compare)
-                .orElse(0D);
+                .filter(e -> e.compareTo(new BigDecimal(0)) > 0)
+                .min(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
     }
 }

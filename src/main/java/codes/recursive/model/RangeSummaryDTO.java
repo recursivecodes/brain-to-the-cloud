@@ -4,6 +4,7 @@ import io.micronaut.core.annotation.Introspected;
 import lombok.*;
 
 import javax.annotation.Nullable;
+import java.math.BigDecimal;
 
 @Introspected
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
@@ -14,17 +15,17 @@ public class RangeSummaryDTO {
     private String range;
     private Integer totalWins;
     private Integer totalLosses;
-    private Double wlRatio;
+    private BigDecimal wlRatio;
     private Integer kills;
     private Integer deaths;
-    private Double kdRatio;
-    private Double edRatio;
+    private BigDecimal kdRatio;
+    private BigDecimal edRatio;
     private Integer score;
-    private Double avgScore;
+    private BigDecimal avgScore;
     private Integer timePlayed;
-    private Double scorePerMinute;
+    private BigDecimal scorePerMinute;
     @Nullable
-    private Double avgAttention;
+    private BigDecimal avgAttention;
     @Nullable
-    private Double avgMeditation;
+    private BigDecimal avgMeditation;
 }
