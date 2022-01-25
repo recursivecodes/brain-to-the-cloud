@@ -13,6 +13,6 @@ import java.util.concurrent.CompletableFuture;
 public interface BrainRepository extends PageableRepository<Brain, Long> {
     CompletableFuture<Brain> saveAsync(@NonNull Brain reading);
 
-    @Query("from Brain where toLocalTimestamp(created_on) between epochToLocalTimestamp(:startTime) and epochToLocalTimestamp(:endTime)")
+    @Query("from Brain where toLocalTimestamp(created_on) between epochToLocalTimestamp(:startTime) and epochToLocalTimestamp(:endTime) order by created_on")
     List<Brain> getBrainForMatch(Integer startTime, Integer endTime);
 }
