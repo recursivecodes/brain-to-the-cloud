@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="rangetable(records, addAttention, addMeditation)" class="mb-5">
+<div th:fragment="rangetable(records, addAttention, addMeditation, rangeSummaryCollection)" class="mb-5">
     <table class="">
         <thead class="">
         <tr>
@@ -22,22 +22,27 @@
         </tr>
         </thead>
         <tbody>
-        <!--/*@thymesVar id="record" type="codes.recursive.model.RangeSummaryDTO"*/-->
         <tr th:each="record, s: ${records}">
-            <td th:text="${record.range}"></td>
-            <td th:if="${addAttention}" th:text="${#numbers.formatDecimal(record.avgAttention, 2, 2)}"></td>
-            <td th:if="${addMeditation}" th:text="${#numbers.formatDecimal(record.avgMeditation, 2, 2)}"></td>
-            <td th:text="${record.totalWins}"></td>
-            <td th:text="${record.totalLosses}"></td>
-            <td th:text="${record.wlRatio}"></td>
-            <td th:text="${#numbers.formatDecimal(record.kills, 0, 'COMMA', 0, 'POINT')}"></td>
-            <td th:text="${#numbers.formatDecimal(record.deaths, 0, 'COMMA', 0, 'POINT')}"></td>
-            <td th:text="${record.kdRatio}"></td>
-            <td th:text="${record.edRatio}"></td>
-            <td th:text="${#numbers.formatDecimal(record.score, 0, 'COMMA', 0, 'POINT')}"></td>
-            <td th:text="${#numbers.formatDecimal(record.avgScore, 0, 'COMMA', 0, 'POINT')}"></td>
-            <td th:text="${#numbers.formatDecimal(record.timePlayed, 0, 'COMMA', 0, 'POINT')}"></td>
-            <td th:text="${#numbers.formatDecimal(record.scorePerMinute, 0, 'COMMA', 0, 'POINT')}"></td>
+            <!--/*@thymesVar id="rangeSummaryCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->
+            <!--/*@thymesVar id="record" type="codes.recursive.model.RangeSummaryDTO"*/-->
+            <th scope="row" th:text="${record.getRange()}"></th>
+            <td th:if="${addAttention}"
+                th:text="${#numbers.formatDecimal(record.getAvgAttention(), 2, 2)}"
+                th:classappend="${(rangeSummaryCollection.getMaxAttention() == record.getAvgAttention() ? 'bg-success text-white' : '') + (rangeSummaryCollection.getMinAttention() == record.getAvgAttention() ? 'bg-danger text-white' : '')}"></td>
+            <td th:if="${addMeditation}"
+                th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 2, 2)}"
+                th:classappend="${(rangeSummaryCollection.getMaxMeditation() == record.getAvgMeditation() ? 'bg-success text-white' : '') + (rangeSummaryCollection.getMinMeditation() == record.getAvgMeditation() ? 'bg-danger text-white' : '')}"></td>
+            <td th:text="${record.getTotalWins()}"></td>
+            <td th:text="${record.getTotalLosses()}"></td>
+            <td th:text="${record.getWlRatio()}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getKills(), 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getDeaths(), 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${record.getKdRatio()}" th:classappend="${(rangeSummaryCollection.getMaxKd() == record.getKdRatio() ? 'bg-success text-white' : '') + (rangeSummaryCollection.getMinKd() == record.getKdRatio() ? 'bg-danger text-white' : '')}"></td>
+            <td th:text="${record.getEdRatio()}" th:classappend="${(rangeSummaryCollection.getMaxEd() == record.getEdRatio() ? 'bg-success text-white' : '') + (rangeSummaryCollection.getMinEd() == record.getEdRatio() ? 'bg-danger text-white' : '')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getScore(), 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getAvgScore(), 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getTimePlayed(), 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getScorePerMinute(), 0, 'COMMA', 0, 'POINT')}" th:classappend="${(rangeSummaryCollection.getMaxScorePerMinute() == record.getScorePerMinute() ? 'bg-success text-white' : '') + (rangeSummaryCollection.getMinScorePerMinute() == record.getScorePerMinute() ? 'bg-danger text-white' : '')}"></td>
         </tr>
         </tbody>
     </table>

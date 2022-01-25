@@ -9,7 +9,7 @@
     </div>
     /*/-->
 </head>
-<body th:replace="~{layoutFile :: body(content = ~{::section}, bodyClass = 'container')}">
+<body th:replace="~{layoutFile :: body(content = ~{::section}, bodyClass = 'container-fluid')}">
 <section>
     <!--/*@thymesVar id="currentView" type="java.lang.String"*/-->
     <!--/*@thymesVar id="isLoggedIn" type="java.lang.Boolean"*/-->
@@ -19,10 +19,12 @@
         <div class="col-12">
             <h1>Summary by Time Moving (with Brain Data)</h1>
             <!--/*@thymesVar id="timeMovingWithBrainSummary" type="java.util.List"*/-->
-            <div th:replace="fragments/rangetable :: rangetable(${timeMovingWithBrainSummary}, true, true)"></div>
+            <!--/*@thymesVar id="brainSummaryCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->
+            <div th:replace="fragments/rangetable :: rangetable(${timeMovingWithBrainSummary}, true, true, ${brainSummaryCollection})"></div>
             <h1>Summary by Time Moving</h1>
             <!--/*@thymesVar id="timeMovingSummary" type="java.util.List"*/-->
-            <div th:replace="fragments/rangetable :: rangetable(${timeMovingSummary}, false, false)"></div>
+            <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->
+            <div th:replace="fragments/rangetable :: rangetable(${timeMovingSummary}, false, false, ${summaryCollection})"></div>
         </div>
     </div>
 

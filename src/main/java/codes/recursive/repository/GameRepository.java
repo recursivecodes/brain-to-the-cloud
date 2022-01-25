@@ -2,7 +2,6 @@ package codes.recursive.repository;
 
 import codes.recursive.model.RangeSummaryDTO;
 import codes.recursive.model.Game;
-import codes.recursive.model.RangeSummaryWithAttentionMeditationDTO;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.Query;
@@ -45,14 +44,14 @@ public interface GameRepository extends PageableRepository<Game, Long> {
     Page<Game> findAllWithBrainReadings(Pageable pageable);
 
     @Query(value = "select * from vw_summary_by_attention_range", nativeQuery = true)
-    List<RangeSummaryWithAttentionMeditationDTO> getAttentionSummary();
+    List<RangeSummaryDTO> getAttentionSummary();
 
     @Query(value = "select * from vw_summary_by_meditation_range", nativeQuery = true)
-    List<RangeSummaryWithAttentionMeditationDTO> getMeditationSummary();
+    List<RangeSummaryDTO> getMeditationSummary();
 
     @Query(value = "select * from vw_summary_by_time_moving", nativeQuery = true)
     List<RangeSummaryDTO> getTimeMovingSummary();
 
     @Query(value = "select * from vw_summary_by_time_moving_with_brain_data", nativeQuery = true)
-    List<RangeSummaryWithAttentionMeditationDTO> getTimeMovingWithBrainDataSummary();
+    List<RangeSummaryDTO> getTimeMovingWithBrainDataSummary();
 }

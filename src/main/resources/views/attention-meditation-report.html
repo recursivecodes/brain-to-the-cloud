@@ -9,7 +9,7 @@
     </div>
     /*/-->
 </head>
-<body th:replace="~{layoutFile :: body(content = ~{::section}, bodyClass = 'container')}">
+<body th:replace="~{layoutFile :: body(content = ~{::section}, bodyClass = 'container-fluid')}">
 <section>
     <!--/*@thymesVar id="currentView" type="java.lang.String"*/-->
     <!--/*@thymesVar id="isLoggedIn" type="java.lang.Boolean"*/-->
@@ -19,10 +19,12 @@
         <div class="col-12">
             <h1>Summary by Attention Range</h1>
             <!--/*@thymesVar id="attentionSummary" type="java.util.List"*/-->
-            <div th:replace="fragments/rangetable :: rangetable(${attentionSummary}, false, true)"></div>
+            <!--/*@thymesVar id="attentionCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->
+            <div th:replace="fragments/rangetable :: rangetable(${attentionSummary}, false, true, ${attentionCollection})"></div>
             <h1>Summary by Meditation Range</h1>
             <!--/*@thymesVar id="meditationSummary" type="java.util.List"*/-->
-            <div th:replace="fragments/rangetable :: rangetable(${meditationSummary}, true, false)"></div>
+            <!--/*@thymesVar id="meditationCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->
+            <div th:replace="fragments/rangetable :: rangetable(${meditationSummary}, true, false, ${meditationCollection})"></div>
         </div>
     </div>
 

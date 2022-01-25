@@ -3,6 +3,8 @@ package codes.recursive.model;
 import io.micronaut.core.annotation.Introspected;
 import lombok.*;
 
+import javax.annotation.Nullable;
+
 @Introspected
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor
@@ -21,4 +23,8 @@ public class RangeSummaryDTO {
     private Double avgScore;
     private Integer timePlayed;
     private Double scorePerMinute;
+    @Nullable
+    private Double avgAttention;
+    @Nullable
+    private Double avgMeditation;
 }
