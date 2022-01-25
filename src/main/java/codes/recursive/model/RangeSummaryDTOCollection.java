@@ -29,6 +29,12 @@ public class RangeSummaryDTOCollection {
         return "";
     }
 
+    public String getWlClass(BigDecimal val) {
+        if(val.compareTo(getMinWl()) == 0) return "bg-danger text-white";
+        if(val.compareTo(getMaxWl()) == 0) return "bg-success text-white";
+        return "";
+    }
+
     public String getAttentionClass(BigDecimal val) {
         if(val.compareTo(getMinAttention()) == 0) return "bg-danger text-white";
         if(val.compareTo(getMaxAttention()) == 0) return "bg-success text-white";
@@ -76,6 +82,23 @@ public class RangeSummaryDTOCollection {
         return rangeSummaryDTOList
                 .stream()
                 .map(RangeSummaryDTO::getEdRatio)
+                .filter(e -> e.compareTo(new BigDecimal(0)) > 0)
+                .min(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
+    }
+
+    public BigDecimal getMaxWl() {
+        return rangeSummaryDTOList
+                .stream()
+                .map(RangeSummaryDTO::getWlRatio)
+                .max(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
+    }
+
+    public BigDecimal getMinWl() {
+        return rangeSummaryDTOList
+                .stream()
+                .map(RangeSummaryDTO::getWlRatio)
                 .filter(e -> e.compareTo(new BigDecimal(0)) > 0)
                 .min(BigDecimal::compareTo)
                 .orElse(new BigDecimal(0));

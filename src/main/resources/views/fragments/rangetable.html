@@ -25,16 +25,16 @@
         <tr th:each="record, s: ${rangeSummaryCollection.getRangeSummaryDTOList()}">
             <!--/*@thymesVar id="rangeSummaryCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->
             <!--/*@thymesVar id="record" type="codes.recursive.model.RangeSummaryDTO"*/-->
-            <th scope="row" th:text="${record.getRange()}"></th>
+            <th scope="row" class="bg-theme text-white" th:text="${record.getRange()}"></th>
             <td th:if="${addAttention}"
-                th:text="${#numbers.formatDecimal(record.getAvgAttention(), 2, 2)}"
+                th:text="${#numbers.formatDecimal(record.getAvgAttention(), 2, 2)} + '%'"
                 th:classappend="${rangeSummaryCollection.getAttentionClass(record.getAvgAttention())}"></td>
             <td th:if="${addMeditation}"
-                th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 2, 2)}"
+                th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 2, 2)} + '%'"
                 th:classappend="${rangeSummaryCollection.getMeditationClass(record.getAvgMeditation())}"></td>
             <td th:text="${record.getTotalWins()}"></td>
             <td th:text="${record.getTotalLosses()}"></td>
-            <td th:text="${record.getWlRatio()}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getWlRatio(), 1, 'COMMA', 2, 'POINT')}" th:classappend="${rangeSummaryCollection.getWlClass(record.getWlRatio())}"></td>
             <td th:text="${#numbers.formatDecimal(record.getKills(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getDeaths(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${record.getKdRatio()}" th:classappend="${rangeSummaryCollection.getKdClass(record.getKdRatio())}"></td>
