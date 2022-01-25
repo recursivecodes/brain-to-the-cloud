@@ -154,5 +154,5 @@ th {
     z-index: 1001;
 }
 .bg-theme {
-    background-color: #2c0098;
+    background-color: #2c0098 !important;
 }

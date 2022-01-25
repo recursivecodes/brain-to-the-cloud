@@ -72,6 +72,12 @@ public class GameSummaryDTOCollection {
         return "";
     }
 
+    public String getPctTimeMovingClass(BigDecimal val) {
+        if(val.compareTo(getMinPctTimeMoving()) == 0) return "bg-success text-white";
+        if(val.compareTo(getMaxPctTimeMoving()) == 0) return "bg-danger text-white";
+        return "";
+    }
+
     public BigDecimal getMaxWl() {
         return gameSummaryDTOList
                 .stream()
@@ -192,6 +198,22 @@ public class GameSummaryDTOCollection {
         return gameSummaryDTOList
                 .stream()
                 .map(GameSummaryDTO::getAverageAccuracy)
+                .min(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
+    }
+
+    public BigDecimal getMinPctTimeMoving() {
+        return gameSummaryDTOList
+                .stream()
+                .map(GameSummaryDTO::getAvgPctTimeMoving)
+                .max(BigDecimal::compareTo)
+                .orElse(new BigDecimal(0));
+    }
+
+    public BigDecimal getMaxPctTimeMoving() {
+        return gameSummaryDTOList
+                .stream()
+                .map(GameSummaryDTO::getAvgPctTimeMoving)
                 .min(BigDecimal::compareTo)
                 .orElse(new BigDecimal(0));
     }

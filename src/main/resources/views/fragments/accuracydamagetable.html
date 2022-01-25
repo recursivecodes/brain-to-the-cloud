@@ -23,8 +23,8 @@
             <!--/*@thymesVar id="mapLookups" type="java.util.HashMap"*/-->
             <th th:if="${hasMap}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMap(game, record.map)}"></th>
             <td th:text="${record.getTotalGames()}"></td>
-            <td th:text="${#numbers.formatDecimal(record.getTotalAccuracy(), 1, 'COMMA', 2, 'POINT')}" th:classappend="${highlight ? gameSummaryCollection.getTotalAccuracyClass(record.getTotalAccuracy()) : ''}"></td>
-            <td th:text="${#numbers.formatDecimal(record.getAverageAccuracy(), 1, 'COMMA', 2, 'POINT')}" th:classappend="${highlight ? gameSummaryCollection.getAvgAccuracyClass(record.getAverageAccuracy()) : ''}">/td>
+            <td th:with="totalAccuracy=${record.getTotalAccuracy() * 100}" th:text="${#numbers.formatDecimal(totalAccuracy, 1, 'COMMA', 2, 'POINT')} + '%'" th:classappend="${highlight ? gameSummaryCollection.getTotalAccuracyClass(record.getTotalAccuracy()) : ''}"></td>
+            <td th:with="avgAccuracy=${record.getAverageAccuracy() * 100}" th:text="${#numbers.formatDecimal(avgAccuracy, 1, 'COMMA', 2, 'POINT')} + '%'" th:classappend="${highlight ? gameSummaryCollection.getAvgAccuracyClass(record.getAverageAccuracy()) : ''}">/td>
             <td th:text="${#numbers.formatDecimal(record.getTotalShotsLanded(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalShotsMissed(), 0, 'COMMA', 0, 'POINT')}">/td>
             <td th:text="${#numbers.formatDecimal(record.getTotalShotsFired(), 0, 'COMMA', 0, 'POINT')}"></td>
