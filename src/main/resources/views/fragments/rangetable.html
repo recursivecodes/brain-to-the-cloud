@@ -37,8 +37,8 @@
             <td th:text="${#numbers.formatDecimal(record.getWlRatio(), 1, 'COMMA', 2, 'POINT')}" th:classappend="${rangeSummaryCollection.getWlClass(record.getWlRatio())}"></td>
             <td th:text="${#numbers.formatDecimal(record.getKills(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getDeaths(), 0, 'COMMA', 0, 'POINT')}"></td>
-            <td th:text="${record.getKdRatio()}" th:classappend="${rangeSummaryCollection.getKdClass(record.getKdRatio())}"></td>
-            <td th:text="${record.getEdRatio()}" th:classappend="${rangeSummaryCollection.getEdClass(record.getEdRatio())}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getKdRatio(), 1, 'COMMA', 2, 'POINT')}" th:classappend="${rangeSummaryCollection.getKdClass(record.getKdRatio())}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getEdRatio(), 1, 'COMMA', 2, 'POINT')}" th:classappend="${rangeSummaryCollection.getEdClass(record.getEdRatio())}"></td>
             <td th:text="${#numbers.formatDecimal(record.getScore(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getAvgScore(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTimePlayed(), 0, 'COMMA', 0, 'POINT')}"></td>
