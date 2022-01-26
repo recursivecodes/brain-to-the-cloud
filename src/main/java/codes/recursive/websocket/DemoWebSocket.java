@@ -14,12 +14,15 @@ import java.util.function.Predicate;
 public class DemoWebSocket {
     private final WebSocketBroadcaster broadcaster;
 
-    public DemoWebSocket(WebSocketBroadcaster broadcaster) {
+    public DemoWebSocket(
+            WebSocketBroadcaster broadcaster) {
         this.broadcaster = broadcaster;
     }
 
     @OnOpen
-    public void onOpen(String topic, WebSocketSession session) {
+    public void onOpen(
+            String topic,
+            WebSocketSession session) {
         broadcaster.broadcastSync(CollectionUtils.mapOf("joined", true), isValid(topic));
     }
 
@@ -38,7 +41,8 @@ public class DemoWebSocket {
         broadcaster.broadcastSync(CollectionUtils.mapOf("closed", true), isValid(topic));
     }
 
-    private Predicate<WebSocketSession> isValid(String topic) {
+    private Predicate<WebSocketSession> isValid(
+            String topic) {
         return s -> topic.equalsIgnoreCase(s.getUriVariables().get("topic", String.class, null));
     }
 }

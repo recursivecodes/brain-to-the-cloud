@@ -1,16 +1,7 @@
 package codes.recursive.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.micronaut.core.annotation.Creator;
-import io.micronaut.core.annotation.Nullable;
-import io.micronaut.data.annotation.DateCreated;
-import io.micronaut.data.annotation.TypeDef;
-import io.micronaut.data.model.DataType;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -19,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 import java.sql.Date;
-import java.util.Map;
 
 @Entity
 @AllArgsConstructor(access = AccessLevel.PACKAGE)

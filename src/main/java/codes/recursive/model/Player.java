@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.micronaut.core.annotation.Introspected;
 
 import java.math.BigInteger;
-import java.util.List;
 
 @Introspected
 @JsonIgnoreProperties(ignoreUnknown = true)

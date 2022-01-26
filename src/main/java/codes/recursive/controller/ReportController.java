@@ -33,12 +33,6 @@ public class ReportController {
 
     @Get(uri = "/attention-meditation")
     ModelAndView timeMovingReport(@Nullable Principal principal) {
-        /*
-        gameRepository.getAttentionSummary()
-            .stream()
-            .map(m -> m.kdRatio)
-            .max(Double::compare)
-         */
         RangeSummaryDTOCollection attentionCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getAttentionSummary()).build();
         RangeSummaryDTOCollection meditationCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getMeditationSummary()).build();
 

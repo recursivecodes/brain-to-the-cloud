@@ -1,5 +1,6 @@
 package codes.recursive.controller;
 
+import codes.recursive.client.CodPublicClient;
 import codes.recursive.config.CodClientConfig;
 import codes.recursive.model.Brain;
 import codes.recursive.model.BrainSession;
@@ -8,7 +9,6 @@ import codes.recursive.repository.AbstractGameRepository;
 import codes.recursive.repository.BrainRepository;
 import codes.recursive.repository.BrainSessionRepository;
 import codes.recursive.repository.GameRepository;
-import codes.recursive.client.CodPublicClient;
 import codes.recursive.task.RecentGames;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
