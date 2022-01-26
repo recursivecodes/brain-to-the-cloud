@@ -52,12 +52,10 @@ h1, h2, h3, h4, h5, .alt-font {
 }
 canvas {
 }
-
-
-th {
+th:not([scope]) {
     position: sticky;
     top: 0;
-    background-color: #2c0098;
+    background-color: #2c0098 !important;
 }
 .summary-table tbody tr:last-of-type {
     border-bottom: 2px solid #2c0098;

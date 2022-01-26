@@ -40,6 +40,10 @@ export class BrainCharts {
                 }
             }
         };
+        this.defaultXAxes = {
+            legend: {display: true},
+            type: 'category',
+        };
     }
 
     renderDonutChart(chartId, title, showLegend, datasource) {

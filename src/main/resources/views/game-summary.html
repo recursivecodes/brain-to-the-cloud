@@ -17,35 +17,35 @@
 
     <div class="row">
         <div class="col-12">
-            <h1>Kills/Assists/Death Summary</h1>
+            <h1>Kills/Assists/Deaths</h1>
             <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
             <div th:replace="fragments/killsummarytable :: killsummarytable(${summaryCollection}, false, false, ${mapLookups}, ${vanguard})"></div>
-            <h1>Win/Loss Summary</h1>
+            <h1>Win/Loss</h1>
             <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
             <div th:replace="fragments/winlosssummarytable :: winlosssummarytable(${summaryCollection}, false, false, ${mapLookups}, ${vanguard})"></div>
-            <h1>Accuracy Summary</h1>
+            <h1>Accuracy/Damage</h1>
             <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
             <div th:replace="fragments/accuracydamagetable :: accuracydamagetable(${summaryCollection}, false, false, ${mapLookups}, ${vanguard})"></div>
-            <h1>Score/Travel Summary</h1>
+            <h1>Score/Travel</h1>
             <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
             <div th:replace="fragments/scoretraveltable :: scoretraveltable(${summaryCollection}, false, false, ${mapLookups}, ${vanguard})"></div>
 
-            <h1>Kills/Assists/Death Summary (By Map)</h1>
+            <h1>Kills/Assists/Deaths (By Map)</h1>
             <!--/*@thymesVar id="summaryByMapCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
             <div th:replace="fragments/killsummarytable :: killsummarytable(${summaryByMapCollection}, true, true, ${mapLookups}, ${vanguard})"></div>
-            <h1>Win/Loss Summary (By Map)</h1>
+            <h1>Win/Loss (By Map)</h1>
             <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
             <div th:replace="fragments/winlosssummarytable :: winlosssummarytable(${summaryByMapCollection}, true, true, ${mapLookups}, ${vanguard})"></div>
-            <h1>Accuracy Summary (By Map)</h1>
+            <h1>Accuracy/Damage (By Map)</h1>
             <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
             <div th:replace="fragments/accuracydamagetable :: accuracydamagetable(${summaryByMapCollection}, true, true, ${mapLookups}, ${vanguard})"></div>
-            <h1>Score/Travel Summary (By Map)</h1>
+            <h1>Score/Travel (By Map)</h1>
             <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
             <div th:replace="fragments/scoretraveltable :: scoretraveltable(${summaryByMapCollection}, true, true, ${mapLookups}, ${vanguard})"></div>
 
         </div>
     </div>
-
+    <div th:replace="fragments/tablechartmodal :: tablechartmodal()"></div>
 </section>
 </body>
 </html>
