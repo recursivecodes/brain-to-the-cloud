@@ -42,17 +42,7 @@ const init = () => {
     triggers.forEach((link) => {
         link.classList.remove('d-none')
         link.addEventListener('click', function(evt) {
-            const colorScheme = [
-                "#25CCF7","#FD7272","#54a0ff","#00d2d3",
-                "#1abc9c","#2ecc71","#3498db","#9b59b6","#34495e",
-                "#16a085","#27ae60","#2980b9","#8e44ad","#2c3e50",
-                "#f1c40f","#e67e22","#e74c3c","#ecf0f1","#95a5a6",
-                "#f39c12","#d35400","#c0392b","#bdc3c7","#7f8c8d",
-                "#55efc4","#81ecec","#74b9ff","#a29bfe","#dfe6e9",
-                "#00b894","#00cec9","#0984e3","#6c5ce7","#ffeaa7",
-                "#fab1a0","#ff7675","#fd79a8","#fdcb6e","#e17055",
-                "#d63031","#feca57","#5f27cd","#54a0ff","#01a3a4"
-            ]
+            const colorScheme = ['#8012ed', '#9f05da', '#bd01c1', '#d604a4', '#eb0f85', '#f82165', '#fe3947', '#fc562d', '#f27517', '#e19508', '#cab301', '#aece02', '#8fe50a', '#70f51a', '#51fd31', '#35fe4c', '#1ef76a', '#0de88a', '#03d2a9', '#01b8c6', '#079ade', '#147af0', '#295bfb', '#423efe', '#6025fa'];
             let table = evt.target.closest('table');
             let tbody = table.querySelector('tbody');
             let thead = table.querySelector('thead');
@@ -66,7 +56,7 @@ const init = () => {
                 if(checkbox.checked) {
                     let ds = {
                         label: headRow[c+1].innerText.trim(),
-                        borderColor: colorScheme[c],
+                        borderColor: colorScheme[Math.floor(Math.random()*colorScheme.length)],
                         data: [],
                     };
                     for(let i=0; i<=rows.length-2; i++) {
@@ -81,14 +71,9 @@ const init = () => {
                     datasource.push(ds);
                 }
             }
-
-
-
-            console.log(datasource);
             let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('tableChartModal'));
-            window.chart = window.brainCharts.renderLineChart('tableChart', 'Data', true, window.brainCharts.defaultXAxes, datasource);
+            window.chart = window.brainCharts.renderLineChart('tableChart', table.parentElement.previousElementSibling.innerText, true, window.brainCharts.defaultXAxes, datasource);
             modal.show();
-
             evt.stopPropagation();
             evt.preventDefault();
         })
