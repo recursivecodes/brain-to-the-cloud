@@ -5,6 +5,7 @@
     <table class="table table-bordered table-hover">
         <thead class="bg-theme text-white border-2 border-white">
             <tr>
+                <th style="width: 150px" th:if="${!hasMap}"></th>
                 <th style="width: 150px" th:if="${hasMap}">Map</th>
                 <th>Total Games</th>
                 <th>Total Accuracy</th>
@@ -21,6 +22,7 @@
         <tr th:each="record, s: ${gameSummaryCollection.getGameSummaryDTOList()}">
             <!--/*@thymesVar id="record" type="codes.recursive.model.GameSummaryDTO"*/-->
             <!--/*@thymesVar id="mapLookups" type="java.util.HashMap"*/-->
+            <th th:if="${!hasMap}" scope="row" class="bg-theme text-white"></th>
             <th th:if="${hasMap}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMap(game, record.map)}"></th>
             <td th:text="${record.getTotalGames()}"></td>
             <td th:with="totalAccuracy=${record.getTotalAccuracy() * 100}" th:text="${#numbers.formatDecimal(totalAccuracy, 1, 'COMMA', 2, 'POINT')} + '%'" th:classappend="${highlight ? gameSummaryCollection.getTotalAccuracyClass(record.getTotalAccuracy()) : ''}"></td>

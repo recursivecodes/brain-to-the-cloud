@@ -46,9 +46,9 @@ export class BrainCharts {
         };
     }
 
-    renderDonutChart(chartId, title, showLegend, datasource) {
+    renderDonutPieChart(chartId, title, showLegend, datasource, type) {
         return new Chart(document.getElementById(chartId).getContext('2d'), {
-            type: 'doughnut',
+            type: type,
             options: {
                 plugins: {
                     legend: {display: showLegend},

@@ -116,7 +116,7 @@ window.model = {
             }]
         };
 
-        window[chartId] = window.brainCharts.renderDonutChart(chartId, title, true, data);
+        window[chartId] = window.brainCharts.renderDonutPieChart(chartId, title, true, data, 'doughnut');
         window[chartId].update();
     },
 
