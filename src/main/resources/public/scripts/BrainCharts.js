@@ -25,7 +25,7 @@ export class BrainCharts {
             time: {
                 unit: 'second',
                 displayFormats: {
-                    second: 'HH:mm:ss A'
+                    second: 'h:mm:ss A'
                 }
             }
         };
@@ -36,7 +36,7 @@ export class BrainCharts {
             time: {
                 unit: 'second',
                 displayFormats: {
-                    second: 'HH:mm:ss A'
+                    second: 'h:mm:ss A'
                 }
             }
         };

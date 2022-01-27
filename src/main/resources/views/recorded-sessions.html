@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutFile :: head(~{::title}, ~{:: #extraHead})}">
+    <title>BttC: Recorded Sessions</title>
+    <!--/*/
+    <div id="extraHead" th:remove="tag">
+    /*/-->
+    <!--/*/
+    </div>
+    /*/-->
+</head>
+<body th:replace="~{layoutFile :: body(content = ~{::section}, bodyClass = 'container-fluid')}">
+<section>
+    <!--/*@thymesVar id="currentView" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="isLoggedIn" type="java.lang.Boolean"*/-->
+    <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Recorded Sessions</h1>
+            <p class="alert alert-primary fs-5">
+                The following table represents individual brain capture sessions recorded while participating in various activities. They are intended to establish "baseline" states for various activities, and to help determine the accuracy/validity of the Mind Flex EEG. Click on the session name for session details.
+            </p>
+            <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                    <thead class="bg-theme text-white border-2 border-white">
+                        <tr>
+                            <th>Name</th>
+                            <th>Avg Attention</th>
+                            <th>Avg Meditation</th>
+                            <th>StartedAt</th>
+                            <th>Ended At</th>
+                            <!--
+                            <th>Avg Delta</th>
+                            <th>Avg Theta</th>
+                            <th>Avg Low Alpha</th>
+                            <th>Avg High Alpha</th>
+                            <th>Avg Low Beta</th>
+                            <th>Avg High Beta</th>
+                            <th>Avg Low Gamma</th>
+                            <th>Avg High Gamma</th>
+                            -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <!--/*@thymesVar id="gameSummaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
+                        <tr th:each="record, s: ${sessionSummaries}">
+                            <!--/*@thymesVar id="record" type="codes.recursive.model.BrainSummaryDTO"*/-->
+                            <td>
+                                <a href="#" class="brain-session-details-trigger" th:data-id="${record.id}" th:data-notes="${record.notes}" th:text="${record.getName()}"></a>
+                            </td>
+                            <td th:text="${#numbers.formatDecimal(record.getAvgAttention(), 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${record.getStartedAtLocal()}"></td>
+                            <td th:text="${record.getEndedAtAtLocal()}"></td>
+                            <!--
+                            <td th:text="${#numbers.formatDecimal(record.getAvgDelta(), 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(record.getAvgTheta(), 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(record.getAvgLowAlpha(), 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(record.getAvgHighAlpha(), 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(record.getAvgLowBeta(), 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(record.getAvgHighBeta(), 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(record.getAvgLowGamma(), 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(record.getAvgHighGamma(), 1, 'COMMA', 2, 'POINT')}"></td>
+                            -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="brainSessionDetails" aria-labelledby="brainSessionDetailsLbl">
+        <div class="offcanvas-header">
+            <h4 class="offcanvas-title" id="brainSessionDetailsLbl"></h4>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <h1 id="sessionName"></h1>
+            <h2><span id="sessionStart"></span> - <span id="sessionEnd"></span></h2>
+            <p class="border rounded shadow fs-5 p-3" id="sessionNotes"></p>
+            <h2>Attention</h2>
+            <div class="mb-3">
+                <canvas id="attentionChart" class="border p-1 rounded shadow w-100"></canvas>
+            </div>
+            <h2>Meditation</h2>
+            <div class="mb-3">
+                <canvas id="meditationChart" class="border p-1 rounded shadow w-100"></canvas>
+            </div>
+            <h2>Activity</h2>
+            <div class="mb-3">
+                <canvas id="activityChart" class="border p-1 rounded shadow w-100"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js" integrity="sha512-tMabqarPtykgDtdtSqCL3uLVM0gS1ZkUAVhRFu1vSEFgvB73niFQWJuvviDyBGBH22Lcau4rHB5p2K2T0Xvr6Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.1.0/chartjs-plugin-annotation.min.js" integrity="sha512-uxcl+YXF0LbFyZFEb6HHmxl1NEI4X/5rjojm/13M1CBXBDj8wkmM99cKADkmtuky28pC/EpNTDHOEb/c3nDZsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-moment/1.0.0/chartjs-adapter-moment.min.js" integrity="sha512-oh5t+CdSBsaVVAvxcZKy3XJdP7ZbYUBSRCXDTVn0ODewMDDNnELsrG9eDm8rVZAQg7RsDD/8K3MjPAFB13o6eA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/scripts/recordedsessions.js" type="module"></script>
+</section>
+</body>
+</html>

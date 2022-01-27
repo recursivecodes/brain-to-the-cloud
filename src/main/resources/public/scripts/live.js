@@ -269,7 +269,6 @@ const connect = () => {
         window.activityChart.data.datasets[6].data.push({y: brain.lowGamma / 1000, x: brain.createdOn});
         window.activityChart.data.datasets[7].data.push({y: brain.highGamma / 1000, x: brain.createdOn});
 
-
         if (window.chartsInit) {
             window.attentionChart.update();
             window.meditationChart.update();

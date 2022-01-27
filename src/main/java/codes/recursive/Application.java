@@ -12,6 +12,8 @@ public class Application {
         if (null == Security.getProvider("OraclePKI")) {
             Security.insertProviderAt(new OraclePKIProvider(), Integer.MAX_VALUE);
         }
+        // force GMT - to prevent issues with persisted dates when working on localhost (deployed server is GMT)
+        System.setProperty("user.timezone", "GMT");
         System.setProperty("oracle.jdbc.fanEnabled", "false");
         Micronaut.run(Application.class, args);
     }

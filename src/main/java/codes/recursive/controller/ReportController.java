@@ -4,6 +4,7 @@ import codes.recursive.client.CodPublicClient;
 import codes.recursive.model.CallOfDuty;
 import codes.recursive.model.GameSummaryDTOCollection;
 import codes.recursive.model.RangeSummaryDTOCollection;
+import codes.recursive.repository.BrainSessionRepository;
 import codes.recursive.repository.GameRepository;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.util.CollectionUtils;
@@ -25,10 +26,15 @@ public class ReportController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportController.class);
     private final GameRepository gameRepository;
     private final CodPublicClient codPublicClient;
+    private final BrainSessionRepository brainSessionRepository;
 
-    public ReportController(GameRepository gameRepository, CodPublicClient codPublicClient) {
+    public ReportController(
+            GameRepository gameRepository,
+            CodPublicClient codPublicClient,
+            BrainSessionRepository brainSessionRepository) {
         this.gameRepository = gameRepository;
         this.codPublicClient = codPublicClient;
+        this.brainSessionRepository = brainSessionRepository;
     }
 
     @Get(uri = "/attention-meditation")
@@ -80,4 +86,12 @@ public class ReportController {
         ));
     }
 
+    @Get(uri = "/recorded-sessions")
+    ModelAndView recordedSessions(@Nullable Principal principal) {
+        return new ModelAndView("recorded-sessions", CollectionUtils.mapOf(
+                "currentView", "time-moving-report",
+                "isLoggedIn", principal != null,
+                "sessionSummaries", brainSessionRepository.listBrainSessionSummaries()
+        ));
+    }
 }

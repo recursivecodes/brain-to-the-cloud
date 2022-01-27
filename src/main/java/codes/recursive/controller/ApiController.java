@@ -131,4 +131,12 @@ public class ApiController {
         codClientConfig.setSsoToken(data.get("token"));
         return HttpResponse.ok();
     }
+
+    @Secured(SecurityRule.IS_ANONYMOUS)
+    @Get(uri = "/brainSessionDetails/{sessionId}", produces = MediaType.APPLICATION_JSON)
+    public HttpResponse getBrainSessionDetails(Long sessionId) {
+        return HttpResponse.ok(
+                brainSessionRepository.listBrainSessionDetails(sessionId)
+        );
+    }
 }

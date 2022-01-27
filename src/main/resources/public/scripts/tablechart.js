@@ -30,7 +30,7 @@ const init = () => {
             else {
                 let checkBox = document.createElement('input')
                 checkBox.type = 'checkbox'
-                checkBox.classList.add('data-check', 'form-input');
+                checkBox.classList.add('data-check', 'form-check-input');
                 newTd.append(checkBox);
                 newTr.append(newTd)
             }
@@ -42,7 +42,7 @@ const init = () => {
     triggers.forEach((link) => {
         link.classList.remove('d-none')
         link.addEventListener('click', function(evt) {
-            const colorScheme = ['#8012ed', '#9f05da', '#bd01c1', '#d604a4', '#eb0f85', '#f82165', '#fe3947', '#fc562d', '#f27517', '#e19508', '#cab301', '#aece02', '#8fe50a', '#70f51a', '#51fd31', '#35fe4c', '#1ef76a', '#0de88a', '#03d2a9', '#01b8c6', '#079ade', '#147af0', '#295bfb', '#423efe', '#6025fa'];
+            const colorScheme = ['#8012ed', '#b301ca', '#de079a', '#f82165', '#fe4c35', '#ed7f12', '#cab301', '#9ade07', '#65f821', '#35fe4c', '#12ed7f', '#01cab3', '#079ade', '#2165f8', '#4c35fe'];
             let table = evt.target.closest('table');
             let tbody = table.querySelector('tbody');
             let thead = table.querySelector('thead');
@@ -56,7 +56,7 @@ const init = () => {
                 if(checkbox.checked) {
                     let ds = {
                         label: headRow[c+1].innerText.trim(),
-                        borderColor: colorScheme[Math.floor(Math.random()*colorScheme.length)],
+                        borderColor: colorScheme[c],
                         data: [],
                     };
                     for(let i=0; i<=rows.length-2; i++) {
