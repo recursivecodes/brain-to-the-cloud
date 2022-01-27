@@ -20,7 +20,7 @@ const init = () => {
             if(c==0) {
                 let anchor = document.createElement('a');
                 anchor.setAttribute('href', '#');
-                anchor.classList.add('table-chart-trigger', 'link-light');
+                anchor.classList.add('table-chart-trigger', 'btn', 'btn-outline-light', 'd-block');
                 let i = document.createElement('i');
                 i.classList.add('bi', 'bi-bar-chart');
                 anchor.append(i);
@@ -56,6 +56,8 @@ const init = () => {
                 if(checkbox.checked) {
                     let ds = {
                         label: headRow[c+1].innerText.trim(),
+                        backgroundColor: colorScheme[c],
+                        pointBackgroundColor: colorScheme[c],
                         borderColor: colorScheme[c],
                         data: [],
                     };
