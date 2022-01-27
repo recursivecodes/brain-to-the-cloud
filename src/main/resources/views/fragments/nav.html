@@ -27,10 +27,12 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Reports</a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="/reports/attention-meditation">Attention & Meditation</a></li>
-                            <li><a class="dropdown-item" href="/reports/time-moving">Time Spent Moving</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'attention-meditation'} ? 'active' : ''" href="/reports/attention-meditation">Attention & Meditation</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'time-moving'} ? 'active' : ''" href="/reports/time-moving">Time Spent Moving</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/reports/game-summary">Game Summaries</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary'} ? 'active' : ''" href="/reports/game-summary">Game Summary</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-map'} ? 'active' : ''" href="/reports/game-summary-by-map">Game Summary (By Map)</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-mode'} ? 'active' : ''" href="/reports/game-summary-by-mode">Game Summary (By Game Mode)</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/reports/recorded-sessions">Recorded Sessions</a></li>
                         </ul>

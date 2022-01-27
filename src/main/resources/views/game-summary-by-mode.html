@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutFile :: head(~{::title}, ~{:: #extraHead})}">
+    <title>BttC: Game Summary By Game Mode Reports</title>
+    <!--/*/
+    <div id="extraHead" th:remove="tag">
+    /*/-->
+    <!--/*/
+    </div>
+    /*/-->
+</head>
+<body th:replace="~{layoutFile :: body(content = ~{::section}, bodyClass = 'container-fluid')}">
+<section>
+    <!--/*@thymesVar id="currentView" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="isLoggedIn" type="java.lang.Boolean"*/-->
+    <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Kills/Assists/Deaths (By Game Mode)</h1>
+            <!--/*@thymesVar id="summaryByModeCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
+            <div th:replace="fragments/killsummarytable :: killsummarytable(${summaryByModeCollection}, true, 'Mode', ${mapLookups}, ${vanguard})"></div>
+            <h1>Win/Loss (By Game Mode)</h1>
+            <div th:replace="fragments/winlosssummarytable :: winlosssummarytable(${summaryByModeCollection}, true, 'Mode', ${mapLookups}, ${vanguard})"></div>
+            <h1>Accuracy/Damage (By Game Mode)</h1>
+            <div th:replace="fragments/accuracydamagetable :: accuracydamagetable(${summaryByModeCollection}, true, 'Mode', ${mapLookups}, ${vanguard})"></div>
+            <h1>Score/Travel (By Game Mode)</h1>
+            <div th:replace="fragments/scoretraveltable :: scoretraveltable(${summaryByModeCollection}, true, 'Mode', ${mapLookups}, ${vanguard})"></div>
+        </div>
+    </div>
+    <div th:replace="fragments/tablechartmodal :: tablechartmodal()"></div>
+</section>
+</body>
+</html>

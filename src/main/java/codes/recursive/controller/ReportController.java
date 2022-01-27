@@ -65,23 +65,45 @@ public class ReportController {
 
     @Get(uri = "/game-summary")
     ModelAndView overallSummary(@Nullable Principal principal) {
-        Map<String, Object> lookupValues = codPublicClient.getLookupValues();
         GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
                 .gameSummaryDTOList(gameRepository.getGameSummary())
-                .codLookups(lookupValues)
                 .build();
+
+        return new ModelAndView("game-summary", CollectionUtils.mapOf(
+                "currentView", "game-summary",
+                "isLoggedIn", principal != null,
+                "summaryCollection", summaryCollection
+        ));
+    }
+
+    @Get(uri = "/game-summary-by-map")
+    ModelAndView summaryByMap(@Nullable Principal principal) {
+        Map<String, Object> lookupValues = codPublicClient.getLookupValues();
         GameSummaryDTOCollection summaryByMapCollection = GameSummaryDTOCollection.builder()
                 .gameSummaryDTOList(gameRepository.getGameSummaryByMap())
                 .codLookups(lookupValues)
                 .build();
 
-        return new ModelAndView("game-summary", CollectionUtils.mapOf(
-                "currentView", "time-moving-report",
+        return new ModelAndView("game-summary-by-map", CollectionUtils.mapOf(
+                "currentView", "game-summary-by-map",
                 "isLoggedIn", principal != null,
-                "summary", summaryCollection.getGameSummaryDTOList(),
-                "summaryByMap", summaryByMapCollection.getGameSummaryDTOList(),
-                "summaryCollection", summaryCollection,
                 "summaryByMapCollection", summaryByMapCollection,
+                "vanguard", CallOfDuty.VANGUARD
+        ));
+    }
+
+    @Get(uri = "/game-summary-by-mode")
+    ModelAndView summaryByMode(@Nullable Principal principal) {
+        Map<String, Object> lookupValues = codPublicClient.getLookupValues();
+        GameSummaryDTOCollection summaryByModeCollection = GameSummaryDTOCollection.builder()
+                .gameSummaryDTOList(gameRepository.getGameSummaryByMode())
+                .codLookups(lookupValues)
+                .build();
+
+        return new ModelAndView("game-summary-by-mode", CollectionUtils.mapOf(
+                "currentView", "game-summary-by-mode",
+                "isLoggedIn", principal != null,
+                "summaryByModeCollection", summaryByModeCollection,
                 "vanguard", CallOfDuty.VANGUARD
         ));
     }

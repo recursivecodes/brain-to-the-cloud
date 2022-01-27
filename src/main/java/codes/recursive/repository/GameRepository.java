@@ -1,8 +1,8 @@
 package codes.recursive.repository;
 
+import codes.recursive.model.Game;
 import codes.recursive.model.GameSummaryDTO;
 import codes.recursive.model.RangeSummaryDTO;
-import codes.recursive.model.Game;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.Query;
@@ -61,4 +61,7 @@ public interface GameRepository extends PageableRepository<Game, Long> {
 
     @Query(value = "select * from vw_game_summary_by_map order by totalEdRatio desc", nativeQuery = true)
     List<GameSummaryDTO> getGameSummaryByMap();
+
+    @Query(value = "select * from vw_game_summary_by_mode order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByMode();
 }

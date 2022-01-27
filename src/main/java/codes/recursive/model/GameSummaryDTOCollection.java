@@ -25,6 +25,11 @@ public class GameSummaryDTOCollection {
         return ((String) codLookups.get("maps:" + game + "-" + map + ":1")).replace("’", "'");
     }
 
+    public String lookupMode(String game, String mode) {
+        if( mode.equals("kspoint") ) return "Armageddon";
+        return ((String) codLookups.get("game-modes:" + game + "-" + mode + ":1")).replace("’", "'");
+    }
+
     public String getWlClass(BigDecimal val) {
         if(val.compareTo(getMinWl()) == 0) return "bg-danger text-white";
         if(val.compareTo(getMaxWl()) == 0) return "bg-success text-white";

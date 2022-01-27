@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 public class GameSummaryDTO {
     @Nullable
-    private String map;
+    private String grouping;
     private Integer totalGames;
     private Integer totalKills;
     private Integer totalAssists;

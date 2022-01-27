@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="killsummarytable(gameSummaryCollection, highlight, hasMap, mapLookups, game)" class="mb-3 table-responsive-sm">
+<div th:fragment="killsummarytable(gameSummaryCollection, highlight, grouping, mapLookups, game)" class="mb-3 table-responsive-sm">
     <table class="table table-bordered table-hover">
         <thead class="bg-theme text-white border-2 border-white">
             <tr>
-                <th style="width: 150px" th:if="${!hasMap}"></th>
-                <th style="width: 150px" th:if="${hasMap}">Map</th>
+                <th style="width: 225px" th:if="${grouping == null}"></th>
+                <th style="width: 225px" th:if="${grouping != null}" th:text="${grouping}"></th>
                 <th>Total Games</th>
                 <th>Total Kills</th>
                 <th>Total Assists</th>
@@ -22,15 +22,16 @@
         <tr th:each="record, s: ${gameSummaryCollection.getGameSummaryDTOList()}">
             <!--/*@thymesVar id="record" type="codes.recursive.model.GameSummaryDTO"*/-->
             <!--/*@thymesVar id="mapLookups" type="java.util.HashMap"*/-->
-            <th th:if="${!hasMap}" scope="row" class="bg-theme text-white"></th>
-            <th th:if="${hasMap}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMap(game, record.map)}"></th>
+            <th th:if="${grouping == null}" scope="row" class="bg-theme text-white"></th>
+            <th th:if="${grouping != null && #strings.equals(grouping, 'Map')}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMap(game, record.getGrouping())}"></th>
+            <th th:if="${grouping != null && #strings.equals(grouping, 'Mode')}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMode(game, record.getGrouping())}"></th>
             <td th:text="${#numbers.formatDecimal(record.getTotalGames(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalKills(), 0, 'COMMA', 0, 'POINT')}">/td>
             <td th:text="${#numbers.formatDecimal(record.getTotalAssists(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalDeaths(), 0, 'COMMA', 0, 'POINT')}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getAvgKdRatio(), 0, 'COMMA', 2, 'POINT')}"></td>
-            <td th:text="${#numbers.formatDecimal(record.getTotalKdRatio(), 0, 'COMMA', 2, 'POINT')}" th:classappend="${highlight ? gameSummaryCollection.getKdClass(record.getTotalKdRatio) : ''}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getTotalEdRatio(), 0, 'COMMA', 2, 'POINT')}" th:classappend="${highlight ? gameSummaryCollection.getEdClass(record.getTotalEdRatio()) : ''}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getAvgKdRatio(), 1, 'COMMA', 2, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getTotalKdRatio(), 1, 'COMMA', 2, 'POINT')}" th:classappend="${highlight ? gameSummaryCollection.getKdClass(record.getTotalKdRatio) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getTotalEdRatio(), 1, 'COMMA', 2, 'POINT')}" th:classappend="${highlight ? gameSummaryCollection.getEdClass(record.getTotalEdRatio()) : ''}"></td>
             <td th:text="${record.getLongestStreak()}" th:classappend="${highlight ? gameSummaryCollection.getLongestStreakClass(record.getLongestStreak()) : ''}">/td>
         </tr>
         </tbody>
