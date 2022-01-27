@@ -33,6 +33,8 @@
                             <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary'} ? 'active' : ''" href="/reports/game-summary">Game Summary</a></li>
                             <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-map'} ? 'active' : ''" href="/reports/game-summary-by-map">Game Summary (By Map)</a></li>
                             <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-mode'} ? 'active' : ''" href="/reports/game-summary-by-mode">Game Summary (By Game Mode)</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-operator'} ? 'active' : ''" href="/reports/game-summary-by-operator">Game Summary (By Operator)</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-team'} ? 'active' : ''" href="/reports/game-summary-by-team">Game Summary (By Team)</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="/reports/recorded-sessions">Recorded Sessions</a></li>
                         </ul>

@@ -79,32 +79,68 @@ public class ReportController {
     @Get(uri = "/game-summary-by-map")
     ModelAndView summaryByMap(@Nullable Principal principal) {
         Map<String, Object> lookupValues = codPublicClient.getLookupValues();
-        GameSummaryDTOCollection summaryByMapCollection = GameSummaryDTOCollection.builder()
+        GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
                 .gameSummaryDTOList(gameRepository.getGameSummaryByMap())
                 .codLookups(lookupValues)
                 .build();
 
-        return new ModelAndView("game-summary-by-map", CollectionUtils.mapOf(
+        return new ModelAndView("game-summary-by-type", CollectionUtils.mapOf(
                 "currentView", "game-summary-by-map",
                 "isLoggedIn", principal != null,
-                "summaryByMapCollection", summaryByMapCollection,
-                "vanguard", CallOfDuty.VANGUARD
+                "summaryCollection", summaryCollection,
+                "vanguard", CallOfDuty.VANGUARD,
+                "type", "Map"
         ));
     }
 
     @Get(uri = "/game-summary-by-mode")
     ModelAndView summaryByMode(@Nullable Principal principal) {
         Map<String, Object> lookupValues = codPublicClient.getLookupValues();
-        GameSummaryDTOCollection summaryByModeCollection = GameSummaryDTOCollection.builder()
+        GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
                 .gameSummaryDTOList(gameRepository.getGameSummaryByMode())
                 .codLookups(lookupValues)
                 .build();
 
-        return new ModelAndView("game-summary-by-mode", CollectionUtils.mapOf(
+        return new ModelAndView("game-summary-by-type", CollectionUtils.mapOf(
                 "currentView", "game-summary-by-mode",
                 "isLoggedIn", principal != null,
-                "summaryByModeCollection", summaryByModeCollection,
-                "vanguard", CallOfDuty.VANGUARD
+                "summaryCollection", summaryCollection,
+                "vanguard", CallOfDuty.VANGUARD,
+                "type", "Mode"
+        ));
+    }
+
+    @Get(uri = "/game-summary-by-operator")
+    ModelAndView summaryByOperator(@Nullable Principal principal) {
+        Map<String, Object> lookupValues = codPublicClient.getLookupValues();
+        GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
+                .gameSummaryDTOList(gameRepository.getGameSummaryByOperator())
+                .codLookups(lookupValues)
+                .build();
+
+        return new ModelAndView("game-summary-by-type", CollectionUtils.mapOf(
+                "currentView", "game-summary-by-operator",
+                "isLoggedIn", principal != null,
+                "summaryCollection", summaryCollection,
+                "vanguard", CallOfDuty.VANGUARD,
+                "type", "Operator"
+        ));
+    }
+
+    @Get(uri = "/game-summary-by-team")
+    ModelAndView summaryByTeam(@Nullable Principal principal) {
+        Map<String, Object> lookupValues = codPublicClient.getLookupValues();
+        GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
+                .gameSummaryDTOList(gameRepository.getGameSummaryByTeam())
+                .codLookups(lookupValues)
+                .build();
+
+        return new ModelAndView("game-summary-by-type", CollectionUtils.mapOf(
+                "currentView", "game-summary-by-team",
+                "isLoggedIn", principal != null,
+                "summaryCollection", summaryCollection,
+                "vanguard", CallOfDuty.VANGUARD,
+                "type", "Team"
         ));
     }
 

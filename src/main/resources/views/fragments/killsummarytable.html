@@ -23,8 +23,9 @@
             <!--/*@thymesVar id="record" type="codes.recursive.model.GameSummaryDTO"*/-->
             <!--/*@thymesVar id="mapLookups" type="java.util.HashMap"*/-->
             <th th:if="${grouping == null}" scope="row" class="bg-theme text-white"></th>
-            <th th:if="${grouping != null && #strings.equals(grouping, 'Map')}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMap(game, record.getGrouping())}"></th>
-            <th th:if="${grouping != null && #strings.equals(grouping, 'Mode')}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMode(game, record.getGrouping())}"></th>
+            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Team')} OR ${#strings.equals(grouping, 'Operator')}" scope="row" class="bg-theme text-white" th:text="${#strings.capitalize(record.getGrouping())}"></th>
+            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Map')}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMap(game, record.getGrouping())}"></th>
+            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Mode')}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMode(game, record.getGrouping())}"></th>
             <td th:text="${#numbers.formatDecimal(record.getTotalGames(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalKills(), 0, 'COMMA', 0, 'POINT')}">/td>
             <td th:text="${#numbers.formatDecimal(record.getTotalAssists(), 0, 'COMMA', 0, 'POINT')}"></td>
