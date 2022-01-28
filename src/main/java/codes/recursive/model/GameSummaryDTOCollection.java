@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 @Data
 @EqualsAndHashCode
 @Builder
-@SuppressWarnings({"unused"})
+@SuppressWarnings({"unused", "Duplicates"})
 public class GameSummaryDTOCollection {
     private static String MIN = "min";
     private static String MAX = "max";
