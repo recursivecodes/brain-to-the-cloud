@@ -30,8 +30,8 @@
             <td th:text="${#numbers.formatDecimal(record.getTotalScorePerMinute(), 0, 'COMMA', 2, 'POINT')}" th:classappend="${highlight ? gameSummaryCollection.getTotalScorePerMinuteClass(record.getTotalScorePerMinute()) : ''}">/td>
             <td th:text="${#numbers.formatDecimal(record.getAvgScorePerMinute(), 0, 'COMMA', 2, 'POINT')}" th:classappend="${highlight ? gameSummaryCollection.getAvgScorePerMinuteClass(record.getAvgScorePerMinute()) : ''}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalDistanceTraveled(), 0, 'COMMA', 0, 'POINT')}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getAvgPctTimeMoving(), 0, 'COMMA', 2, 'POINT')} + '%'" th:classappend="${highlight ? gameSummaryCollection.getPctTimeMovingClass(record.getAvgPctTimeMoving()) : ''}"></td>
-            <td th:text="${#numbers.formatDecimal(record.getAvgSpeedDuringMatch(), 0, 'COMMA', 2, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getAvgPctTimeMoving(), 1, 'COMMA', 2, 'POINT')} + '%'" th:classappend="${highlight ? gameSummaryCollection.getPctTimeMovingClass(record.getAvgPctTimeMoving()) : ''}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getAvgSpeedDuringMatch(), 1, 'COMMA', 2, 'POINT')}"></td>
         </tr>
         </tbody>
     </table>

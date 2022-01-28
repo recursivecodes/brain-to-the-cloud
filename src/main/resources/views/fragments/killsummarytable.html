@@ -9,6 +9,16 @@
                 <th style="width: 225px" th:if="${grouping != null}" th:text="${grouping}"></th>
                 <th>Total Games</th>
                 <th>Total Kills</th>
+                <th>Avg Kills</th>
+                <th>Avg Deaths</th>
+                <th>Max Kills</th>
+                <th>Min Kills</th>
+                <th>Max Eliminations</th>
+                <th>Max Deaths</th>
+                <th>Min Deaths</th>
+                <th>Max Assists</th>
+                <th>Min Assists</th>
+                <th>Max Kd Ratio</th>
                 <th>Total Assists</th>
                 <th>Total Deaths</th>
                 <th>Avg Kd Ratio</th>
@@ -28,6 +38,16 @@
             <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Mode')}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMode(game, record.getGrouping())}"></th>
             <td th:text="${#numbers.formatDecimal(record.getTotalGames(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalKills(), 0, 'COMMA', 0, 'POINT')}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getAvgKills(), 1, 'COMMA', 2, 'POINT')}" th:classappend="${gameSummaryCollection.getAvgKillsClass(record.getAvgKills())}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getAvgDeaths(), 1, 'COMMA', 2, 'POINT')}" th:classappend="${gameSummaryCollection.getAvgDeathsClass(record.getAvgDeaths())}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMaxKills(), 1, 'COMMA', 0, 'POINT')}" th:classappend="${gameSummaryCollection.getMaxKillsClass(record.getMaxKills())}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMinKills(), 1, 'COMMA', 0, 'POINT')}" th:classappend="${gameSummaryCollection.getMinKillsClass(record.getMinKills())}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMaxEliminations(), 1, 'COMMA', 0, 'POINT')}" th:classappend="${gameSummaryCollection.getMaxEliminationsClass(record.getMaxEliminations())}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMaxDeaths(), 1, 'COMMA', 0, 'POINT')}" th:classappend="${gameSummaryCollection.getMaxDeathsClass(record.getMaxDeaths())}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMinDeaths(), 1, 'COMMA', 0, 'POINT')}" th:classappend="${gameSummaryCollection.getMinDeathsClass(record.getMinDeaths())}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMaxAssists(), 1, 'COMMA', 0, 'POINT')}" th:classappend="${gameSummaryCollection.getMaxAssistsClass(record.getMaxAssists())}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMinAssists(), 1, 'COMMA', 0, 'POINT')}" th:classappend="${gameSummaryCollection.getMinAssistsClass(record.getMinAssists())}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMaxKdRatio(), 1, 'COMMA', 2, 'POINT')}" th:classappend="${gameSummaryCollection.getMaxKdRatioClass(record.getMaxKdRatio())}">/td>
             <td th:text="${#numbers.formatDecimal(record.getTotalAssists(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalDeaths(), 0, 'COMMA', 0, 'POINT')}">/td>
             <td th:text="${#numbers.formatDecimal(record.getAvgKdRatio(), 1, 'COMMA', 2, 'POINT')}"></td>

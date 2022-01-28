@@ -16,6 +16,16 @@ public class GameSummaryDTO {
     private String grouping;
     private Integer totalGames;
     private Integer totalKills;
+    private BigDecimal avgKills;
+    private BigDecimal avgDeaths;
+    private Integer maxKills;
+    private Integer maxEliminations;
+    private Integer minKills;
+    private Integer maxDeaths;
+    private Integer minDeaths;
+    private Integer maxAssists;
+    private Integer minAssists;
+    private BigDecimal maxKdRatio;
     private Integer totalAssists;
     private Integer totalDeaths;
     private BigDecimal avgKdRatio;
