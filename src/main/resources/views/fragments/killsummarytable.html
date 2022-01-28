@@ -9,18 +9,18 @@
                 <th style="width: 225px" th:if="${grouping != null}" th:text="${grouping}"></th>
                 <th>Total Games</th>
                 <th>Total Kills</th>
+                <th>Total Deaths</th>
                 <th>Avg Kills</th>
                 <th>Avg Deaths</th>
-                <th>Max Kills</th>
-                <th>Min Kills</th>
                 <th>Max Eliminations</th>
+                <th>Max Kills</th>
                 <th>Max Deaths</th>
+                <th>Min Kills</th>
                 <th>Min Deaths</th>
                 <th>Max Assists</th>
                 <th>Min Assists</th>
                 <th>Max Kd Ratio</th>
                 <th>Total Assists</th>
-                <th>Total Deaths</th>
                 <th>Avg Kd Ratio</th>
                 <th>Total Kd Ratio</th>
                 <th>Total Ed Ratio</th>
@@ -42,28 +42,28 @@
                 th:text="${summaryCollection.lookupMode(game, record.getGrouping())}"></th>
             <td th:text="${#numbers.formatDecimal(record.getTotalGames(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalKills(), 0, 'COMMA', 0, 'POINT')}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getAvgKills(), 1, 'COMMA', 2, 'POINT')}"
-                th:classappend="${summaryCollection.getBigDecimalClass(record.getAvgKills(), 'getAvgKills', false, false)}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getAvgDeaths(), 1, 'COMMA', 2, 'POINT')}"
-                th:classappend="${summaryCollection.getBigDecimalClass(record.getAvgDeaths(), 'getAvgDeaths', false, true)}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getMaxKills(), 1, 'COMMA', 0, 'POINT')}"
-                th:classappend="${summaryCollection.getIntegerClass(record.getMaxKills(), 'getMaxKills', false, false)}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getMinKills(), 1, 'COMMA', 0, 'POINT')}"
-                th:classappend="${summaryCollection.getIntegerClass(record.getMinKills(), 'getMinKills', true, true)}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getMaxEliminations(), 1, 'COMMA', 0, 'POINT')}"
-                th:classappend="${summaryCollection.getIntegerClass(record.getMaxEliminations(), 'getMaxEliminations', false, false)}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getMaxDeaths(), 1, 'COMMA', 0, 'POINT')}"
-                th:classappend="${summaryCollection.getIntegerClass(record.getMaxDeaths(), 'getMaxDeaths', false, true)}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getMinDeaths(), 1, 'COMMA', 0, 'POINT')}"
-                th:classappend="${summaryCollection.getIntegerClass(record.getMinDeaths(), 'getMinDeaths', true, true)}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getMaxAssists(), 1, 'COMMA', 0, 'POINT')}"
-                th:classappend="${summaryCollection.getIntegerClass(record.getMaxAssists(), 'getMaxAssists', false, false)}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getMinAssists(), 1, 'COMMA', 0, 'POINT')}"
-                th:classappend="${summaryCollection.getIntegerClass(record.getMinAssists(), 'getMinAssists', true, false)}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getMaxKdRatio(), 1, 'COMMA', 2, 'POINT')}"
-                th:classappend="${summaryCollection.getBigDecimalClass(record.getMaxKdRatio(), 'getMaxKdRatio', true, false)}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getTotalAssists(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalDeaths(), 0, 'COMMA', 0, 'POINT')}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getAvgKills(), 1, 'COMMA', 2, 'POINT')}"
+                th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getAvgKills(), 'getAvgKills', false, false) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getAvgDeaths(), 1, 'COMMA', 2, 'POINT')}"
+                th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getAvgDeaths(), 'getAvgDeaths', false, true) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMaxEliminations(), 1, 'COMMA', 0, 'POINT')}"
+                th:classappend="${highlight ? summaryCollection.getIntegerClass(record.getMaxEliminations(), 'getMaxEliminations', false, false) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMaxKills(), 1, 'COMMA', 0, 'POINT')}"
+                th:classappend="${highlight ? summaryCollection.getIntegerClass(record.getMaxKills(), 'getMaxKills', false, false) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMaxDeaths(), 1, 'COMMA', 0, 'POINT')}"
+                th:classappend="${highlight ? summaryCollection.getIntegerClass(record.getMaxDeaths(), 'getMaxDeaths', false, true) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMinKills(), 1, 'COMMA', 0, 'POINT')}"
+                th:classappend="${highlight ? summaryCollection.getIntegerClass(record.getMinKills(), 'getMinKills', true, true) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMinDeaths(), 1, 'COMMA', 0, 'POINT')}"
+                th:classappend="${highlight ? summaryCollection.getIntegerClass(record.getMinDeaths(), 'getMinDeaths', true, true) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMaxAssists(), 1, 'COMMA', 0, 'POINT')}"
+                th:classappend="${highlight ? summaryCollection.getIntegerClass(record.getMaxAssists(), 'getMaxAssists', false, false) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMinAssists(), 1, 'COMMA', 0, 'POINT')}"
+                th:classappend="${highlight ? summaryCollection.getIntegerClass(record.getMinAssists(), 'getMinAssists', true, false) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getMaxKdRatio(), 1, 'COMMA', 2, 'POINT')}"
+                th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getMaxKdRatio(), 'getMaxKdRatio', true, false) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getTotalAssists(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getAvgKdRatio(), 1, 'COMMA', 2, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalKdRatio(), 1, 'COMMA', 2, 'POINT')}"
                 th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getTotalKdRatio(), 'getTotalKdRatio', true, false) : ''}">/td>
