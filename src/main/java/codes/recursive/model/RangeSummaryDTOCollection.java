@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -15,46 +16,31 @@ import java.util.stream.Stream;
 @Data
 @EqualsAndHashCode
 @Builder
-@SuppressWarnings({"unused"})
+@SuppressWarnings({"unused", "Duplicates"})
 public class RangeSummaryDTOCollection {
     private static String MIN = "min";
     private static String MAX = "max";
+    private final Map<String, Function<RangeSummaryDTO, BigDecimal>> bigDecimalMethods = Map.ofEntries(
+            Map.entry("getKdRatio", RangeSummaryDTO::getKdRatio),
+            Map.entry("getEdRatio", RangeSummaryDTO::getEdRatio),
+            Map.entry("getWlRatio", RangeSummaryDTO::getWlRatio),
+            Map.entry("getAvgAttention", RangeSummaryDTO::getAvgAttention),
+            Map.entry("getAvgMeditation", RangeSummaryDTO::getAvgMeditation),
+            Map.entry("getScorePerMinute", RangeSummaryDTO::getScorePerMinute)
+    );
 
+    private final Map<String, Function<RangeSummaryDTO, Integer>> integerMethods = Map.ofEntries();
     private List<RangeSummaryDTO> rangeSummaryDTOList;
 
-    public String getKdClass(BigDecimal val) {
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getKdRatio, MIN, true)) == 0) return "bg-danger text-white";
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getKdRatio, MAX, false)) == 0) return "bg-success text-white";
+    public String getBigDecimalClass(BigDecimal val, String methodName, Boolean filterZero, Boolean inverse) {
+        if(val.compareTo(getMinMaxBigDecimal(bigDecimalMethods.get(methodName), MIN, filterZero)) == 0) return inverse ? "bg-success text-white" : "bg-danger text-white";
+        if(val.compareTo(getMinMaxBigDecimal(bigDecimalMethods.get(methodName), MAX, filterZero)) == 0) return inverse ? "bg-danger text-white" : "bg-success text-white";
         return "";
     }
 
-    public String getEdClass(BigDecimal val) {
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getEdRatio, MIN, true)) == 0) return "bg-danger text-white";
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getEdRatio, MAX, false)) == 0) return "bg-success text-white";
-        return "";
-    }
-
-    public String getWlClass(BigDecimal val) {
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getWlRatio, MIN, true)) == 0) return "bg-danger text-white";
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getWlRatio, MAX, false)) == 0) return "bg-success text-white";
-        return "";
-    }
-
-    public String getAttentionClass(BigDecimal val) {
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getAvgAttention, MIN, true)) == 0) return "bg-danger text-white";
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getAvgAttention, MAX, false)) == 0) return "bg-success text-white";
-        return "";
-    }
-
-    public String getMeditationClass(BigDecimal val) {
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getAvgMeditation, MIN, true)) == 0) return "bg-danger text-white";
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getAvgMeditation, MAX, false)) == 0) return "bg-success text-white";
-        return "";
-    }
-
-    public String getScorePerMinuteClass(BigDecimal val) {
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getScorePerMinute, MIN, true)) == 0) return "bg-danger text-white";
-        if(val.compareTo(getMinMaxBigDecimal(RangeSummaryDTO::getScorePerMinute, MAX, false)) == 0) return "bg-success text-white";
+    public String getIntegerClass(Integer val, String methodName, Boolean filterZero, Boolean inverse) {
+        if(val.compareTo(getMinMaxInteger(integerMethods.get(methodName), MIN, filterZero)) == 0) return inverse ? "bg-success text-white" : "bg-danger text-white";
+        if(val.compareTo(getMinMaxInteger(integerMethods.get(methodName), MAX, filterZero)) == 0) return inverse ? "bg-danger text-white" : "bg-success text-white";
         return "";
     }
 

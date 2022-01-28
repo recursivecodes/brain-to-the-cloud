@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="accuracydamagetable(gameSummaryCollection, highlight, grouping, mapLookups, game)" class="mb-3 table-responsive-sm">
+<div th:fragment="accuracydamagetable(summaryCollection, highlight, grouping, mapLookups, game)" class="mb-3 table-responsive-sm">
     <table class="table table-bordered table-hover">
         <thead class="bg-theme text-white border-2 border-white">
             <tr>
@@ -18,17 +18,17 @@
             </tr>
         </thead>
         <tbody>
-        <!--/*@thymesVar id="gameSummaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
-        <tr th:each="record, s: ${gameSummaryCollection.getGameSummaryDTOList()}">
+        <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
+        <tr th:each="record, s: ${summaryCollection.getGameSummaryDTOList()}">
             <!--/*@thymesVar id="record" type="codes.recursive.model.GameSummaryDTO"*/-->
             <!--/*@thymesVar id="mapLookups" type="java.util.HashMap"*/-->
             <th th:if="${grouping == null}" scope="row" class="bg-theme text-white"></th>
             <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Team')} OR  ${#strings.equals(grouping, 'Operator')}" scope="row" class="bg-theme text-white" th:text="${#strings.capitalize(record.getGrouping())}"></th>
-            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Map')}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMap(game, record.getGrouping())}"></th>
-            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Mode')}" scope="row" class="bg-theme text-white" th:text="${gameSummaryCollection.lookupMode(game, record.getGrouping())}"></th>
+            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Map')}" scope="row" class="bg-theme text-white" th:text="${summaryCollection.lookupMap(game, record.getGrouping())}"></th>
+            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Mode')}" scope="row" class="bg-theme text-white" th:text="${summaryCollection.lookupMode(game, record.getGrouping())}"></th>
             <td th:text="${record.getTotalGames()}"></td>
-            <td th:with="totalAccuracy=${record.getTotalAccuracy() * 100}" th:text="${#numbers.formatDecimal(totalAccuracy, 1, 'COMMA', 2, 'POINT')} + '%'" th:classappend="${highlight ? gameSummaryCollection.getTotalAccuracyClass(record.getTotalAccuracy()) : ''}"></td>
-            <td th:with="avgAccuracy=${record.getAverageAccuracy() * 100}" th:text="${#numbers.formatDecimal(avgAccuracy, 1, 'COMMA', 2, 'POINT')} + '%'" th:classappend="${highlight ? gameSummaryCollection.getAvgAccuracyClass(record.getAverageAccuracy()) : ''}">/td>
+            <td th:with="totalAccuracy=${record.getTotalAccuracy() * 100}" th:text="${#numbers.formatDecimal(totalAccuracy, 1, 'COMMA', 2, 'POINT')} + '%'" th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getTotalAccuracy(), 'getTotalAccuracy', false, false) : ''}"></td>
+            <td th:with="avgAccuracy=${record.getAverageAccuracy() * 100}" th:text="${#numbers.formatDecimal(avgAccuracy, 1, 'COMMA', 2, 'POINT')} + '%'" th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getAverageAccuracy(), 'getAverageAccuracy', false, false) : ''}">/td>
             <td th:text="${#numbers.formatDecimal(record.getTotalShotsLanded(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalShotsMissed(), 0, 'COMMA', 0, 'POINT')}">/td>
             <td th:text="${#numbers.formatDecimal(record.getTotalShotsFired(), 0, 'COMMA', 0, 'POINT')}"></td>
