@@ -18,7 +18,7 @@ public class Match {
     public Long utcStartSeconds;
     @JsonProperty("utcEndSeconds")
     public Long utcEndSeconds;
-    @JsonProperty("grouping")
+    @JsonProperty("map")
     public String map;
     @JsonProperty("mode")
     public String mode;
