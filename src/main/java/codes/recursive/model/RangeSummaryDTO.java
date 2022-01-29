@@ -22,6 +22,7 @@ public class RangeSummaryDTO {
     private BigDecimal edRatio;
     private Integer score;
     private BigDecimal avgScore;
+    private BigDecimal averageAccuracy;
     private Integer timePlayed;
     private BigDecimal scorePerMinute;
     @Nullable

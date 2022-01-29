@@ -17,6 +17,7 @@
                 <th>E/D Ratio</th>
                 <th>Score</th>
                 <th>Avg Score</th>
+                <th>Avg Accuracy</th>
                 <th>Time Played</th>
                 <th>Score Per Minute</th>
             </tr>
@@ -44,6 +45,9 @@
                 th:classappend="${summaryCollection.getBigDecimalClass(record.getEdRatio(), 'getEdRatio', true, false)}"></td>
             <td th:text="${#numbers.formatDecimal(record.getScore(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getAvgScore(), 0, 'COMMA', 0, 'POINT')}"></td>
+            <td th:text="${#numbers.formatDecimal(avgAccuracy, 0, 'COMMA', 2, 'POINT') + '%'}"
+                th:with="avgAccuracy=${record.getAverageAccuracy() * 100}"
+                th:classappend="${summaryCollection.getBigDecimalClass(record.getAverageAccuracy(), 'getAverageAccuracy', true, false)}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTimePlayed(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getScorePerMinute(), 0, 'COMMA', 0, 'POINT')}"
                 th:classappend="${summaryCollection.getBigDecimalClass(record.getScorePerMinute(), 'getScorePerMinute', true, false)}"></td>
