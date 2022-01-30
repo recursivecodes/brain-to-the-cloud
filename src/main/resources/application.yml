@@ -34,7 +34,7 @@ micronaut:
         http-method: GET
         access:
           - isAnonymous()
-      - pattern: /scripts/*
+      - pattern: /scripts/**
         http-method: GET
         access:
           - isAnonymous()

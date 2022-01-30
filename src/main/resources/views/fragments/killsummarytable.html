@@ -7,8 +7,10 @@
             <tr>
                 <th style="width: 225px" th:if="${grouping == null}"></th>
                 <th style="width: 225px" th:if="${grouping != null}" th:text="${grouping}"></th>
+                <!--
                 <th>Avg Attention</th>
                 <th>Avg Meditation</th>
+                -->
                 <th>Total Games</th>
                 <th>Total Kills</th>
                 <th>Total Deaths</th>
@@ -42,10 +44,12 @@
                 th:text="${summaryCollection.lookupMap(game, record.getGrouping())}"></th>
             <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Mode')}" scope="row" class="bg-theme text-white"
                 th:text="${summaryCollection.lookupMode(game, record.getGrouping())}"></th>
+            <!--
             <td th:text="${#numbers.formatDecimal(record.getAvgAttention(), 2, 2)} + '%'"
                 th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getAvgAttention(), 'getAvgAttention', true, false): ''}"></td>
             <td th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 2, 2)} + '%'"
                 th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getAvgMeditation(), 'getAvgMeditation', true, false) : ''}"></td>
+            -->
             <td th:text="${#numbers.formatDecimal(record.getTotalGames(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalKills(), 0, 'COMMA', 0, 'POINT')}">/td>
             <td th:text="${#numbers.formatDecimal(record.getTotalDeaths(), 0, 'COMMA', 0, 'POINT')}">/td>

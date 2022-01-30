@@ -7,8 +7,10 @@
             <tr>
                 <th style="width: 225px" th:if="${grouping == null}"></th>
                 <th style="width: 225px" th:if="${grouping != null}" th:text="${grouping}"></th>
+                <!--
                 <th>Avg Attention</th>
                 <th>Avg Meditation</th>
+                -->
                 <th>Total Games</th>
                 <th>Total Accuracy</th>
                 <th>Average Accuracy</th>
@@ -28,10 +30,12 @@
             <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Team')} OR  ${#strings.equals(grouping, 'Operator')}" scope="row" class="bg-theme text-white" th:text="${#strings.capitalize(record.getGrouping())}"></th>
             <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Map')}" scope="row" class="bg-theme text-white" th:text="${summaryCollection.lookupMap(game, record.getGrouping())}"></th>
             <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Mode')}" scope="row" class="bg-theme text-white" th:text="${summaryCollection.lookupMode(game, record.getGrouping())}"></th>
+            <!--
             <td th:text="${#numbers.formatDecimal(record.getAvgAttention(), 2, 2)} + '%'"
                 th:classappend="${summaryCollection.getBigDecimalClass(record.getAvgAttention(), 'getAvgAttention', true, false)}"></td>
             <td th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 2, 2)} + '%'"
                 th:classappend="${summaryCollection.getBigDecimalClass(record.getAvgMeditation(), 'getAvgMeditation', true, false)}"></td>
+            -->
             <td th:text="${record.getTotalGames()}"></td>
             <td th:with="totalAccuracy=${record.getTotalAccuracy() * 100}" th:text="${#numbers.formatDecimal(totalAccuracy, 1, 'COMMA', 2, 'POINT')} + '%'" th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getTotalAccuracy(), 'getTotalAccuracy', false, false) : ''}"></td>
             <td th:with="avgAccuracy=${record.getAverageAccuracy() * 100}" th:text="${#numbers.formatDecimal(avgAccuracy, 1, 'COMMA', 2, 'POINT')} + '%'" th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getAverageAccuracy(), 'getAverageAccuracy', false, false) : ''}">/td>

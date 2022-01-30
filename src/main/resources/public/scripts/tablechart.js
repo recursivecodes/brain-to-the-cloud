@@ -12,6 +12,7 @@ const init = () => {
     let tables = document.querySelectorAll('table');
 
     tables.forEach((tbl) => {
+        new Tablesort(tbl);
         let allRows = tbl.querySelectorAll('tr');
         for(let r=0; r<allRows.length; r++) {
             let tr = allRows[r];
@@ -33,6 +34,7 @@ const init = () => {
         let tbody = tbl.querySelector('tbody');
         let colCount = tbody.firstElementChild.childElementCount;
         let newTr = document.createElement('tr')
+        newTr.setAttribute('data-sort-method', 'none');
 
         for(let c=0; c<colCount; c++) {
             let newTd = document.createElement('td');
