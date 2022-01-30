@@ -141,10 +141,10 @@
         <div class="row">
             <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Total Accuracy</div></div>
             <div class="col-6 col-md-3 mb-3 fs-1">
-                <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getTotalAccuracy(), 1, 'COMMA', 2, 'POINT')}"></div>
+                <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getTotalAccuracy() * 100, 1, 'COMMA', 2, 'POINT') + '%'}"></div>
             </div>
             <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Avg Accuracy</div></div>
-            <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getAverageAccuracy(), 1, 'COMMA', 2, 'POINT')}"></div>
+            <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getAverageAccuracy() * 100, 1, 'COMMA', 2, 'POINT') + '%'}"></div>
         </div>
         <div class="row">
             <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Total Shots Landed</div></div>
@@ -200,7 +200,7 @@
         <div class="row">
             <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Avg Pct Time Moving</div></div>
             <div class="col-6 col-md-3 mb-3 fs-1">
-                <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getAvgPctTimeMoving(), 1, 'COMMA', 2, 'POINT')}"></div>
+                <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getAvgPctTimeMoving(), 1, 'COMMA', 2, 'POINT') + '%'}"></div>
             </div>
             <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Avg Speed During Match</div></div>
             <div class="col-6 col-md-3 mb-3 fs-1">
