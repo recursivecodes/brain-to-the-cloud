@@ -15,20 +15,89 @@
     <!--/*@thymesVar id="isLoggedIn" type="java.lang.Boolean"*/-->
     <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
 
-    <div class="row">
-        <div class="col-12">
+    <div class="row mt-3" th:with="record=${summaryCollection.getGameSummaryDTOList().get(0)}">
+        <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOcol mb-3lection"*/-->
+        <div class="col-12 mb-3">
             <h1>Kills/Assists/Deaths</h1>
-            <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
-            <div th:replace="fragments/killsummarytable :: killsummarytable(${summaryCollection}, false, null, null, null)"></div>
-            <h1>Win/Loss</h1>
-            <div th:replace="fragments/winlosssummarytable :: winlosssummarytable(${summaryCollection}, false, null, null, null)"></div>
-            <h1>Accuracy/Damage</h1>
-            <div th:replace="fragments/accuracydamagetable :: accuracydamagetable(${summaryCollection}, false, null, null, null)"></div>
-            <h1>Score/Travel</h1>
-            <div th:replace="fragments/scoretraveltable :: scoretraveltable(${summaryCollection}, false, null, null, null)"></div>
         </div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Games</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalGames(), 0, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Kills</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalKills(), 0, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Deaths</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalDeaths(), 0, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Avg Kills</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getAvgKills(), 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Avg Deaths</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getAvgDeaths(), 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Max Eliminations</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getMaxEliminations(), 1, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Max Kills</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getMaxKills(), 1, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Max Deaths</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getMaxDeaths(), 1, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Min Kills</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getMinKills(), 1, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Min Deaths</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getMinDeaths(), 1, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Max Assists</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getMaxAssists(), 1, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Min Assists</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getMinAssists(), 1, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Max Kd Ratio</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getMaxKdRatio(), 1, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Assists</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalAssists(), 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Avg Kd Ratio</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getAvgKdRatio(), 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Kd Ratio</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalKdRatio(), 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Ed Ratio</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalEdRatio(), 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Longest Streak</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getLongestStreak(), 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-12 mb-3">
+            <h1>Win/Loss</h1>
+        </div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Wins</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalWins(), 1, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Losses</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalLosses(), 1, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">W/L Ratio</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getWlRatio(), 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-12 mb-3">
+            <h1>Accuracy/Damage</h1>
+        </div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Accuracy</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalAccuracy(), 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Avg Accuracy</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getAverageAccuracy(), 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Shots Landed</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalShotsLanded(), 0, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Shots Missed</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalShotsMissed(), 0, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Shots Fired</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalShotsFired(), 0, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Damage Done</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalDamageDone(), 0, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Damage Taken</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalDamageTaken(), 0, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-12 mb-3">
+            <h1>Score/Travel</h1>
+        </div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Avg Score</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getAvgScore(), 0, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Score Per Minute</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalScorePerMinute(), 0, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Avg Score Per Minute</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getAvgScorePerMinute(), 0, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Total Distance Traveled</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getTotalDistanceTraveled(), 0, 'COMMA', 0, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Avg Pct Time Moving</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getAvgPctTimeMoving(), 1, 'COMMA', 2, 'POINT')}"></div>
+        <div class="col-6 col-md-3 mb-3 fw-bold fs-3"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center">Avg Speed During Match</div></div>
+        <div class="col-6 col-md-3 mb-3 fs-1 d-flex align-items-center border" th:text="${#numbers.formatDecimal(record.getAvgSpeedDuringMatch(), 1, 'COMMA', 2, 'POINT')}"></div>
     </div>
-    <div th:replace="fragments/tablechartmodal :: tablechartmodal()"></div>
 </section>
 </body>
 </html>
