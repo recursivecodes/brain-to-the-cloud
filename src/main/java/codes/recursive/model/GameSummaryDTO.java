@@ -15,6 +15,8 @@ public class GameSummaryDTO {
     @Nullable
     private String grouping;
     private Integer totalGames;
+    private BigDecimal avgAttention;
+    private BigDecimal avgMeditation;
     private Integer totalKills;
     private BigDecimal avgKills;
     private BigDecimal avgDeaths;

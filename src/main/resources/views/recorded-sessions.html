@@ -49,8 +49,8 @@
                             <td>
                                 <a href="#" class="brain-session-details-trigger" th:data-id="${record.id}" th:data-notes="${record.notes}" th:text="${record.getName()}"></a>
                             </td>
-                            <td th:text="${#numbers.formatDecimal(record.getAvgAttention(), 1, 'COMMA', 2, 'POINT')}"></td>
-                            <td th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(record.getAvgAttention(), 1, 'COMMA', 2, 'POINT') + '%'}"></td>
+                            <td th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 1, 'COMMA', 2, 'POINT') + '%'}"></td>
                             <td th:text="${record.getStartedAtLocal()}"></td>
                             <td th:text="${record.getEndedAtAtLocal()}"></td>
                             <!--
@@ -79,6 +79,12 @@
             <h1 id="sessionName"></h1>
             <h2><span id="sessionStart"></span> - <span id="sessionEnd"></span></h2>
             <p class="border rounded shadow fs-5 p-3" id="sessionNotes"></p>
+
+            <div class="row mb-3">
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Attention', 'avg-attention')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Meditation', 'avg-meditation')"></div>
+            </div>
+
             <h2>Attention</h2>
             <div class="mb-3">
                 <canvas id="attentionChart" class="border p-1 rounded shadow w-100"></canvas>

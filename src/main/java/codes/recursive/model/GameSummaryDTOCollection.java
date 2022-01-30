@@ -34,7 +34,9 @@ public class GameSummaryDTOCollection {
             Map.entry("getAverageAccuracy", GameSummaryDTO::getAverageAccuracy),
             Map.entry("getAvgPctTimeMoving", GameSummaryDTO::getAvgPctTimeMoving),
             Map.entry("getWlRatio", GameSummaryDTO::getWlRatio),
-            Map.entry("getMaxKdRatio", GameSummaryDTO::getMaxKdRatio)
+            Map.entry("getMaxKdRatio", GameSummaryDTO::getMaxKdRatio),
+            Map.entry("getAvgAttention", GameSummaryDTO::getAvgAttention),
+            Map.entry("getAvgMeditation", GameSummaryDTO::getAvgMeditation)
     );
     private final Map<String, Function<GameSummaryDTO, Integer>> integerMethods = Map.ofEntries(
             Map.entry("getLongestStreak", GameSummaryDTO::getLongestStreak),
