@@ -25,6 +25,7 @@
                 <table class="table table-bordered table-hover">
                     <thead class="bg-theme text-white border-2 border-white">
                         <tr>
+                            <th th:if="${isLoggedIn}" style="width: 20px;">&nbsp;</th>
                             <th>Name</th>
                             <th>Avg Attention</th>
                             <th>Avg Meditation</th>
@@ -46,6 +47,11 @@
                     <!--/*@thymesVar id="gameSummaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
                         <tr th:each="record, s: ${sessionSummaries}">
                             <!--/*@thymesVar id="record" type="codes.recursive.model.BrainSummaryDTO"*/-->
+                            <td th:if="${isLoggedIn}">
+                                <button th:data-id="${record.id}" class="btn btn-sm btn-outline-danger delete-brain-session">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
                             <td>
                                 <a href="#" class="brain-session-details-trigger" th:data-id="${record.id}" th:data-notes="${record.notes}" th:text="${record.getName()}"></a>
                             </td>

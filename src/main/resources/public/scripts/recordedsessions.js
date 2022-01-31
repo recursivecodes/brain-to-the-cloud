@@ -88,6 +88,18 @@ window.activityChart = null;
 
 const init = () => {
 
+    document.querySelectorAll('.delete-brain-session').forEach((btn) => {
+       btn.addEventListener('click', function(evt) {
+           let trigger = evt.currentTarget;
+           let id = trigger.getAttribute("data-id");
+           let tr = trigger.closest('tr');
+           fetch(`/api/brainSession/${id}`, { 'method': 'DELETE' })
+               .then(() => {
+                   tr.remove();
+               })
+       });
+    });
+
     document.getElementById('brainSessionDetails').addEventListener('hidden.bs.offcanvas', function() {
         if(window.attentionChart) window.attentionChart.destroy();
         if(window.meditationChart) window.meditationChart.destroy();

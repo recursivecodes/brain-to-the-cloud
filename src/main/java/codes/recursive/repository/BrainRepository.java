@@ -15,4 +15,5 @@ public interface BrainRepository extends PageableRepository<Brain, Long> {
 
     @Query("from Brain where toLocalTimestamp(created_on) between epochToLocalTimestamp(:startTime) and epochToLocalTimestamp(:endTime) order by created_on")
     List<Brain> getBrainForMatch(Integer startTime, Integer endTime);
+
 }

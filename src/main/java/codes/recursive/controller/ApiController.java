@@ -5,10 +5,7 @@ import codes.recursive.config.CodClientConfig;
 import codes.recursive.model.Brain;
 import codes.recursive.model.BrainSession;
 import codes.recursive.model.Game;
-import codes.recursive.repository.AbstractGameRepository;
-import codes.recursive.repository.BrainRepository;
-import codes.recursive.repository.BrainSessionRepository;
-import codes.recursive.repository.GameRepository;
+import codes.recursive.repository.*;
 import codes.recursive.task.RecentGames;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
@@ -35,6 +32,7 @@ public class ApiController {
     private final GameRepository gameRepository;
     private final BrainRepository brainRepository;
     private final AbstractGameRepository abstractGameRepository;
+    private final AbstractBrainRepository abstractBrainRepository;
     private final BrainSessionRepository brainSessionRepository;
     private final CodClientConfig codClientConfig;
 
@@ -44,13 +42,14 @@ public class ApiController {
             GameRepository gameRepository,
             BrainRepository brainRepository,
             AbstractGameRepository abstractGameRepository,
-            BrainSessionRepository brainSessionRepository, CodClientConfig codClientConfig
+            AbstractBrainRepository abstractBrainRepository, BrainSessionRepository brainSessionRepository, CodClientConfig codClientConfig
     ) {
         this.codPublicClient = codPublicClient;
         this.recentMatches = recentMatches;
         this.gameRepository = gameRepository;
         this.brainRepository = brainRepository;
         this.abstractGameRepository = abstractGameRepository;
+        this.abstractBrainRepository = abstractBrainRepository;
         this.brainSessionRepository = brainSessionRepository;
         this.codClientConfig = codClientConfig;
     }
@@ -138,5 +137,12 @@ public class ApiController {
         return HttpResponse.ok(
                 brainSessionRepository.listBrainSessionDetails(sessionId)
         );
+    }
+
+    @Delete(uri = "/brainSession/{brainSessionId}")
+    public HttpResponse deleteBrainSession(Long brainSessionId) {
+        abstractBrainRepository.deleteBrainByBrainSessionId(brainSessionId);
+        brainSessionRepository.deleteById(brainSessionId);
+        return HttpResponse.noContent();
     }
 }
