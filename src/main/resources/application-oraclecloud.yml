@@ -85,4 +85,4 @@ acme:
   account-key: |
     ${SSL_ACME_KEY}
   acme-server: https://acme-v02.api.letsencrypt.org/directory
-  challenge-type: http
+  challenge-type: tls
