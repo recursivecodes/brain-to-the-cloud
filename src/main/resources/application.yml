@@ -38,6 +38,10 @@ micronaut:
         http-method: GET
         access:
           - isAnonymous()
+      - pattern: /bootstrap/**
+        http-method: GET
+        access:
+          - isAnonymous()
     endpoints:
       logout:
         get-allowed: true

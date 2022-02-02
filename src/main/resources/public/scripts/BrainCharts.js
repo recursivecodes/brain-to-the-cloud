@@ -141,10 +141,6 @@ export class BrainCharts {
         return new Chart(document.getElementById(chartId).getContext('2d'), {
             type: 'line',
             options: {
-                onClick(e) {
-                    console.log(e);
-                    const activePoints = e.chart.getElementsAtEventForMode(e, 'nearest', {intersect: true}, false);
-                },
                 animation: {
                     onComplete: function(data) {
                         const chart = data.chart;
@@ -162,7 +158,7 @@ export class BrainCharts {
                         const minId = `${chartId}MinY`;
                         const maxId = `${chartId}MaxY`;
 
-                        document.getElementById(chartId).addEventListener('click', function(evt) {
+                        document.getElementById(chartId).addEventListener('dblclick', function(evt) {
                             const canvas = evt.currentTarget;
                             canvas.setAttribute('data-has-listener', true);
                             const div = canvas.closest('div');
@@ -171,7 +167,7 @@ export class BrainCharts {
                             evt.preventDefault();
                         }, false);
                         chart._hasCustomClickListener = true;
-                        let container = `<div class="mt-2 mt-2 border col-12 d-none p-1 rounded shadow min-max-container"><div class="justify-content-center row"><div class="col-3 pb-1 pt-1"><input class="col-1 form-control chart-min-y"id="${minId}"max="${maxY}"min="${minY}"value="${minY}"placeholder="Min"step="${step}"type="number"></div><div class="col-3 pb-1 pt-1"><input class="col-1 form-control chart-max-y"id="${maxId}"max="${maxY}"value="${maxY}"min="${minY}"placeholder="Max"step="${step}"type="number"></div></div></div>`;
+                        let container = `<div class="mt-2 mt-2 border col-12 d-none p-1 rounded shadow min-max-container"><div class="justify-content-center row"><div class="col-3 pb-1 pt-1 input-group"><span class="input-group-text">Min Y</span><input class="col-1 form-control chart-min-y"id="${minId}"max="${maxY}"min="${minY}"value="${minY}"placeholder="Min"step="${step}"type="number"></div><div class="col-3 pb-1 pt-1 input-group"><span class="input-group-text">Max Y</span><input class="col-1 form-control chart-max-y"id="${maxId}"max="${maxY}"value="${maxY}"min="${minY}"placeholder="Max"step="${step}"type="number"></div></div></div>`;
                         let temp = document.createElement('div')
                         temp.innerHTML = container;
                         chart.canvas.closest('div').append(temp.firstChild);
@@ -200,19 +196,6 @@ export class BrainCharts {
                     },
                     legend: {
                         display: showLegend,
-                        onClick(e, legendItem, legend) {
-                            console.log(e);
-                            const index = legendItem.datasetIndex;
-                            const ci = legend.chart;
-                            ci.canvas.closest('div').querySelector('.min-max-container').classList.toggle('d-none');
-                            if (ci.isDatasetVisible(index)) {
-                                ci.hide(index);
-                                legendItem.hidden = true;
-                            } else {
-                                ci.show(index);
-                                legendItem.hidden = false;
-                            }
-                        },
                     },
                     title: {text: title, display: true},
                 },
