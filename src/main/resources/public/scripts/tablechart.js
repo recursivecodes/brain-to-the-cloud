@@ -140,7 +140,7 @@ const init = () => {
             }
             let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('tableChartModal'));
             if(lineChart) {
-                window.chart = window.brainCharts.renderLineChart('tableChart', table.parentElement.previousElementSibling.innerText, true, window.brainCharts.defaultXAxes, datasource);
+                window.chart = window.brainCharts.renderLineChart('tableChart', table.parentElement.previousElementSibling.innerText, true, window.brainCharts.defaultXAxes, window.brainCharts.defaultYAxes, datasource);
             }
             else {
                 window.chart = window.brainCharts.renderDonutPieChart('tableChart', table.parentElement.previousElementSibling.innerText, true, datasource, 'pie');

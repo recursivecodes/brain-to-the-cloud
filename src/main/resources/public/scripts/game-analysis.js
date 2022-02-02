@@ -1,6 +1,7 @@
 import {BrainCharts} from "./BrainCharts.js";
 
 window.brainChart = null;
+window.activityChart = null
 window.scoreAttentionChart = null;
 window.scoreMeditationChart = null;
 
@@ -123,6 +124,7 @@ window.model = {
     loadBrainDataForSelectedGame: () => {
         window.model.brainDataForSelectedGame = [];
         if(window.brainChart != null) window.brainChart.destroy();
+        if(window.activityChart != null) window.activityChart.destroy();
 
         let start = window.model.selectedGame.match.utcStartSeconds;
         let end = window.model.selectedGame.match.utcEndSeconds;
@@ -152,7 +154,21 @@ window.model = {
                             }),
                         }
                     ];
-                    window.brainChart = window.brainCharts.renderLineChart('brainChart', 'Attention/Meditation', true, window.brainCharts.xAxes, datasource);
+                    let activityDatasource = BrainCharts.defaultActivityDatasource();
+                    activityDatasource[0].data = brainData.map(brain => {return {y: Number(brain.delta / 1000).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[1].data = brainData.map(brain => {return {y: Number(brain.theta / 1000).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[2].data = brainData.map(brain => {return {y: Number(brain.lowAlpha / 1000).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[3].data = brainData.map(brain => {return {y: Number(brain.highAlpha / 1000).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[4].data = brainData.map(brain => {return {y: Number(brain.lowBeta / 1000).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[5].data = brainData.map(brain => {return {y: Number(brain.highBeta / 1000).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[6].data = brainData.map(brain => {return {y: Number(brain.lowGamma / 1000).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[7].data = brainData.map(brain => {return {y: Number(brain.highGamma / 1000).toFixed(2), x: new Date(brain.createdOn)}});
+
+                    window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity (Hz)', true, window.brainCharts.activityXAxes, window.brainCharts.defaultYAxes, activityDatasource);
+                    document.querySelector('#activityChart').addEventListener('chartAxesRendered', function(evt) {
+                        console.log(evt);
+                    })
+                    window.brainChart = window.brainCharts.renderLineChart('brainChart', 'Attention/Meditation', true, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, datasource);
                     window.model.renderScoreChart('meditation', 'scoreMeditationChart', 'Score Adjusted for Meditation');
                     window.model.renderScoreChart('attention', 'scoreAttentionChart', 'Score Adjusted for Attention');
                 }
@@ -191,9 +207,6 @@ window.model = {
             }
         )
             .then(response => {
-                if(response.status === 204) {
-                    window.model.selectedGame.isHighlighted = true;
-                }
                 let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('gameNotesModal'));
                 modal.hide();
             })

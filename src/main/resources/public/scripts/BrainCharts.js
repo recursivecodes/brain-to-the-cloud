@@ -4,6 +4,7 @@ export class BrainCharts {
     ticks;
     xAxes;
     activityXAxes;
+    defaultYAxes;
 
     constructor() {
         this.brainReadings = [];
@@ -17,6 +18,17 @@ export class BrainCharts {
                 return (index % 3) ? "" : tick;
             },
             maxTicksLimit: 10,
+        };
+        this.defaultYAxes = {
+            ticks: {
+                callback : function(value, index, values){
+                    //const event = new Event('chartAxesRendered', {detail: values});
+                    //this.chart.canvas.dispatchEvent(event);
+                    //console.log(values, this.chart);
+                    if(!this.chart._yAxisValues) this.chart._yAxisValues = values;
+                    return value;
+                }
+            }
         };
         this.xAxes = {
             legend: {display: false},
@@ -46,6 +58,75 @@ export class BrainCharts {
         };
     }
 
+    static defaultActivityDatasource() {
+        return [
+            {
+                label: 'Delta',
+                borderColor: "#9400D3",
+                backgroundColor: "#9400D3",
+                pointBackgroundColor: "#9400D3",
+                fill: false,
+                data: []
+            },
+            {
+                label: 'Theta',
+                borderColor: "#4B0082",
+                backgroundColor: "#4B0082",
+                pointBackgroundColor: "#4B0082",
+                fill: false,
+                data: []
+            },
+            {
+                label: 'Low Alpha',
+                borderColor: "#0000FF",
+                backgroundColor: "#0000FF",
+                pointBackgroundColor: "#0000FF",
+                fill: false,
+                data: []
+            },
+            {
+                label: 'High Alpha',
+                borderColor: "#00FF00",
+                backgroundColor: "#00FF00",
+                pointBackgroundColor: "#00FF00",
+                fill: false,
+                data: []
+            },
+            {
+                label: 'Low Beta',
+                borderColor: "#FFFF00",
+                backgroundColor: "#FFFF00",
+                pointBackgroundColor: "#FFFF00",
+                fill: false,
+                data: []
+            },
+            {
+                label: 'High Beta',
+                borderColor: "#FF7F00",
+                backgroundColor: "#FF7F00",
+                pointBackgroundColor: "#FF7F00",
+                fill: false,
+                data: []
+            },
+            {
+                label: 'Low Gamma',
+                borderColor: "#fa61bd",
+                backgroundColor: "#fa61bd",
+                pointBackgroundColor: "#fa61bd",
+                fill: false,
+                data: []
+            },
+            {
+                label: 'High Gamma',
+                borderColor: "#FF0000",
+                backgroundColor: "#FF0000",
+                pointBackgroundColor: "#FF0000",
+                fill: false,
+                data: []
+            },
+        ]
+    }
+
     renderDonutPieChart(chartId, title, showLegend, datasource, type) {
         return new Chart(document.getElementById(chartId).getContext('2d'), {
             type: type,
@@ -59,10 +140,57 @@ export class BrainCharts {
         });
     }
 
-    renderLineChart(chartId, title, showLegend, xAxes, datasource) {
+    renderLineChart(chartId, title, showLegend, xAxes, yAxes, datasource) {
         return new Chart(document.getElementById(chartId).getContext('2d'), {
             type: 'line',
             options: {
+                animation: {
+                    onComplete: function(data) {
+                        const chart = data.chart;
+                        if(chart._hasCustomClickListener) return;
+                        const mm = chart.canvas.closest('div').querySelector('.min-max-container');
+                        if(mm) mm.remove();
+                        if(!chart._yAxisValues) return;
+                        const minY = chart._yAxisValues[0].value;
+                        const maxY = chart._yAxisValues[data.chart._yAxisValues.length-1].value;
+                        chart._yAxisMin = minY;
+                        chart._yAxisMax = maxY;
+                        const step = chart._yAxisValues.length > 2 ? chart._yAxisValues[1].value - chart._yAxisValues[0].value : 100;
+                        const chartId = chart.canvas.getAttribute('id');
+                        const minId = `${chartId}MinY`;
+                        const maxId = `${chartId}MaxY`;
+
+                        document.getElementById(chartId).addEventListener('click', function(evt) {
+                            const canvas = evt.currentTarget;
+                            const div = canvas.closest('div');
+                            div.querySelector('.min-max-container').classList.toggle('d-none');
+                            evt.stopPropagation();
+                            evt.preventDefault();
+                        });
+                        chart._hasCustomClickListener = true;
+                        let container = `<div class="mt-2 mt-2 border col-12 d-none p-1 rounded shadow min-max-container"><div class="justify-content-center row"><div class="col-3 pb-1 pt-1"><input class="col-1 form-control chart-min-y"id="${minId}"max="${maxY}"min="${minY}"value="${minY}"placeholder="Min"step="${step}"type="number"></div><div class="col-3 pb-1 pt-1"><input class="col-1 form-control chart-max-y"id="${maxId}"max="${maxY}"value="${maxY}"min="${minY}"placeholder="Max"step="${step}"type="number"></div></div></div>`;
+                        let temp = document.createElement('div')
+                        temp.innerHTML = container;
+                        chart.canvas.closest('div').append(temp.firstChild);
+                        document.querySelector(`#${minId}`).addEventListener('change', function(evt){
+                            const el = evt.currentTarget;
+                            const canvas = el.closest('.min-max-container').previousElementSibling;
+                            const chart = Chart.getChart(el.closest('.min-max-container').previousElementSibling.getAttribute('id'));
+                            chart.options.scales.yAxes.min = el.value;
+                            chart.update();
+                            evt.stopPropagation();
+                            evt.preventDefault();
+                        })
+                        document.querySelector(`#${maxId}`).addEventListener('change', function(evt){
+                            const el = evt.currentTarget;
+                            const chart = Chart.getChart(el.closest('.min-max-container').previousElementSibling.getAttribute('id'));
+                            chart.options.scales.yAxes.max = el.value;
+                            chart.update();
+                            evt.stopPropagation();
+                            evt.preventDefault();
+                        })
+                    }
+                },
                 plugins: {
                     annotation: {
                         annotations: {}
@@ -72,7 +200,8 @@ export class BrainCharts {
                 },
                 radius: 3,
                 scales: {
-                    x: xAxes,
+                    xAxes: xAxes,
+                    yAxes: yAxes,
                 },
             },
             data: {
