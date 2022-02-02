@@ -22,9 +22,6 @@ export class BrainCharts {
         this.defaultYAxes = {
             ticks: {
                 callback : function(value, index, values){
-                    //const event = new Event('chartAxesRendered', {detail: values});
-                    //this.chart.canvas.dispatchEvent(event);
-                    //console.log(values, this.chart);
                     if(!this.chart._yAxisValues) this.chart._yAxisValues = values;
                     return value;
                 }
@@ -144,10 +141,15 @@ export class BrainCharts {
         return new Chart(document.getElementById(chartId).getContext('2d'), {
             type: 'line',
             options: {
+                onClick(e) {
+                    console.log(e);
+                    const activePoints = e.chart.getElementsAtEventForMode(e, 'nearest', {intersect: true}, false);
+                },
                 animation: {
                     onComplete: function(data) {
                         const chart = data.chart;
                         if(chart._hasCustomClickListener) return;
+                        if(Boolean(chart.canvas.getAttribute('data-has-listener')) === true) return;
                         const mm = chart.canvas.closest('div').querySelector('.min-max-container');
                         if(mm) mm.remove();
                         if(!chart._yAxisValues) return;
@@ -162,11 +164,12 @@ export class BrainCharts {
 
                         document.getElementById(chartId).addEventListener('click', function(evt) {
                             const canvas = evt.currentTarget;
+                            canvas.setAttribute('data-has-listener', true);
                             const div = canvas.closest('div');
                             div.querySelector('.min-max-container').classList.toggle('d-none');
                             evt.stopPropagation();
                             evt.preventDefault();
-                        });
+                        }, false);
                         chart._hasCustomClickListener = true;
                         let container = `<div class="mt-2 mt-2 border col-12 d-none p-1 rounded shadow min-max-container"><div class="justify-content-center row"><div class="col-3 pb-1 pt-1"><input class="col-1 form-control chart-min-y"id="${minId}"max="${maxY}"min="${minY}"value="${minY}"placeholder="Min"step="${step}"type="number"></div><div class="col-3 pb-1 pt-1"><input class="col-1 form-control chart-max-y"id="${maxId}"max="${maxY}"value="${maxY}"min="${minY}"placeholder="Max"step="${step}"type="number"></div></div></div>`;
                         let temp = document.createElement('div')
@@ -195,7 +198,22 @@ export class BrainCharts {
                     annotation: {
                         annotations: {}
                     },
-                    legend: {display: showLegend},
+                    legend: {
+                        display: showLegend,
+                        onClick(e, legendItem, legend) {
+                            console.log(e);
+                            const index = legendItem.datasetIndex;
+                            const ci = legend.chart;
+                            ci.canvas.closest('div').querySelector('.min-max-container').classList.toggle('d-none');
+                            if (ci.isDatasetVisible(index)) {
+                                ci.hide(index);
+                                legendItem.hidden = true;
+                            } else {
+                                ci.show(index);
+                                legendItem.hidden = false;
+                            }
+                        },
+                    },
                     title: {text: title, display: true},
                 },
                 radius: 3,
