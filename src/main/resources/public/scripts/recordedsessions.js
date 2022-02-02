@@ -50,12 +50,12 @@ const init = () => {
             fetch(`/api/brainSessionDetails/${el.getAttribute('data-id')}`, { method: 'GET' })
             .then(result => result.json())
             .then(response => {
-                document.querySelector('#sessionName').innerHTML = row.querySelector('td:nth-of-type(1)').innerText;
+                document.querySelector('#sessionName').innerHTML = row.querySelector('td:nth-of-type(2)').innerText;
                 document.querySelector('#sessionNotes').innerHTML = el.getAttribute('data-notes');
-                document.querySelector('#sessionStart').innerHTML = row.querySelector('td:nth-of-type(4)').innerText;
-                document.querySelector('#sessionEnd').innerHTML = row.querySelector('td:nth-of-type(5)').innerText;
-                document.querySelector('.avg-attention').innerHTML = row.querySelector('td:nth-of-type(2)').innerText;
-                document.querySelector('.avg-meditation').innerHTML = row.querySelector('td:nth-of-type(3)').innerText
+                document.querySelector('#sessionStart').innerHTML = row.querySelector('td:nth-of-type(5)').innerText;
+                document.querySelector('#sessionEnd').innerHTML = row.querySelector('td:nth-of-type(6)').innerText;
+                document.querySelector('.avg-attention').innerHTML = row.querySelector('td:nth-of-type(3)').innerText;
+                document.querySelector('.avg-meditation').innerHTML = row.querySelector('td:nth-of-type(4)').innerText
                 window.attentionDatasource[0].data = response.map((it) => {return {"x": it.createdOn, "y": it.attention}})
                 window.meditationDatasource[0].data = response.map((it) => {return {"x": it.createdOn, "y": it.meditation}})
                 window.activityDatasource[0].data = response.map((it) => {return {"x": it.createdOn, "y": it.delta / 1000}})
