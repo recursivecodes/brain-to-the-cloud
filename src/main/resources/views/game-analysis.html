@@ -95,7 +95,7 @@
 
             <div class="card text-white">
                 <div class="position-relative">
-                    <img rv-mapsrc="model.selectedGame.match.map" class="img-fluid border rounded" rv-alt="model.selectedGame.match.map | map">
+                    <img rv-mapsrc="model.selectedGame.match.map"  rv-if="model.selectedGame.match.map" class="img-fluid border rounded" rv-alt="model.selectedGame.match.map | map">
                     <div class="position-absolute top-0 end-0 p-1">
                         <span class="badge fs-6 fs-md-1 bg-gradient text-white bg-opacity-50 text-shadow" rv-winlossbg="model.selectedGame.match.result">
                             <strong>{model.selectedGame.match.result | winLoss}</strong>
