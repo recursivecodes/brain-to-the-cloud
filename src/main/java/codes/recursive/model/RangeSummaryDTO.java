@@ -29,4 +29,8 @@ public class RangeSummaryDTO {
     private BigDecimal avgAttention;
     @Nullable
     private BigDecimal avgMeditation;
+
+    public Double getTimePlayedHours() {
+        return (double) (timePlayed / 3600d);
+    }
 }
