@@ -165,9 +165,6 @@ window.model = {
                     activityDatasource[7].data = brainData.map(brain => {return {y: Number(brain.highGamma / 1000).toFixed(2), x: new Date(brain.createdOn)}});
 
                     window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity (Hz)', true, window.brainCharts.activityXAxes, window.brainCharts.defaultYAxes, activityDatasource);
-                    document.querySelector('#activityChart').addEventListener('chartAxesRendered', function(evt) {
-                        console.log(evt);
-                    })
                     window.brainChart = window.brainCharts.renderLineChart('brainChart', 'Attention/Meditation', true, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, datasource);
                     window.model.renderScoreChart('meditation', 'scoreMeditationChart', 'Score Adjusted for Meditation');
                     window.model.renderScoreChart('attention', 'scoreAttentionChart', 'Score Adjusted for Attention');
@@ -243,11 +240,17 @@ window.model = {
 
 const init = async () => {
     window.brainCharts = new BrainCharts();
+    // listen for offcanvas hide and destroy charts
+    const oc = document.getElementById('gameDetails');
+    oc.addEventListener('hidden.bs.offcanvas', function () {
+       if(window.brainChart) window.brainChart.destroy();
+       if(window.activityChart) window.activityChart.destroy();
+    });
     // this is a bit dangerous, relying on a third party service...
     let lookupRequest = await fetch('/api/codLookups');
     window.model.codLookups = await lookupRequest.json();
     window.model.loadRecentGames();
-    rivets.bind(document.querySelector('body'), {model: window.model})
+    rivets.bind(document.querySelector('body'), {model: window.model});
 };
 
 document.addEventListener('DOMContentLoaded', init);

@@ -157,36 +157,44 @@ export class BrainCharts {
                         const chartId = chart.canvas.getAttribute('id');
                         const minId = `${chartId}MinY`;
                         const maxId = `${chartId}MaxY`;
-
-                        document.getElementById(chartId).addEventListener('dblclick', function(evt) {
+                        const dblClickHandler = function(evt) {
                             const canvas = evt.currentTarget;
-                            canvas.setAttribute('data-has-listener', true);
                             const div = canvas.closest('div');
                             div.querySelector('.min-max-container').classList.toggle('d-none');
                             evt.stopPropagation();
                             evt.preventDefault();
-                        }, false);
+                        };
+                        document.getElementById(chartId).removeEventListener('dblclick', dblClickHandler);
+                        document.getElementById(chartId).addEventListener('dblclick', dblClickHandler);
+                        chart.canvas.setAttribute('data-has-listener', true);
                         chart._hasCustomClickListener = true;
-                        let container = `<div class="mt-2 mt-2 border col-12 d-none p-1 rounded shadow min-max-container"><div class="justify-content-center row"><div class="col-3 pb-1 pt-1 input-group"><span class="input-group-text">Min Y</span><input class="col-1 form-control chart-min-y"id="${minId}"max="${maxY}"min="${minY}"value="${minY}"placeholder="Min"step="${step}"type="number"></div><div class="col-3 pb-1 pt-1 input-group"><span class="input-group-text">Max Y</span><input class="col-1 form-control chart-max-y"id="${maxId}"max="${maxY}"value="${maxY}"min="${minY}"placeholder="Max"step="${step}"type="number"></div></div></div>`;
+                        let container = `<div class="mt-2 mt-2 border col-12 d-none p-1 rounded shadow min-max-container"><div class="justify-content-center row"><div class="col-4 pb-1 pt-1"><div class="input-group"><span class="input-group-text">Min Y</span><input class="col-1 form-control chart-min-y"id="${minId}"max="${maxY}"min="${minY}"value="${minY}"placeholder="Min"step="${step}"type="number" /><button id="${minId}_Reset"class="btn btn-outline-secondary"type="button">Reset</button></div></div><div class="col-4 pb-1 pt-1"><div class="input-group"><span class="input-group-text">Max Y</span><input class="col-1 form-control chart-max-y"id="${maxId}"max="${maxY}"value="${maxY}"min="${minY}"placeholder="Max"step="${step}"type="number" /><button id="${maxId}_Reset"class="btn btn-outline-secondary"type="button">Reset</button></div></div></div></div>`;
                         let temp = document.createElement('div')
                         temp.innerHTML = container;
                         chart.canvas.closest('div').append(temp.firstChild);
                         document.querySelector(`#${minId}`).addEventListener('change', function(evt){
                             const el = evt.currentTarget;
-                            const canvas = el.closest('.min-max-container').previousElementSibling;
                             const chart = Chart.getChart(el.closest('.min-max-container').previousElementSibling.getAttribute('id'));
                             chart.options.scales.yAxes.min = el.value;
                             chart.update();
-                            evt.stopPropagation();
-                            evt.preventDefault();
-                        })
+                        });
                         document.querySelector(`#${maxId}`).addEventListener('change', function(evt){
                             const el = evt.currentTarget;
                             const chart = Chart.getChart(el.closest('.min-max-container').previousElementSibling.getAttribute('id'));
                             chart.options.scales.yAxes.max = el.value;
                             chart.update();
-                            evt.stopPropagation();
-                            evt.preventDefault();
+                        });
+                        document.querySelector(`#${minId}_Reset`).addEventListener('click', function(evt){
+                            const chart = Chart.getChart(evt.currentTarget.closest('.min-max-container').previousElementSibling.getAttribute('id'));
+                            evt.currentTarget.previousElementSibling.value = chart._yAxisMin;
+                            chart.options.scales.yAxes.min = chart._yAxisMin;
+                            chart.update();
+                        });
+                        document.querySelector(`#${maxId}_Reset`).addEventListener('click', function(evt){
+                            const chart = Chart.getChart(evt.currentTarget.closest('.min-max-container').previousElementSibling.getAttribute('id'));
+                            evt.currentTarget.previousElementSibling.value = chart._yAxisMax;
+                            chart.options.scales.yAxes.max = chart._yAxisMax;
+                            chart.update();
                         })
                     }
                 },
