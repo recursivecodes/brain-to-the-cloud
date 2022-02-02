@@ -23,6 +23,16 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Average Attention</div></div>
+            <div class="col-6 col-md-3 mb-3 mr-3 mr-md-0 fs-1">
+                <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getAvgAttention(), 1, 'COMMA', 2, 'POINT')}"></div>
+            </div>
+            <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Average Meditation</div></div>
+            <div class="col-6 col-md-3 mb-3 fs-1">
+                <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 1, 'COMMA', 2, 'POINT')}"></div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Total Games</div></div>
             <div class="col-6 col-md-3 mb-3 mr-3 mr-md-0 fs-1">
                 <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getTotalGames(), 0, 'COMMA', 0, 'POINT')}"></div>

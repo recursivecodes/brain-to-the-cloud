@@ -5,10 +5,10 @@
     <!--/*/
     <div id="extraHead" th:remove="tag">
     /*/-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js" integrity="sha512-tMabqarPtykgDtdtSqCL3uLVM0gS1ZkUAVhRFu1vSEFgvB73niFQWJuvviDyBGBH22Lcau4rHB5p2K2T0Xvr6Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.1.0/chartjs-plugin-annotation.min.js" integrity="sha512-uxcl+YXF0LbFyZFEb6HHmxl1NEI4X/5rjojm/13M1CBXBDj8wkmM99cKADkmtuky28pC/EpNTDHOEb/c3nDZsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-moment/1.0.0/chartjs-adapter-moment.min.js" integrity="sha512-oh5t+CdSBsaVVAvxcZKy3XJdP7ZbYUBSRCXDTVn0ODewMDDNnELsrG9eDm8rVZAQg7RsDD/8K3MjPAFB13o6eA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/scripts/chart/chart.min.js" </script>
+    <script src="/scripts/chart/chartjs-plugin-annotation.min.js"></script>
+    <script src="/scripts/moment/moment.js"></script>
+    <script src="/scripts/chart/chartjs-adapter-moment.min.js"></script>
     <script src="/scripts/rivets.js" type="application/javascript"></script>
     <script src="/scripts/rivetsstdlib.js" type="application/javascript"></script>
     <script src="/scripts/game-analysis.js" type="module"></script>
@@ -151,12 +151,12 @@
 
             <div class="row mb-md-3 mb-0">
                 <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.kills}/{model.selectedGame.match.playerStats.deaths} ({model.selectedGame.match.playerStats.kdRatio | tofixed})', 'Kills/Deaths (Ratio)', null)"></div>
-                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.damageDone}/{model.selectedGame.match.playerStats.damageTaken}', 'Damage (Done/Taken)', null)"></div>
+                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.kills | add model.selectedGame.match.playerStats.assists}/{model.selectedGame.match.playerStats.deaths} ({model.selectedGame.match.playerStats.kills | add model.selectedGame.match.playerStats.assists | divide model.selectedGame.match.playerStats.deaths | tofixed})', 'Eliminations/Deaths (Ratio)', null)"></div>
             </div>
 
             <div class="row mb-3">
-                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.headshots}', 'Headshots', null)"></div>
-                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.executions}', 'Executions', null)"></div>
+                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.damageDone}/{model.selectedGame.match.playerStats.damageTaken}', 'Damage (Done/Taken)', null)"></div>
+                <div th:replace="fragments/detailcard :: detailcard('{model.selectedGame.match.playerStats.headshots} / {model.selectedGame.match.playerStats.executions}', 'Headshots/Executions', null)"></div>
             </div>
 
             <div class="row mb-3">
