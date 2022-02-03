@@ -47,15 +47,23 @@ const init = () => {
             const el = evt.target;
             const row = el.closest('tr');
             bootstrap.Offcanvas.getOrCreateInstance(document.querySelector('#brainSessionDetails')).show();
-            fetch(`/api/brainSessionDetails/${el.getAttribute('data-id')}`, { method: 'GET' })
+            fetch(`/api/brainSessionDetails/${row.getAttribute('data-id')}`, { method: 'GET' })
             .then(result => result.json())
             .then(response => {
-                document.querySelector('#sessionName').innerHTML = row.querySelector('td:nth-of-type(2)').innerText;
-                document.querySelector('#sessionNotes').innerHTML = el.getAttribute('data-notes');
-                document.querySelector('#sessionStart').innerHTML = row.querySelector('td:nth-of-type(5)').innerText;
-                document.querySelector('#sessionEnd').innerHTML = row.querySelector('td:nth-of-type(6)').innerText;
-                document.querySelector('.avg-attention').innerHTML = row.querySelector('td:nth-of-type(3)').innerText;
-                document.querySelector('.avg-meditation').innerHTML = row.querySelector('td:nth-of-type(4)').innerText
+                document.querySelector('#sessionName').innerHTML = row.getAttribute('data-name');
+                document.querySelector('#sessionNotes').innerHTML = row.getAttribute('data-notes');
+                document.querySelector('#sessionStart').innerHTML = row.getAttribute('data-start');
+                document.querySelector('#sessionEnd').innerHTML = row.getAttribute('data-end');
+                document.querySelector('.avg-attention').innerHTML = row.getAttribute('data-attention');
+                document.querySelector('.avg-meditation').innerHTML = row.getAttribute('data-meditation');
+                document.querySelector('.avg-delta').innerHTML = row.getAttribute('data-avg-delta');
+                document.querySelector('.avg-theta').innerHTML = row.getAttribute('data-avg-theta');
+                document.querySelector('.avg-low-alpha').innerHTML = row.getAttribute('data-avg-low-alpha');
+                document.querySelector('.avg-high-alpha').innerHTML = row.getAttribute('data-avg-high-alpha');
+                document.querySelector('.avg-low-beta').innerHTML = row.getAttribute('data-avg-low-beta');
+                document.querySelector('.avg-high-beta').innerHTML = row.getAttribute('data-avg-high-beta');
+                document.querySelector('.avg-low-gamma').innerHTML = row.getAttribute('data-avg-low-gamma');
+                document.querySelector('.avg-high-gamma').innerHTML = row.getAttribute('data-avg-high-gamma');
                 window.attentionDatasource[0].data = response.map((it) => {return {"x": it.createdOn, "y": it.attention}})
                 window.meditationDatasource[0].data = response.map((it) => {return {"x": it.createdOn, "y": it.meditation}})
                 window.activityDatasource[0].data = response.map((it) => {return {"x": it.createdOn, "y": it.delta / 1000}})

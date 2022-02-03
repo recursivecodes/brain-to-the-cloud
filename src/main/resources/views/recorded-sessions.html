@@ -45,7 +45,22 @@
                     </thead>
                     <tbody>
                     <!--/*@thymesVar id="gameSummaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
-                        <tr th:each="record, s: ${sessionSummaries}">
+                        <tr th:each="record, s: ${sessionSummaries}"
+                            th:data-id="${record.id}"
+                            th:data-name="${record.getName()}"
+                            th:data-notes="${record.getNotes()}"
+                            th:data-attention="${record.getAvgAttention()}"
+                            th:data-meditation="${record.getAvgMeditation()}"
+                            th:data-start="${record.getStartedAtLocal()}"
+                            th:data-end="${record.getEndedAtAtLocal()}"
+                            th:data-avg-delta="${record.getAvgDelta() / 1000}"
+                            th:data-avg-theta="${record.getAvgTheta() / 1000}"
+                            th:data-avg-low-alpha="${record.getAvgLowAlpha() / 1000}"
+                            th:data-avg-high-alpha="${record.getAvgHighAlpha() / 1000}"
+                            th:data-avg-low-beta="${record.getAvgLowBeta() / 1000}"
+                            th:data-avg-high-beta="${record.getAvgHighBeta() / 1000}"
+                            th:data-avg-low-gamma="${record.getAvgLowGamma() / 1000}"
+                            th:data-avg-high-gamma="${record.getAvgHighGamma() / 1000}">
                             <!--/*@thymesVar id="record" type="codes.recursive.model.BrainSummaryDTO"*/-->
                             <td th:if="${isLoggedIn}">
                                 <button th:data-id="${record.id}" class="btn btn-sm btn-outline-danger delete-brain-session">
@@ -53,7 +68,7 @@
                                 </button>
                             </td>
                             <td>
-                                <a href="#" class="brain-session-details-trigger" th:data-id="${record.id}" th:data-notes="${record.notes}" th:text="${record.getName()}"></a>
+                                <a href="#" class="brain-session-details-trigger" th:text="${record.getName()}"></a>
                             </td>
                             <td th:text="${#numbers.formatDecimal(record.getAvgAttention(), 1, 'COMMA', 2, 'POINT') + '%'}"></td>
                             <td th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 1, 'COMMA', 2, 'POINT') + '%'}"></td>
@@ -89,6 +104,26 @@
             <div class="row mb-3">
                 <div th:replace="fragments/detailcard :: detailcard('', 'Average Attention', 'avg-attention')"></div>
                 <div th:replace="fragments/detailcard :: detailcard('', 'Average Meditation', 'avg-meditation')"></div>
+            </div>
+
+            <div class="row mb-3">
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Delta (Hz)', 'avg-delta')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Theta (Hz)', 'avg-theta')"></div>
+            </div>
+
+            <div class="row mb-3">
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Low Alpha (Hz)', 'avg-low-alpha')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average High Alpha (Hz)', 'avg-high-alpha')"></div>
+            </div>
+
+            <div class="row mb-3">
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Low Beta (Hz)', 'avg-low-beta')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average High Beta (Hz)', 'avg-high-beta')"></div>
+            </div>
+
+            <div class="row mb-3">
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Low Gamma (Hz)', 'avg-low-gamma')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average High Gamma (Hz)', 'avg-high-gamma')"></div>
             </div>
 
             <h2>Attention</h2>
