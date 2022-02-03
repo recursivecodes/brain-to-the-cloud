@@ -27,7 +27,7 @@ const initCharts = () => {
 
     window.attentionChart = window.brainCharts.renderLineChart('attentionChart', 'Attention', false, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, attentionDatasource);
     window.meditationChart = window.brainCharts.renderLineChart('meditationChart', 'Meditation', false, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, meditationDatasource);
-    window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity (Hz)', true, window.brainCharts.activityXAxes, window.brainCharts.defaultYAxes,activityDatasource);
+    window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, window.brainCharts.activityXAxes, window.brainCharts.defaultYAxes,activityDatasource);
 }
 
 const init = () => {
@@ -195,14 +195,14 @@ const connect = () => {
         window.brainCharts.brainReadings.push(brain);
         window.attentionChart.data.datasets[0].data.push({y: brain.attention, x: brain.createdOn});
         window.meditationChart.data.datasets[0].data.push({y: brain.meditation, x: brain.createdOn});
-        window.activityChart.data.datasets[0].data.push({y: brain.delta / 1000, x: brain.createdOn});
-        window.activityChart.data.datasets[1].data.push({y: brain.theta / 1000, x: brain.createdOn});
-        window.activityChart.data.datasets[2].data.push({y: brain.lowAlpha / 1000, x: brain.createdOn});
-        window.activityChart.data.datasets[3].data.push({y: brain.highAlpha / 1000, x: brain.createdOn});
-        window.activityChart.data.datasets[4].data.push({y: brain.lowBeta / 1000, x: brain.createdOn});
-        window.activityChart.data.datasets[5].data.push({y: brain.highBeta / 1000, x: brain.createdOn});
-        window.activityChart.data.datasets[6].data.push({y: brain.lowGamma / 1000, x: brain.createdOn});
-        window.activityChart.data.datasets[7].data.push({y: brain.highGamma / 1000, x: brain.createdOn});
+        window.activityChart.data.datasets[0].data.push({y: Math.log(brain.delta), x: brain.createdOn});
+        window.activityChart.data.datasets[1].data.push({y: Math.log(brain.theta), x: brain.createdOn});
+        window.activityChart.data.datasets[2].data.push({y: Math.log(brain.lowAlpha), x: brain.createdOn});
+        window.activityChart.data.datasets[3].data.push({y: Math.log(brain.highAlpha), x: brain.createdOn});
+        window.activityChart.data.datasets[4].data.push({y: Math.log(brain.lowBeta), x: brain.createdOn});
+        window.activityChart.data.datasets[5].data.push({y: Math.log(brain.highBeta), x: brain.createdOn});
+        window.activityChart.data.datasets[6].data.push({y: Math.log(brain.lowGamma), x: brain.createdOn});
+        window.activityChart.data.datasets[7].data.push({y: Math.log(brain.highGamma), x: brain.createdOn});
 
         if (window.chartsInit) {
             window.attentionChart.update();

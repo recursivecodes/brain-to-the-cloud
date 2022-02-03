@@ -44,7 +44,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <!--/*@thymesVar id="gameSummaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
+                    <!--/*@thymesVar id="gameSummaryCollection" type="List<codes.recursive.model.BrainSummaryDTO>"*/-->
                         <tr th:each="record, s: ${sessionSummaries}"
                             th:data-id="${record.id}"
                             th:data-name="${record.getName()}"
@@ -53,14 +53,14 @@
                             th:data-meditation="${record.getAvgMeditation()}"
                             th:data-start="${record.getStartedAtLocal()}"
                             th:data-end="${record.getEndedAtAtLocal()}"
-                            th:data-avg-delta="${record.getAvgDelta() / 1000}"
-                            th:data-avg-theta="${record.getAvgTheta() / 1000}"
-                            th:data-avg-low-alpha="${record.getAvgLowAlpha() / 1000}"
-                            th:data-avg-high-alpha="${record.getAvgHighAlpha() / 1000}"
-                            th:data-avg-low-beta="${record.getAvgLowBeta() / 1000}"
-                            th:data-avg-high-beta="${record.getAvgHighBeta() / 1000}"
-                            th:data-avg-low-gamma="${record.getAvgLowGamma() / 1000}"
-                            th:data-avg-high-gamma="${record.getAvgHighGamma() / 1000}">
+                            th:data-avg-delta="${#numbers.formatDecimal(record.getLog(record.getAvgDelta()), 1, 'COMMA', 2, 'POINT')}"
+                            th:data-avg-theta="${#numbers.formatDecimal(record.getLog(record.getAvgTheta()), 1, 'COMMA', 2, 'POINT')}"
+                            th:data-avg-low-alpha="${#numbers.formatDecimal(record.getLog(record.getAvgLowAlpha()), 1, 'COMMA', 2, 'POINT')}"
+                            th:data-avg-high-alpha="${#numbers.formatDecimal(record.getLog(record.getAvgHighAlpha()), 1, 'COMMA', 2, 'POINT')}"
+                            th:data-avg-low-beta="${#numbers.formatDecimal(record.getLog(record.getAvgLowBeta()), 1, 'COMMA', 2, 'POINT')}"
+                            th:data-avg-high-beta="${#numbers.formatDecimal(record.getLog(record.getAvgHighBeta()), 1, 'COMMA', 2, 'POINT')}"
+                            th:data-avg-low-gamma="${#numbers.formatDecimal(record.getLog(record.getAvgLowGamma()), 1, 'COMMA', 2, 'POINT')}"
+                            th:data-avg-high-gamma="${#numbers.formatDecimal(record.getLog(record.getAvgHighGamma()), 1, 'COMMA', 2, 'POINT')}">
                             <!--/*@thymesVar id="record" type="codes.recursive.model.BrainSummaryDTO"*/-->
                             <td th:if="${isLoggedIn}">
                                 <button th:data-id="${record.id}" class="btn btn-sm btn-outline-danger delete-brain-session">
@@ -107,23 +107,23 @@
             </div>
 
             <div class="row mb-3">
-                <div th:replace="fragments/detailcard :: detailcard('', 'Average Delta (Hz)', 'avg-delta')"></div>
-                <div th:replace="fragments/detailcard :: detailcard('', 'Average Theta (Hz)', 'avg-theta')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Delta', 'avg-delta')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Theta', 'avg-theta')"></div>
             </div>
 
             <div class="row mb-3">
-                <div th:replace="fragments/detailcard :: detailcard('', 'Average Low Alpha (Hz)', 'avg-low-alpha')"></div>
-                <div th:replace="fragments/detailcard :: detailcard('', 'Average High Alpha (Hz)', 'avg-high-alpha')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Low Alpha', 'avg-low-alpha')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average High Alpha', 'avg-high-alpha')"></div>
             </div>
 
             <div class="row mb-3">
-                <div th:replace="fragments/detailcard :: detailcard('', 'Average Low Beta (Hz)', 'avg-low-beta')"></div>
-                <div th:replace="fragments/detailcard :: detailcard('', 'Average High Beta (Hz)', 'avg-high-beta')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Low Beta', 'avg-low-beta')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average High Beta', 'avg-high-beta')"></div>
             </div>
 
             <div class="row mb-3">
-                <div th:replace="fragments/detailcard :: detailcard('', 'Average Low Gamma (Hz)', 'avg-low-gamma')"></div>
-                <div th:replace="fragments/detailcard :: detailcard('', 'Average High Gamma (Hz)', 'avg-high-gamma')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average Low Gamma', 'avg-low-gamma')"></div>
+                <div th:replace="fragments/detailcard :: detailcard('', 'Average High Gamma', 'avg-high-gamma')"></div>
             </div>
 
             <h2>Attention</h2>

@@ -155,16 +155,16 @@ window.model = {
                         }
                     ];
                     let activityDatasource = BrainCharts.defaultActivityDatasource();
-                    activityDatasource[0].data = brainData.map(brain => {return {y: Number(brain.delta / 1000).toFixed(2), x: new Date(brain.createdOn)}});
-                    activityDatasource[1].data = brainData.map(brain => {return {y: Number(brain.theta / 1000).toFixed(2), x: new Date(brain.createdOn)}});
-                    activityDatasource[2].data = brainData.map(brain => {return {y: Number(brain.lowAlpha / 1000).toFixed(2), x: new Date(brain.createdOn)}});
-                    activityDatasource[3].data = brainData.map(brain => {return {y: Number(brain.highAlpha / 1000).toFixed(2), x: new Date(brain.createdOn)}});
-                    activityDatasource[4].data = brainData.map(brain => {return {y: Number(brain.lowBeta / 1000).toFixed(2), x: new Date(brain.createdOn)}});
-                    activityDatasource[5].data = brainData.map(brain => {return {y: Number(brain.highBeta / 1000).toFixed(2), x: new Date(brain.createdOn)}});
-                    activityDatasource[6].data = brainData.map(brain => {return {y: Number(brain.lowGamma / 1000).toFixed(2), x: new Date(brain.createdOn)}});
-                    activityDatasource[7].data = brainData.map(brain => {return {y: Number(brain.highGamma / 1000).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[0].data = brainData.map(brain => {return {y: Number(Math.log(brain.delta)).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[1].data = brainData.map(brain => {return {y: Number(Math.log(brain.theta)).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[2].data = brainData.map(brain => {return {y: Number(Math.log(brain.lowAlpha)).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[3].data = brainData.map(brain => {return {y: Number(Math.log(brain.highAlpha)).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[4].data = brainData.map(brain => {return {y: Number(Math.log(brain.lowBeta)).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[5].data = brainData.map(brain => {return {y: Number(Math.log(brain.highBeta)).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[6].data = brainData.map(brain => {return {y: Number(Math.log(brain.lowGamma)).toFixed(2), x: new Date(brain.createdOn)}});
+                    activityDatasource[7].data = brainData.map(brain => {return {y: Number(Math.log(brain.highGamma)).toFixed(2), x: new Date(brain.createdOn)}});
 
-                    window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity (Hz)', true, window.brainCharts.activityXAxes, window.brainCharts.defaultYAxes, activityDatasource);
+                    window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, window.brainCharts.activityXAxes, window.brainCharts.defaultYAxes, activityDatasource);
                     window.brainChart = window.brainCharts.renderLineChart('brainChart', 'Attention/Meditation', true, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, datasource);
                     window.model.renderScoreChart('meditation', 'scoreMeditationChart', 'Score Adjusted for Meditation');
                     window.model.renderScoreChart('attention', 'scoreAttentionChart', 'Score Adjusted for Attention');

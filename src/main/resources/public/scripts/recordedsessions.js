@@ -66,14 +66,14 @@ const init = () => {
                 document.querySelector('.avg-high-gamma').innerHTML = row.getAttribute('data-avg-high-gamma');
                 window.attentionDatasource[0].data = response.map((it) => {return {"x": it.createdOn, "y": it.attention}})
                 window.meditationDatasource[0].data = response.map((it) => {return {"x": it.createdOn, "y": it.meditation}})
-                window.activityDatasource[0].data = response.map((it) => {return {"x": it.createdOn, "y": it.delta / 1000}})
-                window.activityDatasource[1].data = response.map((it) => {return {"x": it.createdOn, "y": it.theta / 1000}})
-                window.activityDatasource[2].data = response.map((it) => {return {"x": it.createdOn, "y": it.lowAlpha / 1000}})
-                window.activityDatasource[3].data = response.map((it) => {return {"x": it.createdOn, "y": it.highAlpha / 1000}})
-                window.activityDatasource[4].data = response.map((it) => {return {"x": it.createdOn, "y": it.lowBeta / 1000}})
-                window.activityDatasource[5].data = response.map((it) => {return {"x": it.createdOn, "y": it.highBeta / 1000}})
-                window.activityDatasource[6].data = response.map((it) => {return {"x": it.createdOn, "y": it.lowGamma / 1000}})
-                window.activityDatasource[7].data = response.map((it) => {return {"x": it.createdOn, "y": it.highGamma / 1000}})
+                window.activityDatasource[0].data = response.map((it) => {return {"x": it.createdOn, "y": Math.log(it.delta)}})
+                window.activityDatasource[1].data = response.map((it) => {return {"x": it.createdOn, "y": Math.log(it.theta)}})
+                window.activityDatasource[2].data = response.map((it) => {return {"x": it.createdOn, "y": Math.log(it.lowAlpha)}})
+                window.activityDatasource[3].data = response.map((it) => {return {"x": it.createdOn, "y": Math.log(it.highAlpha)}})
+                window.activityDatasource[4].data = response.map((it) => {return {"x": it.createdOn, "y": Math.log(it.lowBeta)}})
+                window.activityDatasource[5].data = response.map((it) => {return {"x": it.createdOn, "y": Math.log(it.highBeta)}})
+                window.activityDatasource[6].data = response.map((it) => {return {"x": it.createdOn, "y": Math.log(it.lowGamma)}})
+                window.activityDatasource[7].data = response.map((it) => {return {"x": it.createdOn, "y": Math.log(it.highGamma)}})
                 window.attentionChart = window.brainCharts.renderLineChart('attentionChart', 'Attention', false, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, window.attentionDatasource);
                 window.meditationChart = window.brainCharts.renderLineChart('meditationChart', 'Meditation', false, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, window.meditationDatasource);
                 window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, window.brainCharts.activityXAxes, window.brainCharts.defaultYAxes, window.activityDatasource);

@@ -33,6 +33,10 @@ public class BrainSummaryDTO {
     private BigDecimal avgLowGamma;
     private BigDecimal avgHighGamma;
 
+    public double getLog(BigDecimal val) {
+        return Math.log(val.doubleValue());
+    }
+
     public String getStartedAtLocal() {
         ZonedDateTime atLocal = startedAt.withZoneSameInstant(ZoneId.of("America/New_York"));
         return atLocal.format(DateTimeFormatter.ofPattern( "MM/dd/yy hh:mm a z" ));
