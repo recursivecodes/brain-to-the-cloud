@@ -1,0 +1,53 @@
+drop materialized view mv_game_details;
+
+create materialized view mv_game_details
+    build immediate
+    refresh fast on commit
+    as
+    select
+        g.rowid as "rowid",
+        g.id as "id",
+        g.is_highlighted as isHighlighted,
+        g.is_distracted as isDistracted,
+        g.match.utcStartSeconds as utcStartSeconds,
+        g.match.utcEndSeconds as utcEndSeconds,
+        g.match.map as map,
+        g.match."mode" as "mode",
+        g.match.matchID as matchID,
+        g.match.duration as "duration",
+        g.match.playlistName as playlistName,
+        g.match.version as "version",
+        g.match.gameType as gameType,
+        g.match.result as "result",
+        cast( g.match.team1Score as number(18,0) ) as team1Score,
+        cast( g.match.team2Score as number(18,0) ) as team2Score,
+        g.match.isPresentAtEnd as isPresentAtEnd,
+        cast(g.match.playerStats.kills as number(18,0)) as kills,
+        cast( g.match.playerStats.rankAtEnd as number(18,0) ) as rankAtEnd,
+        cast( g.match.playerStats.averageSpeedDuringMatch as number(18,2) ) as averageSpeedDuringMatch,
+        cast( g.match.playerStats.accuracy as number(18,2) ) as accuracy,
+        cast( g.match.playerStats.score as number(18,0) ) as score,
+        cast( g.match.playerStats.headshots as number(18,0) ) as headshots,
+        cast( g.match.playerStats.assists as number(18,0) ) as assists,
+        cast( g.match.playerStats.scorePerMinute as number(18,2) ) as scorePerMinute,
+        cast( g.match.playerStats.distanceTraveled as number(18,2) ) as distanceTraveled,
+        cast(g.match.playerStats.deaths as number(18,0)) as deaths,
+        cast( g.match.playerStats.shotsLanded as number(18,0) ) as shotsLanded,
+        cast( g.match.playerStats.shotsMissed as number(18,0) ) as shotsMissed,
+        cast( g.match.playerStats.kdRatio as number(18,2) ) as kdRatio,
+        cast( g.match.playerStats.prestigeAtEnd as number(18,0) ) as prestigeAtEnd,
+        cast( g.match.playerStats.timePlayed as number(18,0) ) as timePlayed,
+        cast( g.match.playerStats.executions as number(18,0) ) as executions,
+        cast( g.match.playerStats.suicides as number(18,0) ) as suicides,
+        cast( g.match.playerStats.percentTimeMoving as number(18,2) ) as percentTimeMoving,
+        cast( g.match.playerStats.longestStreak as number(18,0) ) as longestStreak,
+        cast( g.match.playerStats.damageDone as number(18,0) ) as damageDone,
+        cast( g.match.playerStats.shots as number(18,0) ) as shots,
+        cast( g.match.playerStats.shotsFired as number(18,0) ) as shotsFired,
+        cast( g.match.playerStats.damageTaken as number(18,0) ) as damageTaken,
+        g.match.player.operator as operator,
+        g.match.player.platform as platform,
+        g.match.player.team as team,
+        g.match.matchStart as matchStart,
+        g.match.matchEnd as matchEnd
+from game g;        
