@@ -36,7 +36,7 @@ rivets.formatters.gameMode = function(value){
     return window.model.codLookups[mode];
 }
 rivets.formatters.date = function(value){
-    return moment(value).format('MM/D [@] h:mmA');
+    return moment(value).format('MMM D [@] h:mm A');
 }
 rivets.formatters.time = function(value){
     return moment(value).format('h:mmA');
