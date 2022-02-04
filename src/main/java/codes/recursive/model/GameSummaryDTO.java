@@ -12,6 +12,15 @@ import java.math.BigDecimal;
 @Data
 @EqualsAndHashCode
 public class GameSummaryDTO {
+    private static String BY_MAP = "byMap";
+    private static String BY_MODE = "byMode";
+    private static String BY_OPERATOR = "byOperator";
+    private static String BY_TEAM = "byTeam";
+    private static String BY_MAP_WITH_BRAIN = "byMapWithBrain";
+    private static String BY_MODE_WITH_BRAIN = "byModeWithBrain";
+    private static String BY_OPERATOR_WITH_BRAIN = "byOperatorWithBrain";
+    private static String BY_TEAM_WITH_BRAIN = "byTeamWithBrain";
+
     @Nullable
     private String grouping;
     private Integer totalGames;

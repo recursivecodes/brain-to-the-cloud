@@ -86,7 +86,7 @@
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="gameDetails" aria-labelledby="gameDetailsLbl">
+    <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="gameDetails" aria-labelledby="gameDetailsLbl">
         <div class="offcanvas-header">
             <h4 class="offcanvas-title" id="gameDetailsLbl"></h4>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -95,7 +95,7 @@
 
             <div class="card text-white">
                 <div class="position-relative">
-                    <img rv-mapsrc="model.selectedGame.match.map"  rv-if="model.selectedGame.match.map" class="img-fluid border rounded" rv-alt="model.selectedGame.match.map | map">
+                    <img rv-mapsrc="model.selectedGame.match.map"  rv-if="model.selectedGame.match.map" class="border rounded game-details-banner" rv-alt="model.selectedGame.match.map | map">
                     <div class="position-absolute top-0 end-0 p-1">
                         <span class="badge fs-6 fs-md-1 bg-gradient text-white bg-opacity-50 text-shadow" rv-winlossbg="model.selectedGame.match.result">
                             <strong>{model.selectedGame.match.result | winLoss}</strong>

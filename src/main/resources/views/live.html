@@ -118,22 +118,38 @@
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="activityOffcanvas" aria-labelledby="activityOffcanvasLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="activityOffcanvasLabel">About Brain Waves</h5>
+            <h5 class="offcanvas-title" id="activityOffcanvasLabel"></h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <div>
+                <h2>About The Mind Flex Chip</h2>
+                <figure>
+                    <blockquote class="p-3 bg-light border-3 border-start border-start-3">
+                        <p>The ASIC_EEG_POWER_INT values are indications of relative amplitudes of the individual EEG bands.</p>
+                        <p>Typically, power spectrum band powers would be reported in units such as Volts-squared per Hz (V^2/Hz), but since <b>our values have undergone a number of complicated transforms and rescale operations from the original voltage measurements, there is no longer a simple linear correlation to units of Volts</b>. Hence, we do not try to label them with any conventional unit. You can think of them as ASIC_EEG_POWER units, if you must.</p>
+                        <p>The reason we say <b>they are only meaningful compared to each other and to themselves</b> is primarily due to the fact they have their own units as described above. It would not necessarily be meaningful nor correct to directly compare them to, say, values output by another EEG system. In their currently output form, they are useful as an indication of whether each particular band is increasing or decreasing over time, and how strong each band is relative to the other bands.</p>
+                        <p>Because the EEG wave bands represent a power spectrum, their values will vary exponentially, meaning the lower-frequency bands (such as delta and theta) will be exponentially larger values than the higher-frequency bands (alpha and beta). For analysis purposes, note the comparison warning above. <b>For display purposes, if you would like to remove the exponential gaps between the bands to make them appear closer to each other, you could display the logarithm of each value, instead of the exponential values themselves.</b></p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer pt-2">
+                        Neurosky Documentation <cite title="Neurosky Documentation"><a href="http://support.neurosky.com/kb/development-2/eeg-band-power-values-units-amplitudes-and-meaning">http://support.neurosky.com/kb/development-2/eeg-band-power-values-units-amplitudes-and-meaning</a></cite>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div>
+                <h2>About Brain Waves</h2>
                 <dl>
-                    <dt class="fs-1 delta">Delta</dt>
-                    <dd class="fs-3">Delta waves <span class="fw-bold">(1-4 Hz)</span> are slow brainwaves, which begin to appear in stage 3 of the sleep-cycle, and by stage 4 dominate almost all EEG activity.</dd>
-                    <dt class="fs-1 theta">Theta</dt>
-                    <dd class="fs-3">Theta waves <span class="fw-bold">(4-8 Hz)</span> are involved in day-dreaming and sleep.</dd>
-                    <dt class="fs-1 low-alpha">Alpha</dt>
-                    <dd class="fs-3">Alpha waves <span class="fw-bold">(8-12 Hz)</span> dominate during moments of quiet thought, and similar meditative states.</dd>
-                    <dt class="fs-1 low-beta">Beta</dt>
-                    <dd class="fs-3">Beta waves <span class="fw-bold">(12-38 Hz)</span> represent our normal waking state of consciousness when attention is directed at cognitive tasks and the outside world.  Beta is 'fast wave' activity and dominated when we are alert, attentive and engages in problem-solving, decision-making and focussed mental activity. Low beta <span class="fw-bold">(12-15 Hz)</span> is thought to be 'fast idle', or musing thought, Beta <span class="fw-bold">(15-22 Hz)</span> is high-engagement and actively figuring things out, and finally, High Beta <span class="fw-bold">(22-38 Hz)</span> is highly complex thought, integrating new experiences, high anxiety or excitement.</dd>
-                    <dt class="fs-1 low-gamma">Gamma</dt>
-                    <dd class="fs-3">Gamma brainwaves have the highest frequencies of any brainwave, oscillating between <span class="fw-bold">(~30-100 Hz)</span>. They are associated with peak concentration and high levels of cognitive functioning.</dd>
+                    <dt class="delta text-outline"><h3>Delta</h3></dt>
+                    <dd class="">Delta waves <span class="fw-bold">(1-4 Hz)</span> are slow brainwaves. <b>Related to sleep</b>.</dd>
+                    <dt class="theta text-outline"><h3>Theta</h3></dt>
+                    <dd class="">Theta waves <span class="fw-bold">(4-8 Hz)</span> are involved in <b>day-dreaming and sleep</b>.</dd>
+                    <dt class="low-alpha text-outline"><h3>Alpha</h3></dt>
+                    <dd class="">Alpha waves <span class="fw-bold">(8-12 Hz)</span> dominate during <b>moments of quiet thought, and similar meditative states</b>.</dd>
+                    <dt class="low-beta text-outline"><h3>Beta</h3></dt>
+                    <dd class="">Beta waves <span class="fw-bold">(12-38 Hz)</span> represent our normal waking state of consciousness when attention is directed at cognitive tasks and the outside world. Dominant when we are <b>alert, attentive and problem-solving or decision-making</b>. Low beta <span class="fw-bold">(12-15 Hz)</span> is thought to be 'fast idle', or musing thought, Beta <span class="fw-bold">(15-22 Hz)</span> is high-engagement and actively figuring things out, and finally, High Beta <span class="fw-bold">(22-38 Hz)</span> is highly complex thought, integrating new experiences, high anxiety or excitement.</dd>
+                    <dt class="low-gamma text-outline"><h3>Gamma</h3></dt>
+                    <dd class="">Gamma brainwaves have the highest frequencies of any brainwave, oscillating between <span class="fw-bold">(~30-100 Hz)</span>. Associated with <b>peak concentration and high levels of cognitive functioning</b>.</dd>
                 </dl>
                 <p>Credit: <a href="https://neurofeedbackalliance.org/understanding-brain-waves/">https://neurofeedbackalliance.org/understanding-brain-waves/</a></p>
             </div>

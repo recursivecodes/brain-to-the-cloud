@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="killsummarytable(summaryCollection, highlight, grouping, mapLookups, game)" class="mb-3 table-responsive-sm">
+<div th:fragment="killsummarytable(summaryCollection, withBrain, highlight, grouping, mapLookups, game)" class="mb-3 table-responsive-sm">
     <table class="table table-bordered table-hover">
         <thead class="bg-theme text-white border-2 border-white">
             <tr>
                 <th style="width: 225px" th:if="${grouping == null}"></th>
-                <th style="width: 225px" th:if="${grouping != null}" th:text="${grouping}"></th>
-                <!--
-                <th>Avg Attention</th>
-                <th>Avg Meditation</th>
-                -->
+                <th style="width: 225px" th:if="${grouping != null}" th:text="${#strings.capitalize(grouping)}"></th>
+                <th th:if="${withBrain}">Avg Attention</th>
+                <th th:if="${withBrain}">Avg Meditation</th>
                 <th>Total Games</th>
                 <th>Total Kills</th>
                 <th>Total Deaths</th>
@@ -37,19 +35,19 @@
             <!--/*@thymesVar id="record" type="codes.recursive.model.GameSummaryDTO"*/-->
             <!--/*@thymesVar id="mapLookups" type="java.util.HashMap"*/-->
             <th th:if="${grouping == null}" scope="row" class="bg-theme text-white"></th>
-            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Team')} OR ${#strings.equals(grouping, 'Operator')}"
+            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'team')} OR ${#strings.equals(grouping, 'operator')}"
                 scope="row" class="bg-theme text-white"
                 th:text="${#strings.capitalize(record.getGrouping())}"></th>
-            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Map')}" scope="row" class="bg-theme text-white"
+            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'map')}" scope="row" class="bg-theme text-white"
                 th:text="${summaryCollection.lookupMap(game, record.getGrouping())}"></th>
-            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'Mode')}" scope="row" class="bg-theme text-white"
+            <th th:if="${grouping != null} AND ${#strings.equals(grouping, 'mode')}" scope="row" class="bg-theme text-white"
                 th:text="${summaryCollection.lookupMode(game, record.getGrouping())}"></th>
-            <!--
-            <td th:text="${#numbers.formatDecimal(record.getAvgAttention(), 2, 2)} + '%'"
+            <td th:if="${withBrain}"
+                th:text="${#numbers.formatDecimal(record.getAvgAttention(), 2, 2)} + '%'"
                 th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getAvgAttention(), 'getAvgAttention', true, false): ''}"></td>
-            <td th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 2, 2)} + '%'"
+            <td th:if="${withBrain}"
+                th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 2, 2)} + '%'"
                 th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getAvgMeditation(), 'getAvgMeditation', true, false) : ''}"></td>
-            -->
             <td th:text="${#numbers.formatDecimal(record.getTotalGames(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalKills(), 0, 'COMMA', 0, 'POINT')}">/td>
             <td th:text="${#numbers.formatDecimal(record.getTotalDeaths(), 0, 'COMMA', 0, 'POINT')}">/td>

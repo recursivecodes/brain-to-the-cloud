@@ -31,12 +31,20 @@
                             <li><a class="dropdown-item" th:classappend="${currentPage == 'time-moving'} ? 'active' : ''" href="/reports/time-moving">Time Spent Moving</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary'} ? 'active' : ''" href="/reports/game-summary">Game Summary</a></li>
-                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-map'} ? 'active' : ''" href="/reports/game-summary-by-map">Game Summary (By Map)</a></li>
-                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-mode'} ? 'active' : ''" href="/reports/game-summary-by-mode">Game Summary (By Game Mode)</a></li>
-                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-operator'} ? 'active' : ''" href="/reports/game-summary-by-operator">Game Summary (By Operator)</a></li>
-                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-team'} ? 'active' : ''" href="/reports/game-summary-by-team">Game Summary (By Team)</a></li>
+
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-map'} ? 'active' : ''" href="/reports/game-summary-by-type/byMap">Game Summary (By Map)</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-map-with-brain'} ? 'active' : ''" href="/reports/game-summary-by-type/byMapWithBrain">Game Summary (By Map with Brain Data)</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/reports/recorded-sessions">Recorded Sessions</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-mode'} ? 'active' : ''" href="/reports/game-summary-by-type/byMode">Game Summary (By Game Mode)</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-mode-with-brain'} ? 'active' : ''" href="/reports/game-summary-by-type/byModeWithBrain">Game Summary (By Game Mode with Brain Data)</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-operator'} ? 'active' : ''" href="/reports/game-summary-by-type/byOperator">Game Summary (By Operator)</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-operator-with-brain'} ? 'active' : ''" href="/reports/game-summary-by-type/byOperatorWithBrain">Game Summary (By Operator with Brain Data)</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-team'} ? 'active' : ''" href="/reports/game-summary-by-type/byTeam">Game Summary (By Team)</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-team-with-brain'} ? 'active' : ''" href="/reports/game-summary-by-type/byTeamWithBrain">Game Summary (By Team with Brain Data)</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'recorded-sessions'} ? 'active' : ''" href="/reports/recorded-sessions">Recorded Sessions</a></li>
                         </ul>
                     </li>
                     <li class="nav-item" th:if="${!isLoggedIn}"><a class="nav-link" th:classappend="${currentPage == 'auth'} ? 'active' : ''" href="/login/auth">Login</a></li>

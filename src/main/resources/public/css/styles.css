@@ -77,9 +77,8 @@ th:not([scope]) {
 .pointer {
     cursor: pointer;
 }
-
 .offcanvas {
-    width : 800px !important;
+    width : 1000px !important;
 }
 .text-win {
     color: #07ff03 !important;
@@ -153,4 +152,8 @@ th:not([scope]) {
 }
 .bg-theme {
     background-color: #2c0098 !important;
+}
+.game-details-banner {
+    background-size: cover;
+    width: 100%;
 }

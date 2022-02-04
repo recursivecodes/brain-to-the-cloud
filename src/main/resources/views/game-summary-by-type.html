@@ -17,15 +17,16 @@
 
     <div class="row">
         <div class="col-12">
-            <h1 th:text="'Kills/Assists/Deaths (By ' + ${type} + ')'"></h1>
+            <h1 th:text="'Kills/Assists/Deaths (' + ${type} + ')'"></h1>
             <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
-            <div th:replace="fragments/killsummarytable :: killsummarytable(${summaryCollection}, true, ${type}, ${mapLookups}, ${vanguard})"></div>
-            <h1 th:text="'Win/Loss (By ' + ${type} + ')'"></h1>
-            <div th:replace="fragments/winlosssummarytable :: winlosssummarytable(${summaryCollection}, true, ${type}, ${mapLookups}, ${vanguard})"></div>
-            <h1 th:text="'Accuracy/Damage (By ' + ${type} + ')'"></h1>
-            <div th:replace="fragments/accuracydamagetable :: accuracydamagetable(${summaryCollection}, true, ${type}, ${mapLookups}, ${vanguard})"></div>
-            <h1 th:text="'Score/Travel (By ' + ${type} + ')'"></h1>
-            <div th:replace="fragments/scoretraveltable :: scoretraveltable(${summaryCollection}, true, ${type}, ${mapLookups}, ${vanguard})"></div>
+            <!--/*@thymesVar id="withBrain" type="java.lang.Boolean"*/-->
+            <div th:replace="fragments/killsummarytable :: killsummarytable(${summaryCollection}, ${withBrain}, true, ${grouping}, ${mapLookups}, ${vanguard})"></div>
+            <h1 th:text="'Win/Loss (' + ${type} + ')'"></h1>
+            <div th:replace="fragments/winlosssummarytable :: winlosssummarytable(${summaryCollection}, ${withBrain}, true, ${grouping}, ${mapLookups}, ${vanguard})"></div>
+            <h1 th:text="'Accuracy/Damage (' + ${type} + ')'"></h1>
+            <div th:replace="fragments/accuracydamagetable :: accuracydamagetable(${summaryCollection}, ${withBrain}, true, ${grouping}, ${mapLookups}, ${vanguard})"></div>
+            <h1 th:text="'Score/Travel (' + ${type} + ')'"></h1>
+            <div th:replace="fragments/scoretraveltable :: scoretraveltable(${summaryCollection}, ${withBrain}, true, ${grouping}, ${mapLookups}, ${vanguard})"></div>
         </div>
     </div>
     <div th:replace="fragments/tablechartmodal :: tablechartmodal()"></div>

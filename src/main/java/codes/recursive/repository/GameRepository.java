@@ -70,4 +70,16 @@ public interface GameRepository extends PageableRepository<Game, Long> {
 
     @Query(value = "select * from vw_game_summary_by_team order by totalEdRatio desc", nativeQuery = true)
     List<GameSummaryDTO> getGameSummaryByTeam();
+
+    @Query(value = "select * from vw_game_summary_by_map_with_brain order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByMapWithBrain();
+
+    @Query(value = "select * from vw_game_summary_by_mode_with_brain order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByModeWithBrain();
+
+    @Query(value = "select * from vw_game_summary_by_operator_with_brain order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByOperatorWithBrain();
+
+    @Query(value = "select * from vw_game_summary_by_team_with_brain order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByTeamWithBrain();
 }

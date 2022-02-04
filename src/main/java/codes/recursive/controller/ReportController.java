@@ -2,22 +2,28 @@ package codes.recursive.controller;
 
 import codes.recursive.client.CodPublicClient;
 import codes.recursive.model.CallOfDuty;
+import codes.recursive.model.GameSummaryDTO;
 import codes.recursive.model.GameSummaryDTOCollection;
 import codes.recursive.model.RangeSummaryDTOCollection;
 import codes.recursive.repository.BrainSessionRepository;
 import codes.recursive.repository.GameRepository;
 import io.micronaut.core.annotation.Nullable;
+import io.micronaut.core.naming.NameUtils;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.views.ModelAndView;
+import org.apache.commons.lang3.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 @Controller("/reports")
 @Secured(SecurityRule.IS_ANONYMOUS)
@@ -43,7 +49,7 @@ public class ReportController {
         RangeSummaryDTOCollection meditationCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getMeditationSummary()).build();
 
         return new ModelAndView("attention-meditation-report", CollectionUtils.mapOf(
-                "currentView", "attention-meditation-report",
+                "currentView", "attention-meditation",
                 "isLoggedIn", principal != null,
                 "attentionCollection", attentionCollection,
                 "meditationCollection", meditationCollection
@@ -56,7 +62,7 @@ public class ReportController {
         RangeSummaryDTOCollection brainSummaryCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getTimeMovingWithBrainDataSummary()).build();
 
         return new ModelAndView("time-moving-report", CollectionUtils.mapOf(
-                "currentView", "time-moving-report",
+                "currentView", "time-moving",
                 "isLoggedIn", principal != null,
                 "summaryCollection", summaryCollection,
                 "brainSummaryCollection", brainSummaryCollection
@@ -76,78 +82,44 @@ public class ReportController {
         ));
     }
 
-    @Get(uri = "/game-summary-by-map")
-    ModelAndView summaryByMap(@Nullable Principal principal) {
-        Map<String, Object> lookupValues = codPublicClient.getLookupValues();
+    public Map<String, Function<GameRepository, List<GameSummaryDTO>>> gameSummaryTypes = Map.ofEntries(
+        Map.entry("byMap", GameRepository::getGameSummaryByMap),
+        Map.entry("byMode", GameRepository::getGameSummaryByMode),
+        Map.entry("byOperator", GameRepository::getGameSummaryByOperator),
+        Map.entry("byTeam", GameRepository::getGameSummaryByTeam),
+        Map.entry("byMapWithBrain", GameRepository::getGameSummaryByMapWithBrain),
+        Map.entry("byModeWithBrain", GameRepository::getGameSummaryByModeWithBrain),
+        Map.entry("byOperatorWithBrain", GameRepository::getGameSummaryByOperatorWithBrain),
+        Map.entry("byTeamWithBrain", GameRepository::getGameSummaryByTeamWithBrain)
+    );
+
+    @Get(uri = "/game-summary-by-type/{type}")
+    ModelAndView summaryByType(@Nullable Principal principal, @PathVariable String type) {
+        Boolean withBrain = type.toLowerCase().contains("withbrain");
+        String viewSuffix = NameUtils.hyphenate(type);
+        String currentView = "game-summary-" + viewSuffix;
+        String viewFriendlyName = WordUtils.capitalizeFully(viewSuffix.replaceAll("-", " "));
+
         GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
-                .gameSummaryDTOList(gameRepository.getGameSummaryByMap())
-                .codLookups(lookupValues)
+                .gameSummaryDTOList(gameSummaryTypes.get(type).apply(gameRepository))
+                .codLookups(codPublicClient.getLookupValues())
                 .build();
 
         return new ModelAndView("game-summary-by-type", CollectionUtils.mapOf(
-                "currentView", "game-summary-by-map",
+                "currentView", currentView,
+                "withBrain", withBrain,
                 "isLoggedIn", principal != null,
                 "summaryCollection", summaryCollection,
                 "vanguard", CallOfDuty.VANGUARD,
-                "type", "Map"
-        ));
-    }
-
-    @Get(uri = "/game-summary-by-mode")
-    ModelAndView summaryByMode(@Nullable Principal principal) {
-        Map<String, Object> lookupValues = codPublicClient.getLookupValues();
-        GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
-                .gameSummaryDTOList(gameRepository.getGameSummaryByMode())
-                .codLookups(lookupValues)
-                .build();
-
-        return new ModelAndView("game-summary-by-type", CollectionUtils.mapOf(
-                "currentView", "game-summary-by-mode",
-                "isLoggedIn", principal != null,
-                "summaryCollection", summaryCollection,
-                "vanguard", CallOfDuty.VANGUARD,
-                "type", "Mode"
-        ));
-    }
-
-    @Get(uri = "/game-summary-by-operator")
-    ModelAndView summaryByOperator(@Nullable Principal principal) {
-        Map<String, Object> lookupValues = codPublicClient.getLookupValues();
-        GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
-                .gameSummaryDTOList(gameRepository.getGameSummaryByOperator())
-                .codLookups(lookupValues)
-                .build();
-
-        return new ModelAndView("game-summary-by-type", CollectionUtils.mapOf(
-                "currentView", "game-summary-by-operator",
-                "isLoggedIn", principal != null,
-                "summaryCollection", summaryCollection,
-                "vanguard", CallOfDuty.VANGUARD,
-                "type", "Operator"
-        ));
-    }
-
-    @Get(uri = "/game-summary-by-team")
-    ModelAndView summaryByTeam(@Nullable Principal principal) {
-        Map<String, Object> lookupValues = codPublicClient.getLookupValues();
-        GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
-                .gameSummaryDTOList(gameRepository.getGameSummaryByTeam())
-                .codLookups(lookupValues)
-                .build();
-
-        return new ModelAndView("game-summary-by-type", CollectionUtils.mapOf(
-                "currentView", "game-summary-by-team",
-                "isLoggedIn", principal != null,
-                "summaryCollection", summaryCollection,
-                "vanguard", CallOfDuty.VANGUARD,
-                "type", "Team"
+                "grouping", type.toLowerCase().replace("by", "").replace("withbrain", ""),
+                "type", viewFriendlyName
         ));
     }
 
     @Get(uri = "/recorded-sessions")
     ModelAndView recordedSessions(@Nullable Principal principal) {
         return new ModelAndView("recorded-sessions", CollectionUtils.mapOf(
-                "currentView", "time-moving-report",
+                "currentView", "recorded-sessions",
                 "isLoggedIn", principal != null,
                 "sessionSummaries", brainSessionRepository.listBrainSessionSummaries()
         ));
