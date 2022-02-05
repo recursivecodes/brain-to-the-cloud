@@ -1,4 +1,8 @@
-select * FROM Game g where g.id = 56 order by g.match.utcStartSeconds desc;
+select * 
+from vw_summary_by_am_ratio_range;
+
+select * from game where id = 495;
+delete from game where id = 495;
 
 select * 
 from brain order by created_on asc;

@@ -50,6 +50,7 @@ select
     g.match.player.team as team,
     g.match.matchStart as matchStart,
     g.match.matchEnd as matchEnd,
+    cast( case when sum(b.attention) > 0 then sum(b.attention) / sum(b.meditation) else 0 end as number(18,2) ) as amRatio,
 
     count(b.id) as brainRecords,
     sum(b.attention) as totalAttention,
@@ -62,6 +63,7 @@ select
     sum(b.high_beta) as totalHighBeta,
     sum(b.low_gamma) as totalLowGamma,
     sum(b.high_gamma) as totalHighGamma,
+    
     avg(case when b.signal_strength = 100 then b.attention else null end) as avgAttention,
     avg(case when b.signal_strength = 100 then b.meditation else null end) as avgMeditation,
     avg(case when b.signal_strength = 100 then b.delta else null end) as avgDelta,

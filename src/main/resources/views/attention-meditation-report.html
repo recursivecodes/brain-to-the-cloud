@@ -23,6 +23,9 @@
             <h1>Summary by Meditation Range</h1>
             <!--/*@thymesVar id="meditationCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->
             <div th:replace="fragments/rangetable :: rangetable(${meditationCollection}, true, false)"></div>
+            <h1>Summary by Attention to Meditation Ratio</h1>
+            <!--/*@thymesVar id="ratioCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->
+            <div th:replace="fragments/rangetable :: rangetable(${ratioCollection}, true, true)"></div>
         </div>
     </div>
     <div th:replace="fragments/tablechartmodal :: tablechartmodal()"></div>

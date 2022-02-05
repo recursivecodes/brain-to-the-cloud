@@ -47,12 +47,14 @@ public class ReportController {
     ModelAndView timeMovingReport(@Nullable Principal principal) {
         RangeSummaryDTOCollection attentionCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getAttentionSummary()).build();
         RangeSummaryDTOCollection meditationCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getMeditationSummary()).build();
+        RangeSummaryDTOCollection ratioCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getAmRatioSummary()).build();
 
         return new ModelAndView("attention-meditation-report", CollectionUtils.mapOf(
                 "currentView", "attention-meditation",
                 "isLoggedIn", principal != null,
                 "attentionCollection", attentionCollection,
-                "meditationCollection", meditationCollection
+                "meditationCollection", meditationCollection,
+                "ratioCollection", ratioCollection
         ));
     }
 

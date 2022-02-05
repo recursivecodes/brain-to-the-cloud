@@ -56,7 +56,13 @@ public class GameSummaryDTO {
     private BigDecimal avgScore;
     private BigDecimal totalScorePerMinute;
     private BigDecimal avgScorePerMinute;
+    private Integer totalTimePlayed;
     private BigDecimal totalDistanceTraveled;
     private BigDecimal avgPctTimeMoving;
     private BigDecimal avgSpeedDuringMatch;
+
+    public Double getTimePlayedHours() {
+        return totalTimePlayed / 3600d;
+    }
+
 }

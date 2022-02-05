@@ -65,10 +65,12 @@ select
     r.meditationRange as "RANGE", 
     coalesce(totalWins, 0) as totalWins,
     coalesce(totalLosses, 0) as totalLosses,
-    case 
-        when coalesce(totalLosses, 0) = 0 and coalesce(totalWins, 0) = 0 then 0 
-        when totalLosses > 0 then totalWins / totalLosses 
-    else 1 end as wlRatio,
+    cast(
+        case 
+            when coalesce(totalLosses, 0) = 0 and coalesce(totalWins, 0) = 0 then 0 
+            when totalLosses > 0 then totalWins / totalLosses 
+        else 1 end
+    as number(18,2)) as wlRatio,
     coalesce(kills, 0) as kills,
     coalesce(deaths, 0) as deaths,
     cast(case when deaths > 0 then kills/deaths else 0 end as number(18,2)) as kdRatio,
