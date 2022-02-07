@@ -102,9 +102,11 @@ public class ReportController {
         String viewSuffix = NameUtils.hyphenate(type);
         String currentView = "game-summary-" + viewSuffix;
         String viewFriendlyName = WordUtils.capitalizeFully(viewSuffix.replaceAll("-", " "));
+        String groupingType = type.toLowerCase().replace("by", "").replace("withbrain", "");
 
+        List<GameSummaryDTO> summaries = gameRepository.getGameSummaryByType(groupingType, withBrain ? 1 : 0);
         GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
-                .gameSummaryDTOList(gameSummaryTypes.get(type).apply(gameRepository))
+                .gameSummaryDTOList(summaries)
                 .codLookups(codPublicClient.getLookupValues())
                 .build();
 
@@ -114,7 +116,7 @@ public class ReportController {
                 "isLoggedIn", principal != null,
                 "summaryCollection", summaryCollection,
                 "vanguard", CallOfDuty.VANGUARD,
-                "grouping", type.toLowerCase().replace("by", "").replace("withbrain", ""),
+                "grouping", groupingType,
                 "type", viewFriendlyName
         ));
     }

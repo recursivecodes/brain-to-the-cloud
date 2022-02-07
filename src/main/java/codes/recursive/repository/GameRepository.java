@@ -65,27 +65,30 @@ public interface GameRepository extends PageableRepository<Game, Long> {
     @Query(value = "select * from vw_game_summary_with_brain", nativeQuery = true)
     List<GameSummaryDTO> getGameSummaryWithBrain();
 
-    @Query(value = "select * from vw_game_summary_by_map order by totalEdRatio desc", nativeQuery = true)
+    @Query(value = "select * from summaryByType(:type, :withBrain) order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByType(String type, Integer withBrain);
+
+    @Query(value = "select * from summaryByType('map', 0) order by totalEdRatio desc", nativeQuery = true)
     List<GameSummaryDTO> getGameSummaryByMap();
 
-    @Query(value = "select * from vw_game_summary_by_mode order by totalEdRatio desc", nativeQuery = true)
+    @Query(value = "select * from summaryByType('mode', 0) order by totalEdRatio desc", nativeQuery = true)
     List<GameSummaryDTO> getGameSummaryByMode();
 
-    @Query(value = "select * from vw_game_summary_by_operator order by totalEdRatio desc", nativeQuery = true)
+    @Query(value = "select * from summaryByType('operator', 0) order by totalEdRatio desc", nativeQuery = true)
     List<GameSummaryDTO> getGameSummaryByOperator();
 
-    @Query(value = "select * from vw_game_summary_by_team order by totalEdRatio desc", nativeQuery = true)
+    @Query(value = "select * from summaryByType('team', 0) order by totalEdRatio desc", nativeQuery = true)
     List<GameSummaryDTO> getGameSummaryByTeam();
 
-    @Query(value = "select * from vw_game_summary_by_map_with_brain order by totalEdRatio desc", nativeQuery = true)
+    @Query(value = "select * from summaryByType('map', 1) order by totalEdRatio desc", nativeQuery = true)
     List<GameSummaryDTO> getGameSummaryByMapWithBrain();
 
-    @Query(value = "select * from vw_game_summary_by_mode_with_brain order by totalEdRatio desc", nativeQuery = true)
+    @Query(value = "select * from summaryByType('mode', 1) order by totalEdRatio desc", nativeQuery = true)
     List<GameSummaryDTO> getGameSummaryByModeWithBrain();
 
-    @Query(value = "select * from vw_game_summary_by_operator_with_brain order by totalEdRatio desc", nativeQuery = true)
+    @Query(value = "select * from summaryByType('operator', 1) order by totalEdRatio desc", nativeQuery = true)
     List<GameSummaryDTO> getGameSummaryByOperatorWithBrain();
 
-    @Query(value = "select * from vw_game_summary_by_team_with_brain order by totalEdRatio desc", nativeQuery = true)
+    @Query(value = "select * from summaryByType('team', 1) order by totalEdRatio desc", nativeQuery = true)
     List<GameSummaryDTO> getGameSummaryByTeamWithBrain();
 }

@@ -1,16 +1,16 @@
-create or replace function summaryByType(typeGrouping in varchar2) return SYS_REFCURSOR
-is
-    return_cursor SYS_REFCURSOR;
+create or replace function summaryByType(typeGrouping in varchar2, withBrain in number) return varchar2 sql_macro is
 begin
-    open return_cursor for
+    return q'{
         select 
             case 
-                when typeGrouping = 'map' then map
-                when typeGrouping = 'mode' then "mode"
-                when typeGrouping = 'operator' then operator
-                when typeGrouping = 'team' then team
+                when summaryByType.typeGrouping = 'map' then map
+                when summaryByType.typeGrouping = 'mode' then "mode"
+                when summaryByType.typeGrouping = 'operator' then operator
+                when summaryByType.typeGrouping = 'team' then team
                 else null
             end as grouping,  
+            case when summaryByType.withBrain = 1 then cast(coalesce(avg(avgAttention), 0) as number(18,2)) else null end as avgAttention,
+            case when summaryByType.withBrain = 1 then cast(coalesce(avg(avgMeditation), 0) as number(18,2)) else null end as avgMeditation,
             count("id") as totalGames,
             sum(kills) as totalKills,  
             cast( avg(kills) as number(18,2)) as avgKills,
@@ -57,14 +57,14 @@ begin
             cast(sum(distanceTraveled) as number(18,2)) as totalDistanceTraveled,
             cast(avg(percentTimeMoving) as number(18,2)) as avgPctTimeMoving,
             cast(avg(averageSpeedDuringMatch) as number(18,2)) as avgSpeedDuringMatch
-            from mv_game_details
+            from mv_game_details_with_brain 
+        where (summaryByType.withBrain = 1 and brainRecords > 0) OR (summaryByType.withBrain = 0) 
         group by 
             case 
-                when typeGrouping = 'map' then map
-                when typeGrouping = 'mode' then "mode"
-                when typeGrouping = 'operator' then operator
-                when typeGrouping = 'team' then team
+                when summaryByType.typeGrouping = 'map' then map
+                when summaryByType.typeGrouping = 'mode' then "mode"
+                when summaryByType.typeGrouping = 'operator' then operator
+                when summaryByType.typeGrouping = 'team' then team
                 else null
-            end;  
-    RETURN return_cursor;
+            end}';
 end summaryByType;

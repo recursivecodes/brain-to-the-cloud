@@ -44,7 +44,7 @@ data as (
     avg(avgAttention) as avgAttention,
     avg(avgMeditation) as avgMeditation
     from mv_game_details_with_brain
-    where avgAttention is not null
+    where brainRecords > 0
     group by
         case
             --when percentTimeMoving = 0 then '0'

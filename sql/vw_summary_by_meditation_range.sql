@@ -44,6 +44,7 @@ data as (
         avg(avgAttention) as avgAttention,
         avg(avgMeditation) as avgMeditation
     from mv_game_details_with_brain
+    where brainRecords > 0
     group by 
         case 
             --when when avgMeditation = 0 then '0'

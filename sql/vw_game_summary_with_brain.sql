@@ -49,4 +49,5 @@ select
     cast(sum(distanceTraveled) as number(18,2)) as totalDistanceTraveled,
     cast(avg(percentTimeMoving) as number(18,2)) as avgPctTimeMoving,
     cast(avg(averageSpeedDuringMatch) as number(18,2)) as avgSpeedDuringMatch
-from mv_game_details_with_brain;
+from mv_game_details_with_brain
+where brainRecords > 0;

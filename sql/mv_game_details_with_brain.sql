@@ -79,7 +79,7 @@ from game g
 left outer join brain b
     on  toLocalTimestamp(b.created_on) >= epochToLocalTimestamp(g.match.utcStartSeconds)
     and toLocalTimestamp(b.created_on) <= epochToLocalTimestamp(g.match.utcEndSeconds)
-where b.id is not null
+--where b.id is not null
 group by
     g.id,
     g.is_highlighted,

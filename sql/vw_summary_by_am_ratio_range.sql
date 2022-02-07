@@ -41,6 +41,7 @@ data as (
         avg(avgMeditation) as avgMeditation,
         avg(amRatio) as avgAmRatio
     from mv_game_details_with_brain
+    where brainRecords > 0
     group by 
         case
             when amRatio < .5 then '<.50'
