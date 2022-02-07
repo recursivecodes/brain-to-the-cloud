@@ -3,8 +3,7 @@ from vw_summary_by_am_ratio_range;
 
 select * from vw_game_summary_by_map order by totalEdRatio desc;
 
-select * 
-from summaryByType('team', 0);
+select * from summaryByType('operator', 1) order by totalEdRatio desc;
 
 select * from game where id = 495;
 delete from game where id = 495;

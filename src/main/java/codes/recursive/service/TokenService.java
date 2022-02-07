@@ -9,6 +9,8 @@ import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.Introspected;
 import jakarta.inject.Singleton;
 
+import java.util.Base64;
+
 @Introspected
 @Singleton
 public class TokenService {
@@ -22,7 +24,7 @@ public class TokenService {
 
     public UpdateSecretResponse updateToken(String token) {
         Base64SecretContentDetails contentDetails = Base64SecretContentDetails.builder()
-                .content(token)
+                .content(Base64.getEncoder().encodeToString(token.getBytes()))
                 .build();
         UpdateSecretDetails secretDetails = UpdateSecretDetails.builder()
                 .secretContent(contentDetails)
