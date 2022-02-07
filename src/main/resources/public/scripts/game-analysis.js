@@ -164,8 +164,8 @@ window.model = {
 
                     window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, window.brainCharts.activityXAxes, window.brainCharts.defaultYAxes, activityDatasource);
                     window.brainChart = window.brainCharts.renderLineChart('brainChart', 'Attention/Meditation', true, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, datasource);
-                    window.model.renderScoreChart('meditation', 'scoreMeditationChart', 'Score Adjusted for Meditation');
-                    window.model.renderScoreChart('attention', 'scoreAttentionChart', 'Score Adjusted for Attention');
+                    //window.model.renderScoreChart('meditation', 'scoreMeditationChart', 'Score Adjusted for Meditation');
+                    //window.model.renderScoreChart('attention', 'scoreAttentionChart', 'Score Adjusted for Attention');
                 }
             });
     },

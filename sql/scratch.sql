@@ -1,5 +1,6 @@
 select * 
-from vw_summary_by_am_ratio_range;
+from mv_brain_details_with_game
+where game_id = 559;
 
 select * from vw_game_summary_by_map order by totalEdRatio desc;
 
