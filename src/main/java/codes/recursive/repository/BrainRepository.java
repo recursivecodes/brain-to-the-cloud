@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 public interface BrainRepository extends PageableRepository<Brain, Long> {
     CompletableFuture<Brain> saveAsync(@NonNull Brain reading);
 
-    @Query("from Brain where (toLocalTimestamp(created_on) between epochToLocalTimestamp(:startTime) and epochToLocalTimestamp(:endTime)) and signal_strength = 100 order by created_on")
-    List<Brain> getBrainForMatch(Integer startTime, Integer endTime);
+    @Query(value = "select * from mv_brain_details_with_game where game_id = :gameId order by created_on asc", nativeQuery = true)
+    List<Brain> getBrainForMatch(Long gameId);
 
 }

@@ -83,9 +83,9 @@ public class ApiController {
         return gameRepository.findAllWithBrainReadings(pageable);
     }
 
-    @Get(uri = "/brainForGame/{startTime}/{endTime}")
-    public List<Brain> getBrainForMatch(Integer startTime, Integer endTime) {
-        return brainRepository.getBrainForMatch(startTime, endTime);
+    @Get(uri = "/brainForGame/{gameId}")
+    public List<Brain> getBrainForMatch(Long gameId) {
+        return brainRepository.getBrainForMatch(gameId);
     }
 
     @Put(uri = "/highlightGame/{matchId}")

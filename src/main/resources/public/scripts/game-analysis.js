@@ -126,9 +126,7 @@ window.model = {
         if(window.brainChart != null) window.brainChart.destroy();
         if(window.activityChart != null) window.activityChart.destroy();
 
-        let start = window.model.selectedGame.match.utcStartSeconds;
-        let end = window.model.selectedGame.match.utcEndSeconds;
-        fetch(`/api/brainForGame/${start}/${end}`)
+        fetch(`/api/brainForGame/${window.model.selectedGame.id}`)
             .then(result => result.json())
             .then(brainData => {
                 if(brainData.length > 0) {
