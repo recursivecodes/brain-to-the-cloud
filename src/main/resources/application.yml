@@ -66,8 +66,9 @@ codes:
     xbox-gamertag: ${XBOX_GAMERTAG}
     app-user: ${APP_USER}
     app-password: ${APP_PASSWORD}
+    secret-ocid: ocid1.vaultsecret.oc1.phx.amaaaaaaxronvgyajz44fyk2qdzqk2bitrvp5ruqfqsr7o6f5kb56muqewpa
 cod:
-  sso-token: ODI5NjQ2NDoxNjQ0NTkwNDY3NDcwOmNmYjgxZGRkMDY2MTI5MDZiYTA1NTg1MjU5ZWIzNTc0
+  sso-token: ${ACTIVISION_TOKEN}
   xsrf-token: ${random.uuid}
   user-agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36w"
 oci.config.profile: DEFAULT

@@ -1,12 +1,15 @@
 package codes.recursive.controller;
 
 import codes.recursive.client.CodPublicClient;
-import codes.recursive.config.CodClientConfig;
 import codes.recursive.model.Brain;
 import codes.recursive.model.BrainSession;
 import codes.recursive.model.Game;
-import codes.recursive.repository.*;
-import codes.recursive.task.RecentGames;
+import codes.recursive.repository.AbstractBrainRepository;
+import codes.recursive.repository.BrainRepository;
+import codes.recursive.repository.BrainSessionRepository;
+import codes.recursive.repository.GameRepository;
+import codes.recursive.service.TokenService;
+import com.oracle.bmc.vault.responses.UpdateSecretResponse;
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
 import io.micronaut.http.HttpResponse;
@@ -28,30 +31,25 @@ public class ApiController {
     private static final Logger LOG = LoggerFactory.getLogger(ApiController.class);
 
     private final CodPublicClient codPublicClient;
-    private final RecentGames recentMatches;
     private final GameRepository gameRepository;
     private final BrainRepository brainRepository;
-    private final AbstractGameRepository abstractGameRepository;
     private final AbstractBrainRepository abstractBrainRepository;
     private final BrainSessionRepository brainSessionRepository;
-    private final CodClientConfig codClientConfig;
+    private final TokenService tokenService;
 
     public ApiController(
             CodPublicClient codPublicClient,
-            RecentGames recentMatches,
             GameRepository gameRepository,
             BrainRepository brainRepository,
-            AbstractGameRepository abstractGameRepository,
-            AbstractBrainRepository abstractBrainRepository, BrainSessionRepository brainSessionRepository, CodClientConfig codClientConfig
-    ) {
+            AbstractBrainRepository abstractBrainRepository,
+            BrainSessionRepository brainSessionRepository,
+            TokenService tokenService) {
         this.codPublicClient = codPublicClient;
-        this.recentMatches = recentMatches;
         this.gameRepository = gameRepository;
         this.brainRepository = brainRepository;
-        this.abstractGameRepository = abstractGameRepository;
         this.abstractBrainRepository = abstractBrainRepository;
         this.brainSessionRepository = brainSessionRepository;
-        this.codClientConfig = codClientConfig;
+        this.tokenService = tokenService;
     }
 
     @Get(uri = "/codLookups")
@@ -127,7 +125,7 @@ public class ApiController {
         /*
         expects a JSON object containing a token. ex: {"token": "OD15...."}
         */
-        codClientConfig.setSsoToken(data.get("token"));
+        UpdateSecretResponse updateSecretResponse = tokenService.updateToken(data.get("token"));
         return HttpResponse.ok();
     }
 

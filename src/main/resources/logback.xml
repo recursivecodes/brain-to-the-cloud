@@ -16,6 +16,7 @@
     <logger name="org.hibernate.SQL" level="trace"/>
     <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" />
     <!--
+    <logger name="io.micronaut.context.condition" level="trace"></logger>
     <logger name="io.micronaut.security" level="trace" />
     <logger name="io.micronaut.http.client" level="trace" />
     -->

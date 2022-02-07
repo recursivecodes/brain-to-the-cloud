@@ -4,10 +4,16 @@ This project represents the server portion of the Brain-to-the-Cloud project. It
 
 ## Saving Token
 
-To run the serverless function, you must retrieve your oauth token from callofduty.com and set it into the application.
+To run the import, you must retrieve your oauth token from callofduty.com and set it into the application.
 
 ```shell
-$ curl -i -X POST -H 'Content-Type: application/json' -d '{"token": "value"}' POST localhost:8080/token
+$ curl -i -X POST -H "Content-Type: application/json" -d '{"token": "OC...AA"}' --cookie "SESSION=Nz..001" http://localhost:8080/api/token
+HTTP/1.1 200 OK
+date: Mon, 7 Feb 2022 19:36:21 GMT
+set-cookie: SESSION=Nz..001; Path=/; HTTPOnly
+Authorization-Info: 78c4c893-0006-4857-910e-34261f78fd07
+connection: keep-alive
+transfer-encoding: chunked
 ```
 
 ## Docker
