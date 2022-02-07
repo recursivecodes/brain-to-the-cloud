@@ -30,8 +30,9 @@
                             <li><a class="dropdown-item" th:classappend="${currentPage == 'attention-meditation'} ? 'active' : ''" href="/reports/attention-meditation">Attention & Meditation</a></li>
                             <li><a class="dropdown-item" th:classappend="${currentPage == 'time-moving'} ? 'active' : ''" href="/reports/time-moving">Time Spent Moving</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary'} ? 'active' : ''" href="/reports/game-summary">Game Summary</a></li>
-
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary'} ? 'active' : ''" href="/reports/game-summary/false">Game Summary</a></li>
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-with-brain'} ? 'active' : ''" href="/reports/game-summary/true">Game Summary (With Brain)</a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-map'} ? 'active' : ''" href="/reports/game-summary-by-type/byMap">Game Summary (By Map)</a></li>
                             <li><a class="dropdown-item" th:classappend="${currentPage == 'game-summary-by-map-with-brain'} ? 'active' : ''" href="/reports/game-summary-by-type/byMapWithBrain">Game Summary (By Map with Brain Data)</a></li>
                             <li><hr class="dropdown-divider"></li>

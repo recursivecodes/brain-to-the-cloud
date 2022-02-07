@@ -1,9 +1,11 @@
-drop view vw_game_summary;
+drop view vw_game_summary_with_brain;
 
-create view vw_game_summary
+create view vw_game_summary_with_brain
     as
 select
     count("id") as totalGames,
+    cast(coalesce(avg(avgAttention), 0) as number(18,2)) as avgAttention,
+    cast(coalesce(avg(avgMeditation), 0) as number(18,2)) as avgMeditation,
     sum(kills) as totalKills,
     sum(assists) as totalAssists,
     sum(deaths) as totalDeaths,
@@ -47,4 +49,4 @@ select
     cast(sum(distanceTraveled) as number(18,2)) as totalDistanceTraveled,
     cast(avg(percentTimeMoving) as number(18,2)) as avgPctTimeMoving,
     cast(avg(averageSpeedDuringMatch) as number(18,2)) as avgSpeedDuringMatch
-from mv_game_details;
+from mv_game_details_with_brain;

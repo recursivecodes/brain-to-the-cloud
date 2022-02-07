@@ -1,6 +1,10 @@
 select * 
 from vw_summary_by_am_ratio_range;
 
+select * from vw_game_summary_by_map order by totalEdRatio desc;
+
+select summaryByType('map') from dual;
+
 select * from game where id = 495;
 delete from game where id = 495;
 

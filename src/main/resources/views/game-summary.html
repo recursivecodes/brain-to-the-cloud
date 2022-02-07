@@ -19,10 +19,15 @@
         <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOcol mb-3lection"*/-->
         <div class="row">
             <div class="col-12 mb-3">
-                <h1>Kills/Assists/Deaths</h1>
+                <h1>Game Summary <span th:if="${withBrain}">(With Brain Data)</span> <span th:if="${!withBrain}">(All Games)</span></h1>
             </div>
         </div>
         <div class="row">
+            <div class="col-12 mb-3">
+                <h2>Kills/Assists/Deaths</h2>
+            </div>
+        </div>
+        <div class="row" th:if="${withBrain}">
             <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Average Attention</div></div>
             <div class="col-6 col-md-3 mb-3 mr-3 mr-md-0 fs-1">
                 <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getAvgAttention(), 1, 'COMMA', 2, 'POINT')}"></div>
@@ -124,7 +129,7 @@
         </div>
         <div class="row">
             <div class="col-12 mb-3">
-                <h1>Win/Loss</h1>
+                <h2>Win/Loss</h2>
             </div>
         </div>
         <div class="row">
@@ -145,7 +150,7 @@
         </div>
         <div class="row">
             <div class="col-12 mb-3">
-                <h1>Accuracy/Damage</h1>
+                <h2>Accuracy/Damage</h2>
             </div>
         </div>
         <div class="row">
@@ -186,7 +191,7 @@
         </div>
         <div class="row">
             <div class="col-12 mb-3">
-                <h1>Score/Travel</h1>
+                <h2>Score/Travel</h2>
             </div>
         </div>
         <div class="row">

@@ -71,14 +71,15 @@ public class ReportController {
         ));
     }
 
-    @Get(uri = "/game-summary")
-    ModelAndView overallSummary(@Nullable Principal principal) {
+    @Get(uri = "/game-summary/{withBrain}")
+    ModelAndView overallSummary(@Nullable Principal principal, @PathVariable Boolean withBrain) {
         GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
-                .gameSummaryDTOList(gameRepository.getGameSummary())
+                .gameSummaryDTOList(withBrain ? gameRepository.getGameSummaryWithBrain() : gameRepository.getGameSummary())
                 .build();
 
         return new ModelAndView("game-summary", CollectionUtils.mapOf(
-                "currentView", "game-summary",
+                "currentView", withBrain ? "game-summary-with-brain" : "game-summary",
+                "withBrain", withBrain,
                 "isLoggedIn", principal != null,
                 "summaryCollection", summaryCollection
         ));
