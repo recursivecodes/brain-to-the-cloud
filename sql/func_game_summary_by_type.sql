@@ -52,6 +52,7 @@ begin
             
             cast(avg(score) as number(18,2)) as avgScore,
             cast(case when sum(timePlayed) > 0 then sum(score) / (sum(timePlayed) / 60) else 0 end as number(18,2)) as totalScorePerMinute,
+            cast(case when sum(timePlayed) > 0 then sum(kills) / (sum(timePlayed) / 60) else 0 end as number(18,2)) as totalKillsPerMinute,
             cast(avg(scorePerMinute) as number(18,2)) as avgScorePerMinute,
             cast(sum(timePlayed) as number(18,2)) as totalTimePlayed,
             cast(sum(distanceTraveled) as number(18,2)) as totalDistanceTraveled,

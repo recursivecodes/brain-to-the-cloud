@@ -78,7 +78,7 @@ public class ReportController {
     @Get(uri = "/game-summary/{withBrain}")
     ModelAndView overallSummary(@Nullable Principal principal, @PathVariable Boolean withBrain) {
         GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
-                .gameSummaryDTOList(withBrain ? gameRepository.getGameSummaryWithBrain() : gameRepository.getGameSummary())
+                .gameSummaryDTOList(gameRepository.getGameSummary(withBrain ? 1 : 0))
                 .build();
 
         return new ModelAndView("game-summary", CollectionUtils.mapOf(
