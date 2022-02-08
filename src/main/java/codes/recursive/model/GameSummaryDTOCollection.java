@@ -29,6 +29,7 @@ public class GameSummaryDTOCollection {
             Map.entry("getTotalKdRatio", GameSummaryDTO::getTotalKdRatio),
             Map.entry("getTotalEdRatio", GameSummaryDTO::getTotalEdRatio),
             Map.entry("getTotalScorePerMinute", GameSummaryDTO::getTotalScorePerMinute),
+            Map.entry("getTotalKillsPerMinute", GameSummaryDTO::getTotalKillsPerMinute),
             Map.entry("getAvgScorePerMinute", GameSummaryDTO::getAvgScorePerMinute),
             Map.entry("getTotalAccuracy", GameSummaryDTO::getTotalAccuracy),
             Map.entry("getAverageAccuracy", GameSummaryDTO::getAverageAccuracy),

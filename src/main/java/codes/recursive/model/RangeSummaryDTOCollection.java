@@ -27,7 +27,8 @@ public class RangeSummaryDTOCollection {
             Map.entry("getAvgAttention", RangeSummaryDTO::getAvgAttention),
             Map.entry("getAvgMeditation", RangeSummaryDTO::getAvgMeditation),
             Map.entry("getScorePerMinute", RangeSummaryDTO::getScorePerMinute),
-            Map.entry("getAverageAccuracy", RangeSummaryDTO::getAverageAccuracy)
+            Map.entry("getAverageAccuracy", RangeSummaryDTO::getAverageAccuracy),
+            Map.entry("getKillsPerMinute", RangeSummaryDTO::getKillsPerMinute)
     );
 
     private final Map<String, Function<RangeSummaryDTO, Integer>> integerMethods = Map.ofEntries();

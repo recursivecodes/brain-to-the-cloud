@@ -8,6 +8,7 @@ import codes.recursive.repository.AbstractBrainRepository;
 import codes.recursive.repository.BrainRepository;
 import codes.recursive.repository.BrainSessionRepository;
 import codes.recursive.repository.GameRepository;
+import codes.recursive.service.CodPublicClientService;
 import codes.recursive.service.TokenService;
 import com.oracle.bmc.vault.responses.UpdateSecretResponse;
 import io.micronaut.data.model.Page;
@@ -36,6 +37,7 @@ public class ApiController {
     private final AbstractBrainRepository abstractBrainRepository;
     private final BrainSessionRepository brainSessionRepository;
     private final TokenService tokenService;
+    private final CodPublicClientService codPublicClientService;
 
     public ApiController(
             CodPublicClient codPublicClient,
@@ -43,19 +45,21 @@ public class ApiController {
             BrainRepository brainRepository,
             AbstractBrainRepository abstractBrainRepository,
             BrainSessionRepository brainSessionRepository,
-            TokenService tokenService) {
+            TokenService tokenService,
+            CodPublicClientService codPublicClientService) {
         this.codPublicClient = codPublicClient;
         this.gameRepository = gameRepository;
         this.brainRepository = brainRepository;
         this.abstractBrainRepository = abstractBrainRepository;
         this.brainSessionRepository = brainSessionRepository;
         this.tokenService = tokenService;
+        this.codPublicClientService = codPublicClientService;
     }
 
     @Get(uri = "/codLookups")
     public HttpResponse getCodLookups() {
         return HttpResponse.ok(
-                codPublicClient.getLookupValues()
+                codPublicClientService.getCodLookups()
         );
     }
 

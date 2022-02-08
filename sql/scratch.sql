@@ -2,6 +2,8 @@ select *
 from mv_brain_details_with_game
 where game_id = 559;
 
+select * from mv_game_details where operator = 'francis' and kills = 63;
+
 select * from vw_game_summary_by_map order by totalEdRatio desc;
 
 select * from summaryByType('operator', 1) order by totalEdRatio desc;

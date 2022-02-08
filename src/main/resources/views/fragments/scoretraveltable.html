@@ -12,6 +12,7 @@
                 <th>Total Games</th>
                 <th>Avg Score</th>
                 <th>Total Score Per Minute</th>
+                <th>Total Kills Per Minute</th>
                 <th>Avg Score Per Minute</th>
                 <th>Total Distance Traveled</th>
                 <th>Total Time Played</th>
@@ -44,6 +45,8 @@
             <td th:text="${#numbers.formatDecimal(record.getAvgScore(), 0, 'COMMA', 0, 'POINT')}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalScorePerMinute(), 0, 'COMMA', 2, 'POINT')}"
                 th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getTotalScorePerMinute(), 'getTotalScorePerMinute', true, false) : ''}">/td>
+            <td th:text="${#numbers.formatDecimal(record.getTotalKillsPerMinute(), 1, 'COMMA', 2, 'POINT')}"
+                th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getTotalKillsPerMinute(), 'getTotalKillsPerMinute', true, false) : ''}">/td>
             <td th:text="${#numbers.formatDecimal(record.getAvgScorePerMinute(), 0, 'COMMA', 2, 'POINT')}"
                 th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getAvgScorePerMinute(), 'getAvgScorePerMinute', true, false) : ''}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalDistanceTraveled(), 0, 'COMMA', 0, 'POINT')}">/td>

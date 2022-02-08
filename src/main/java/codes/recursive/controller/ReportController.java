@@ -7,6 +7,7 @@ import codes.recursive.model.GameSummaryDTOCollection;
 import codes.recursive.model.RangeSummaryDTOCollection;
 import codes.recursive.repository.BrainSessionRepository;
 import codes.recursive.repository.GameRepository;
+import codes.recursive.service.CodPublicClientService;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.naming.NameUtils;
 import io.micronaut.core.util.CollectionUtils;
@@ -33,14 +34,17 @@ public class ReportController {
     private final GameRepository gameRepository;
     private final CodPublicClient codPublicClient;
     private final BrainSessionRepository brainSessionRepository;
+    private final CodPublicClientService codPublicClientService;
 
     public ReportController(
             GameRepository gameRepository,
             CodPublicClient codPublicClient,
-            BrainSessionRepository brainSessionRepository) {
+            BrainSessionRepository brainSessionRepository,
+            CodPublicClientService codPublicClientService) {
         this.gameRepository = gameRepository;
         this.codPublicClient = codPublicClient;
         this.brainSessionRepository = brainSessionRepository;
+        this.codPublicClientService = codPublicClientService;
     }
 
     @Get(uri = "/attention-meditation")
@@ -107,7 +111,7 @@ public class ReportController {
         List<GameSummaryDTO> summaries = gameRepository.getGameSummaryByType(groupingType, withBrain ? 1 : 0);
         GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
                 .gameSummaryDTOList(summaries)
-                .codLookups(codPublicClient.getLookupValues())
+                .codLookups(codPublicClientService.getCodLookups())
                 .build();
 
         return new ModelAndView("game-summary-by-type", CollectionUtils.mapOf(

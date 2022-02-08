@@ -55,6 +55,7 @@ public class GameSummaryDTO {
     private Integer longestStreak;
     private BigDecimal avgScore;
     private BigDecimal totalScorePerMinute;
+    private BigDecimal totalKillsPerMinute;
     private BigDecimal avgScorePerMinute;
     private Integer totalTimePlayed;
     private BigDecimal totalDistanceTraveled;

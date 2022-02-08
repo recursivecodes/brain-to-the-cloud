@@ -20,6 +20,7 @@
                 <th>Avg Accuracy</th>
                 <th>Time Played</th>
                 <th>Score Per Minute</th>
+                <th>Kills Per Minute</th>
             </tr>
         </thead>
         <tbody>
@@ -51,6 +52,8 @@
             <td th:text="${#numbers.formatDecimal(record.getTimePlayed(), 0, 'COMMA', 0, 'POINT') + ' (' + #numbers.formatDecimal(record.getTimePlayedHours(), 1, 'COMMA', 2, 'POINT') + ' hours)'}"></td>
             <td th:text="${#numbers.formatDecimal(record.getScorePerMinute(), 0, 'COMMA', 0, 'POINT')}"
                 th:classappend="${summaryCollection.getBigDecimalClass(record.getScorePerMinute(), 'getScorePerMinute', true, false)}"></td>
+            <td th:text="${#numbers.formatDecimal(record.getKillsPerMinute(), 1, 'COMMA', 2, 'POINT')}"
+                th:classappend="${summaryCollection.getBigDecimalClass(record.getKillsPerMinute(), 'getKillsPerMinute', true, false)}"></td>
         </tr>
         </tbody>
     </table>
