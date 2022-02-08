@@ -16,7 +16,7 @@
     <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
 
     <div class="mt-3" th:with="record=${summaryCollection.getGameSummaryDTOList().get(0)}">
-        <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOcol mb-3lection"*/-->
+        <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->
         <div class="row">
             <div class="col-12 mb-3">
                 <h1>Game Summary <span th:if="${withBrain}">(With Brain Data)</span> <span th:if="${!withBrain}">(All Games)</span></h1>
@@ -195,9 +195,9 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Avg Score</div></div>
+            <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Total Kills Per Minute</div></div>
             <div class="col-6 col-md-3 mb-3 fs-1">
-                <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getAvgScore(), 0, 'COMMA', 0, 'POINT')}"></div>
+                <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getTotalKillsPerMinute(), 1, 'COMMA', 2, 'POINT')}"></div>
             </div>
             <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Total Score Per Minute</div></div>
             <div class="col-6 col-md-3 mb-3 fs-1">
@@ -205,13 +205,13 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Avg Score</div></div>
+            <div class="col-6 col-md-3 mb-3 fs-1">
+                <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getAvgScore(), 0, 'COMMA', 0, 'POINT')}"></div>
+            </div>
             <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Avg Score Per Minute</div></div>
             <div class="col-6 col-md-3 mb-3 fs-1">
                 <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getAvgScorePerMinute(), 0, 'COMMA', 2, 'POINT')}"></div>
-            </div>
-            <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Total Distance Traveled</div></div>
-            <div class="col-6 col-md-3 mb-3 fs-1">
-                <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getTotalDistanceTraveled(), 0, 'COMMA', 0, 'POINT')}"></div>
             </div>
         </div>
         <div class="row">
@@ -222,6 +222,12 @@
             <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Avg Speed During Match</div></div>
             <div class="col-6 col-md-3 mb-3 fs-1">
                 <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getAvgSpeedDuringMatch(), 1, 'COMMA', 2, 'POINT')}"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-3 mb-3 fw-bold fs-1"><div class="p-3 text-white bg-theme w-100 d-flex align-items-center h-100">Total Distance Traveled</div></div>
+            <div class="col-6 col-md-3 mb-3 fs-1">
+                <div class="border w-100 h-100 d-flex align-items-center p-3" th:text="${#numbers.formatDecimal(record.getTotalDistanceTraveled(), 0, 'COMMA', 0, 'POINT')}"></div>
             </div>
         </div>
     </div>

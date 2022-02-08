@@ -3,7 +3,7 @@ drop materialized view mv_brain_details_with_game;
 create materialized view mv_brain_details_with_game
     refresh complete
     start with sysdate
-    next sysdate + interval '1' hour
+    next sysdate + interval '30' minute
     as
 select 
     g.id as game_id,

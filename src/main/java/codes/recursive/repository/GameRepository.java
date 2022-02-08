@@ -53,11 +53,8 @@ public interface GameRepository extends PageableRepository<Game, Long> {
     @Query(value = "select * from vw_summary_by_am_ratio_range", nativeQuery = true)
     List<RangeSummaryDTO> getAmRatioSummary();
 
-    @Query(value = "select * from vw_summary_by_time_moving", nativeQuery = true)
-    List<RangeSummaryDTO> getTimeMovingSummary();
-
-    @Query(value = "select * from vw_summary_by_time_moving_with_brain_data", nativeQuery = true)
-    List<RangeSummaryDTO> getTimeMovingWithBrainDataSummary();
+    @Query(value = "select * from timeMovingSummary(:withBrain)", nativeQuery = true)
+    List<RangeSummaryDTO> getTimeMovingSummary(Integer withBrain);
 
     @Query(value = "select * from gameSummary(:withBrain)", nativeQuery = true)
     List<GameSummaryDTO> getGameSummary(Integer withBrain);

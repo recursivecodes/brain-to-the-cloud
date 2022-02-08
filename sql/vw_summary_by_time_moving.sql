@@ -78,7 +78,9 @@ select
     cast(coalesce(avgScore, 0) as number(18,2)) as avgScore,
     cast(coalesce(avgAccuracy, 0) as number(18,2)) as averageAccuracy,
     coalesce(timePlayed, 0) as timePlayed,
-    cast(case when minutesPlayed > 0 then score / minutesPlayed else 0 end as number(18,2)) as scorePerMinute
+    cast(case when minutesPlayed > 0 then score / minutesPlayed else 0 end as number(18,2)) as scorePerMinute,
+    cast(case when minutesPlayed > 0 then kills / minutesPlayed else 0 end as number(18,2)) as killsPerMinute
+
 from ranges r
     left outer join data d
         on r.timeRange = d.timeRange
