@@ -49,9 +49,9 @@ public class ReportController {
 
     @Get(uri = "/attention-meditation")
     ModelAndView timeMovingReport(@Nullable Principal principal) {
-        RangeSummaryDTOCollection attentionCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getAttentionSummary()).build();
-        RangeSummaryDTOCollection meditationCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getMeditationSummary()).build();
-        RangeSummaryDTOCollection ratioCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getAmRatioSummary()).build();
+        RangeSummaryDTOCollection attentionCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getBrainSummary("attention")).build();
+        RangeSummaryDTOCollection meditationCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getBrainSummary("meditation")).build();
+        RangeSummaryDTOCollection ratioCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getBrainSummary("ratio")).build();
 
         return new ModelAndView("attention-meditation-report", CollectionUtils.mapOf(
                 "currentView", "attention-meditation",

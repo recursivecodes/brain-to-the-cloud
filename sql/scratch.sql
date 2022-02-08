@@ -2,6 +2,16 @@ select *
 from mv_brain_details_with_game
 where game_id = 559;
 
+select * from gameSummary(0);
+
+select * from timeMovingRange(0);
+
+select map, cast(sum(distanceTraveled) / count("id") as number(18,2)) avgDistanceTraveled
+from mv_game_details
+group by map
+order by sum(distanceTraveled) / count("id");
+
+
 select * from mv_game_details where operator = 'francis' and kills = 63;
 
 select * from vw_game_summary_by_map order by totalEdRatio desc;
