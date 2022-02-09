@@ -1,16 +1,15 @@
 package codes.recursive.controller;
 
 import codes.recursive.client.CodPublicClient;
-import codes.recursive.model.CallOfDuty;
-import codes.recursive.model.GameSummaryDTO;
-import codes.recursive.model.GameSummaryDTOCollection;
-import codes.recursive.model.RangeSummaryDTOCollection;
+import codes.recursive.model.*;
 import codes.recursive.repository.BrainSessionRepository;
 import codes.recursive.repository.GameRepository;
 import codes.recursive.service.CodPublicClientService;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.naming.NameUtils;
 import io.micronaut.core.util.CollectionUtils;
+import io.micronaut.data.model.Page;
+import io.micronaut.data.model.Pageable;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
@@ -32,7 +31,6 @@ import java.util.function.Function;
 public class ReportController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportController.class);
     private final GameRepository gameRepository;
-    private final CodPublicClient codPublicClient;
     private final BrainSessionRepository brainSessionRepository;
     private final CodPublicClientService codPublicClientService;
 
@@ -42,9 +40,28 @@ public class ReportController {
             BrainSessionRepository brainSessionRepository,
             CodPublicClientService codPublicClientService) {
         this.gameRepository = gameRepository;
-        this.codPublicClient = codPublicClient;
         this.brainSessionRepository = brainSessionRepository;
         this.codPublicClientService = codPublicClientService;
+    }
+
+    //@Secured(SecurityRule.IS_AUTHENTICATED)
+    @Get("/game-details{/offsetParam}{/maxParam}")
+    ModelAndView gameDetails(@Nullable Principal principal, @PathVariable @Nullable Integer offsetParam, @PathVariable @Nullable Integer maxParam) {
+        int offset = offsetParam != null ? offsetParam : 0;
+        int max = maxParam != null ? maxParam : 25;
+        Pageable pageable = Pageable.from(offset, max);
+        Page<GameDetailDTO> page = gameRepository.listGameDetails(pageable);
+        GameDetailDTOCollection collection = GameDetailDTOCollection.builder()
+                .gameDetailDTOList(page.getContent())
+                .codLookups(codPublicClientService.getCodLookups())
+                .build();
+        return new ModelAndView("game-details", CollectionUtils.mapOf(
+                "collection", collection,
+                "vanguard", CallOfDuty.VANGUARD,
+                "gamePage", page,
+                "currentView", "game-details",
+                "isLoggedIn", principal != null
+        ));
     }
 
     @Get(uri = "/attention-meditation")

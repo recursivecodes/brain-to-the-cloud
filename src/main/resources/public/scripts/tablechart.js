@@ -90,7 +90,7 @@ const init = () => {
     triggers.forEach((link) => {
         link.classList.remove('d-none')
         link.addEventListener('click', function(evt) {
-            const colorScheme = ['#8012ed', '#b301ca', '#de079a', '#f82165', '#fe4c35', '#ed7f12', '#cab301', '#9ade07', '#65f821', '#35fe4c', '#12ed7f', '#01cab3', '#079ade', '#2165f8', '#4c35fe'];
+            const colorScheme = ['#9ade07', '#2165f8', '#12ed7f', '#8012ed', '#de079a', '#4c35fe', '#b301ca', '#fe4c35', '#01cab3', '#65f821', '#35fe4c', '#f82165', '#ed7f12', '#079ade', '#cab301'];
             let table = evt.target.closest('table');
             let tbody = table.querySelector('tbody');
             let thead = table.querySelector('thead');

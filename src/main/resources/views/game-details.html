@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutFile :: head(~{::title}, ~{:: #extraHead})}">
+    <title>BttC: Game Details</title>
+    <!--/*/
+    <div id="extraHead" th:remove="tag">
+    /*/-->
+    <script src="/scripts/chart/chart.min.js"></script>
+    <script src="/scripts/chart/chartjs-plugin-annotation.min.js"></script>
+    <script src="/scripts/moment/moment.js"></script>
+    <script src="/scripts/chart/chartjs-adapter-moment.min.js"></script>
+    <script src="/scripts/game-details.js" type="module"></script>
+    <!--/*/
+    </div>
+    /*/-->
+</head>
+<body th:replace="~{layoutFile :: body(~{::section})}">
+<section>
+    <!--/*@thymesVar id="collection" type="codes.recursive.model.GameDetailDTOCollection"*/-->
+    <!--/*@thymesVar id="currentView" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="isLoggedIn" type="java.lang.Boolean"*/-->
+    <!--/*@thymesVar id="gamePage" type="io.micronaut.data.model.Page"*/-->
+
+    <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
+
+    <h1>Game Details (<span th:text="${gamePage.offset + 1}"></span> - <span th:text="${(gamePage.pageNumber + 1) * gamePage.size}"></span>)</h1>
+
+    <div class="table-responsive-sm">
+        <table class="table table-bordered table-hover">
+        <thead class="bg-theme text-white border-2 border-white">
+            <tr>
+                <th>Date/Time</th>
+                <th>Map</th>
+                <th>Result</th>
+                <th>Duration</th>
+                <th>K/D</th>
+                <th>E/D</th>
+                <th>Kills<br/>Per<br/>Minute</th>
+                <th>Kills</th>
+                <th>Assists</th>
+                <th>Deaths</th>
+                <th>Accuracy</th>
+                <th>Score</th>
+                <th>Score<br/>Per<br/>Minute</th>
+                <th>% Time<br/>Moving</th>
+                <th>Longest<br/>Streak</th>
+                <th>Attention<br/>Meditation<br/>Ratio</th>
+                <th>Avg<br/>Attention</th>
+                <th>Avg<br/>Meditation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="record, s: ${collection.getGameDetailDTOList()}">
+                <!--/*@thymesVar id="record" type="codes.recursive.model.GameDetailDTO"*/-->
+                <th scope="row" class="bg-theme text-white" th:data-sort="${record.getUtcStartSeconds()}" th:text="${record.getFormattedStartDate()}"></th>
+                <td th:text="${collection.lookupMap(vanguard, record.getMap())}"></td>
+                <td th:text="${#strings.capitalize(record.getResult())}"></td>
+                <td th:text="${record.getFriendlyTimePlayed()}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getKdRatio(), 1, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getEdRatio(), 1, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getKillsPerMinute(), 1, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getKills(), 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getAssists(), 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getDeaths(), 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getAccuracy() * 100, 1, 'COMMA', 2, 'POINT')} + '%'"></td>
+                <td th:text="${#numbers.formatDecimal(record.getScore(), 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getScorePerMinute(), 1, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getPercentTimeMoving(), 1, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getLongestStreak(), 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getAmRatio(), 1, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getAvgAttention(), 1, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 1, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+    <div th:replace="fragments/tablechartmodal :: tablechartmodal()"></div>
+
+    <div class="row mt-3 mb-3">
+        <div class="col-12 text-center">
+            <a th:href="'/reports/game-details/' + ${gamePage.pageNumber - 1} + '/' + ${gamePage.numberOfElements}" th:if="${gamePage.pageNumber > 0} AND ${gamePage.pageNumber < gamePage.totalPages}" class="btn btn-primary">Prev</a>
+            <a th:href="'/reports/game-details/' + ${gamePage.pageNumber + 1} + '/' + ${gamePage.numberOfElements}" th:if="${gamePage.pageNumber < gamePage.totalPages}" class="btn btn-primary">Next</a>
+        </div>
+    </div>
+    
+</section>
+</body>
+</html>

@@ -27,6 +27,8 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Reports</a>
                         <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" th:classappend="${currentPage == 'game-details'} ? 'active' : ''" href="/reports/game-details">Game Details</a></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" th:classappend="${currentPage == 'attention-meditation'} ? 'active' : ''" href="/reports/attention-meditation">Attention & Meditation</a></li>
                             <li><a class="dropdown-item" th:classappend="${currentPage == 'time-moving'} ? 'active' : ''" href="/reports/time-moving">Time Spent Moving</a></li>
                             <li><hr class="dropdown-divider"></li>

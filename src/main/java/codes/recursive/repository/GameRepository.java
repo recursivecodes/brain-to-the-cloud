@@ -1,6 +1,7 @@
 package codes.recursive.repository;
 
 import codes.recursive.model.Game;
+import codes.recursive.model.GameDetailDTO;
 import codes.recursive.model.GameSummaryDTO;
 import codes.recursive.model.RangeSummaryDTO;
 import io.micronaut.core.annotation.NonNull;
@@ -43,6 +44,13 @@ public interface GameRepository extends PageableRepository<Game, Long> {
             countQuery = "select count(id) from game where id in (select mvb.\"id\" from mv_game_details_with_brain mvb where mvb.totalAttention is not null)"
     )
     Page<Game> findAllWithBrainReadings(Pageable pageable);
+
+    @Query(
+            value = "select * from mv_game_details_with_brain order by matchStart desc",
+            nativeQuery = true,
+            countQuery = "select count(1) from mv_game_details_with_brain"
+    )
+    Page<GameDetailDTO> listGameDetails(Pageable pageable);
 
     @Query(value = "select * from rangeSummary(:type)", nativeQuery = true)
     List<RangeSummaryDTO> getBrainSummary(String type);
