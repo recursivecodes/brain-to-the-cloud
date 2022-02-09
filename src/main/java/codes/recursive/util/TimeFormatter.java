@@ -20,13 +20,16 @@ public class TimeFormatter {
         return seconds == 0 ? "now" :
                 Arrays.stream(
                                 new String[]{
-                                        formatTime("",(seconds / 60)%60),
-                                        formatTime("",(seconds%3600)%60)})
+                                        formatTimeShort("",(seconds / 60)%60, false),
+                                        formatTimeShort("",(seconds%3600)%60, true)})
                         .filter(e->e!="")
                         .collect(Collectors.joining(", "))
                         .replaceAll(", (?!.+,)", ":");
     }
+    public static String formatTimeShort(String s, int time, Boolean zeroPad){
+        return time==0 ? "" : (zeroPad ? String.format("%02d", time) : time) + s;
+    }
     public static String formatTime(String s, int time){
-        return time==0 ? "" : Integer.toString(time)+ " " + s + (time==1?"" : "s");
+        return time==0 ? "" : time + " " + s + (time==1?"" : "s");
     }
 }

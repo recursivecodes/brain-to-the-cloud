@@ -81,11 +81,11 @@ public class GameDetailDTO {
     private BigDecimal isDistractedBrain;
 
     public String getFormattedStartDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM-d '@' hh:mma");
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM d '@' hh:mma");
         return formatter.format(matchStart);
     }
     public String getFormattedEndDate() {
-        SimpleDateFormat formatter = new SimpleDateFormat("MMM-d '@' hh:mma");
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM d '@' hh:mma");
         return formatter.format(matchEnd);
     }
 
