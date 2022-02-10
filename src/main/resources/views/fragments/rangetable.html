@@ -49,7 +49,7 @@
             <td th:text="${#numbers.formatDecimal(avgAccuracy, 1, 'COMMA', 2, 'POINT') + '%'}"
                 th:with="avgAccuracy=${record.getAverageAccuracy() * 100}"
                 th:classappend="${summaryCollection.getBigDecimalClass(record.getAverageAccuracy(), 'getAverageAccuracy', true, false)}"></td>
-            <td th:text="${#numbers.formatDecimal(record.getTimePlayed(), 0, 'COMMA', 0, 'POINT') + ' (' + #numbers.formatDecimal(record.getTimePlayedHours(), 1, 'COMMA', 2, 'POINT') + ' hours)'}"></td>
+            <td th:text="${record.getTimePlayedFriendly()}" th:data-sort="${record.getTimePlayed()}"></td>
             <td th:text="${#numbers.formatDecimal(record.getScorePerMinute(), 0, 'COMMA', 0, 'POINT')}"
                 th:classappend="${summaryCollection.getBigDecimalClass(record.getScorePerMinute(), 'getScorePerMinute', true, false)}"></td>
             <td th:text="${#numbers.formatDecimal(record.getKillsPerMinute(), 1, 'COMMA', 2, 'POINT')}"

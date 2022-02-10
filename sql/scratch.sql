@@ -1,8 +1,43 @@
 select * 
-from mv_brain_details_with_game
-where game_id = 559;
+from mv_game_details
+where timePlayed < 100
+order by utcStartSeconds desc;
 
-select * from gameSummary(0);
+select count(1) from brain;
+
+select count("id"), sum(brainRecords), avg(brainRecords) from mv_game_details_with_brain where brainRecords > 0;
+
+delete from game where id in (607,608,600);
+
+select id, to_timestamp_tz(g.match.matchStart, 'YYYY-MM-DD HH24:MI:SSTZHTZM')
+from game g;
+
+select cast(to_timestamp_tz('2022-02-08 12:37:03-0500', 'YYYY-MM-DD HH24:MI:SSTZHTZM') as date)
+from dual;
+
+select sysdate + interval '1' hour from dual;
+--09-FEB-22 11.36.11 <--- GMT
+select sysdate + (1/24) from dual;
+--09-FEB-22 11.36.36 <--- same
+
+select * from mv_game_details_with_brain order by matchStart desc;
+
+select owner, mview_name, last_refresh_type, last_refresh_date
+from all_mviews;
+
+select *
+from all_scheduler_jobs;
+
+select g.match.playerStats.kills, 
+g.match.playerStats.kdRatio,
+case when g.match.playerStats.deaths > 0 then (g.match.playerStats.kills + g.match.playerStats.assists) / g.match.playerStats.deaths else 0 end
+from game g;
+
+select count(1) from mv_game_details_with_brain;
+
+describe mv_game_details_with_brain;
+
+select * from rangeSummary('ratio');
 
 select * from timeMovingRange(0);
 

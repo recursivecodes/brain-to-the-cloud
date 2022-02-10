@@ -37,8 +37,8 @@
                 <th>E/D</th>
                 <th>Kills<br/>Per<br/>Minute</th>
                 <th>Kills</th>
-                <th>Assists</th>
                 <th>Deaths</th>
+                <th>Assists</th>
                 <th>Accuracy</th>
                 <th>Score</th>
                 <th>Score<br/>Per<br/>Minute</th>
@@ -55,21 +55,21 @@
                 <th scope="row" class="bg-theme text-white" th:data-sort="${record.getUtcStartSeconds()}" th:text="${record.getFormattedStartDate()}"></th>
                 <td th:text="${collection.lookupMap(vanguard, record.getMap())}"></td>
                 <td th:text="${#strings.capitalize(record.getResult())}"></td>
-                <td th:text="${record.getFriendlyTimePlayed()}"></td>
+                <td th:text="${record.getFriendlyTimePlayed()}" th:data-sort="${record.getTimePlayed()}"></td>
                 <td th:text="${#numbers.formatDecimal(record.getKdRatio(), 1, 'COMMA', 2, 'POINT')}"></td>
                 <td th:text="${#numbers.formatDecimal(record.getEdRatio(), 1, 'COMMA', 2, 'POINT')}"></td>
                 <td th:text="${#numbers.formatDecimal(record.getKillsPerMinute(), 1, 'COMMA', 2, 'POINT')}"></td>
                 <td th:text="${#numbers.formatDecimal(record.getKills(), 0, 'COMMA', 0, 'POINT')}"></td>
-                <td th:text="${#numbers.formatDecimal(record.getAssists(), 0, 'COMMA', 0, 'POINT')}"></td>
                 <td th:text="${#numbers.formatDecimal(record.getDeaths(), 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getAssists(), 0, 'COMMA', 0, 'POINT')}"></td>
                 <td th:text="${#numbers.formatDecimal(record.getAccuracy() * 100, 1, 'COMMA', 2, 'POINT')} + '%'"></td>
                 <td th:text="${#numbers.formatDecimal(record.getScore(), 0, 'COMMA', 0, 'POINT')}"></td>
                 <td th:text="${#numbers.formatDecimal(record.getScorePerMinute(), 1, 'COMMA', 2, 'POINT')}"></td>
-                <td th:text="${#numbers.formatDecimal(record.getPercentTimeMoving(), 1, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getPercentTimeMoving(), 1, 'COMMA', 2, 'POINT')} + '%'"></td>
                 <td th:text="${#numbers.formatDecimal(record.getLongestStreak(), 0, 'COMMA', 0, 'POINT')}"></td>
                 <td th:text="${#numbers.formatDecimal(record.getAmRatio(), 1, 'COMMA', 2, 'POINT')}"></td>
-                <td th:text="${#numbers.formatDecimal(record.getAvgAttention(), 1, 'COMMA', 2, 'POINT')}"></td>
-                <td th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 1, 'COMMA', 2, 'POINT')}"></td>
+                <td th:text="${#numbers.formatDecimal(record.getAvgAttention(), 1, 'COMMA', 2, 'POINT')} + '%'"></td>
+                <td th:text="${#numbers.formatDecimal(record.getAvgMeditation(), 1, 'COMMA', 2, 'POINT')} + '%'"></td>
             </tr>
         </tbody>
     </table>

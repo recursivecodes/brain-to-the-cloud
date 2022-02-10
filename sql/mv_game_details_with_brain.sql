@@ -1,6 +1,7 @@
 drop materialized view mv_game_details_with_brain;
 
 create materialized view mv_game_details_with_brain
+    build immediate
     refresh complete
     start with sysdate
     next sysdate + interval '1' hour
@@ -30,6 +31,7 @@ select
     cast(g.match.playerStats.headshots as number(18,0)) as headshots,
     cast(g.match.playerStats.assists as number(18,0)) as assists,
     cast(g.match.playerStats.scorePerMinute as number(18,2)) as scorePerMinute,
+    cast( case when g.match.playerStats.timePlayed > 0 then g.match.playerStats.kills / (g.match.playerStats.timePlayed / 60) else 0 end as number(18,2)) as killsPerMinute,
     cast(g.match.playerStats.distanceTraveled as number(18,0)) as distanceTraveled,
     cast(g.match.playerStats.deaths as number(18,0)) as deaths,
     cast(g.match.playerStats.shotsLanded as number(18,0)) as shotsLanded,
@@ -108,6 +110,7 @@ group by
     g.match.playerStats.headshots,
     g.match.playerStats.assists,
     g.match.playerStats.scorePerMinute,
+    case when g.match.playerStats.timePlayed > 0 then g.match.playerStats.kills / (g.match.playerStats.timePlayed / 60) else 0 end,
     g.match.playerStats.distanceTraveled,
     g.match.playerStats.deaths,
     g.match.playerStats.shotsLanded,

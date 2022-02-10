@@ -1,5 +1,6 @@
 package codes.recursive.model;
 
+import codes.recursive.util.TimeFormatter;
 import io.micronaut.core.annotation.Introspected;
 import lombok.*;
 
@@ -33,5 +34,9 @@ public class RangeSummaryDTO {
 
     public Double getTimePlayedHours() {
         return (double) (timePlayed / 3600d);
+    }
+
+    public String getTimePlayedFriendly() {
+        return TimeFormatter.formatDurationHoursMinutes(timePlayed);
     }
 }

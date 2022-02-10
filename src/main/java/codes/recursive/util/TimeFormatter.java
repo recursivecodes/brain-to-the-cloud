@@ -16,6 +16,20 @@ public class TimeFormatter {
                         .collect(Collectors.joining(", "))
                         .replaceAll(", (?!.+,)", " and ");
     }
+
+    public static String formatDurationHoursMinutes(int seconds) {
+        return seconds == 0 ? "---" :
+                Arrays.stream(
+                                new String[]{
+                                        formatTime("year",  (seconds / 31536000)),
+                                        formatTime("day",   (seconds / 86400)%365),
+                                        formatTime("hr",  (seconds / 3600)%24),
+                                        formatTime("min",(seconds / 60)%60)})
+                        .filter(e->e!="")
+                        .collect(Collectors.joining(", "))
+                        .replaceAll(", (?!.+,)", ", ");
+    }
+
     public static String formatTimeDurationShort(int seconds) {
         return seconds == 0 ? "now" :
                 Arrays.stream(

@@ -50,7 +50,7 @@
             <td th:text="${#numbers.formatDecimal(record.getAvgScorePerMinute(), 0, 'COMMA', 2, 'POINT')}"
                 th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getAvgScorePerMinute(), 'getAvgScorePerMinute', true, false) : ''}"></td>
             <td th:text="${#numbers.formatDecimal(record.getTotalDistanceTraveled(), 0, 'COMMA', 0, 'POINT')}">/td>
-            <td th:text="${#numbers.formatDecimal(record.getTotalTimePlayed(), 0, 'COMMA', 0, 'POINT') + ' (' + #numbers.formatDecimal(record.getTimePlayedHours(), 1, 'COMMA', 2, 'POINT') + ' hours)'}"></td>
+            <td th:text="${record.getTimePlayedFriendly()}" th:data-sort="${record.getTotalTimePlayed()}"></td>
             <td th:text="${#numbers.formatDecimal(record.getAvgPctTimeMoving(), 1, 'COMMA', 2, 'POINT')} + '%'"
                 th:classappend="${highlight ? summaryCollection.getBigDecimalClass(record.getAvgPctTimeMoving(), 'getAvgPctTimeMoving', true, true) : ''}"></td>
             <td th:text="${#numbers.formatDecimal(record.getAvgSpeedDuringMatch(), 1, 'COMMA', 2, 'POINT')}"></td>
