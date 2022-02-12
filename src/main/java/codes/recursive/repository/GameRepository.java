@@ -46,6 +46,20 @@ public interface GameRepository extends PageableRepository<Game, Long> {
     Page<Game> findAllWithBrainReadings(Pageable pageable);
 
     @Query(
+            value = "select * from mv_game_details_with_brain where isHighlighted = 1 order by matchStart desc",
+            nativeQuery = true,
+            countQuery = "select count(1) from mv_game_details_with_brain where isHighlighted = 1"
+    )
+    Page<GameDetailDTO> listHighlightedGameDetails(Pageable pageable);
+
+    @Query(
+            value = "select * from mv_game_details_with_brain where brainRecords > 0 order by matchStart desc",
+            nativeQuery = true,
+            countQuery = "select count(1) from mv_game_details_with_brain where brainRecords > 0"
+    )
+    Page<GameDetailDTO> listGameDetailsWithBrain(Pageable pageable);
+
+    @Query(
             value = "select * from mv_game_details_with_brain order by matchStart desc",
             nativeQuery = true,
             countQuery = "select count(1) from mv_game_details_with_brain"

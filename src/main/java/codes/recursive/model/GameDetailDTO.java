@@ -15,8 +15,8 @@ import java.text.SimpleDateFormat;
 @Data
 @EqualsAndHashCode
 public class GameDetailDTO {
-    private BigDecimal isHighlighted;
-    private BigDecimal isDistracted;
+    private Boolean isHighlighted;
+    private Boolean isDistracted;
     private BigInteger utcStartSeconds;
     private BigInteger utcEndSeconds;
     private String map;
@@ -26,7 +26,7 @@ public class GameDetailDTO {
     private String result;
     private Integer team1Score;
     private Integer team2Score;
-    private String isPresentAtEnd;
+    private Boolean isPresentAtEnd;
     private Integer kills;
     private Integer rankAtEnd;
     private BigDecimal averageSpeedDuringMatch;
@@ -78,7 +78,7 @@ public class GameDetailDTO {
     private Integer avgHighBeta;
     private Integer avgLowGamma;
     private Integer avgHighGamma;
-    private BigDecimal isDistractedBrain;
+    private Boolean isDistractedBrain;
 
     public String getFormattedStartDate() {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM d '@' hh:mma");

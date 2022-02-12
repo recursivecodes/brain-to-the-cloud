@@ -45,12 +45,30 @@ public class ReportController {
     }
 
     //@Secured(SecurityRule.IS_AUTHENTICATED)
-    @Get("/game-details{/offsetParam}{/maxParam}")
-    ModelAndView gameDetails(@Nullable Principal principal, @PathVariable @Nullable Integer offsetParam, @PathVariable @Nullable Integer maxParam) {
+    @Get("/game-details{/offsetParam}{/maxParam}{/filter}")
+    ModelAndView gameDetails(@Nullable Principal principal, @PathVariable @Nullable Integer offsetParam, @PathVariable @Nullable Integer maxParam, @PathVariable @Nullable String filter) {
         int offset = offsetParam != null ? offsetParam : 0;
         int max = maxParam != null ? maxParam : 25;
         Pageable pageable = Pageable.from(offset, max);
-        Page<GameDetailDTO> page = gameRepository.listGameDetails(pageable);
+        Page<GameDetailDTO> page;
+
+        if(filter == null || filter.equals("all")) {
+            page = gameRepository.listGameDetails(pageable);
+        }
+        else {
+            switch (filter) {
+                case "highlight":
+                    page = gameRepository.listHighlightedGameDetails(pageable);
+                    break;
+                case "brain":
+                    page = gameRepository.listGameDetailsWithBrain(pageable);
+                    break;
+                default:
+                    page = gameRepository.listGameDetails(pageable);
+                    break;
+            }
+        }
+
         GameDetailDTOCollection collection = GameDetailDTOCollection.builder()
                 .gameDetailDTOList(page.getContent())
                 .codLookups(codPublicClientService.getCodLookups())
@@ -60,7 +78,12 @@ public class ReportController {
                 "vanguard", CallOfDuty.VANGUARD,
                 "gamePage", page,
                 "currentView", "game-details",
-                "isLoggedIn", principal != null
+                "isLoggedIn", principal != null,
+                "currentOffset", offset,
+                "currentMax", max,
+                "startRecord", page.getOffset() + 1,
+                "endRecord", page.getNumberOfElements() + page.getOffset(),
+                "filter", filter
         ));
     }
 

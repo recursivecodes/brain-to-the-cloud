@@ -18,12 +18,30 @@
 <section>
     <!--/*@thymesVar id="collection" type="codes.recursive.model.GameDetailDTOCollection"*/-->
     <!--/*@thymesVar id="currentView" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="filter" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="startRecord" type="java.lang.Integer"*/-->
+    <!--/*@thymesVar id="endRecord" type="java.lang.Integer"*/-->
+    <!--/*@thymesVar id="currentOffset" type="java.lang.Integer"*/-->
+    <!--/*@thymesVar id="currentMax" type="java.lang.Integer"*/-->
     <!--/*@thymesVar id="isLoggedIn" type="java.lang.Boolean"*/-->
     <!--/*@thymesVar id="gamePage" type="io.micronaut.data.model.Page"*/-->
 
     <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
 
-    <h1>Game Details (<span th:text="${gamePage.offset + 1}"></span> - <span th:text="${(gamePage.pageNumber + 1) * gamePage.size}"></span>)</h1>
+    <div class="row">
+        <div class="col-12 col-xl-6">
+            <h1>Game Details (<span th:text="${startRecord}"></span> - <span th:text="${endRecord}"></span>)</h1>
+        </div>
+        <div class="col-12 col-xl-3 d-flex align-self-center justify-content-end mb-3 mb-xl-0 offset-xl-3">
+            <select name="gameType" id="gameType" class="form-select w-100">
+                <option value="all" th:selected="${#strings.equals(filter, 'all')} OR ${filter} == null">All Games</option>
+                <option value="highlight" th:selected="${#strings.equals(filter, 'highlight')}">Highlighted Games</option>
+                <option value="brain" th:selected="${#strings.equals(filter, 'brain')}">Games with Brain Readings</option>
+            </select>
+            <input type="hidden" id="currentOffset" th:value="${currentOffset}" />
+            <input type="hidden" id="currentMax" th:value="${currentMax}" />
+        </div>
+    </div>
 
     <div class="table-responsive-sm">
         <table class="table table-bordered table-hover">
@@ -79,8 +97,10 @@
 
     <div class="row mt-3 mb-3">
         <div class="col-12 text-center">
-            <a th:href="'/reports/game-details/' + ${gamePage.pageNumber - 1} + '/' + ${gamePage.numberOfElements}" th:if="${gamePage.pageNumber > 0} AND ${gamePage.pageNumber < gamePage.totalPages}" class="btn btn-primary">Prev</a>
-            <a th:href="'/reports/game-details/' + ${gamePage.pageNumber + 1} + '/' + ${gamePage.numberOfElements}" th:if="${gamePage.pageNumber < gamePage.totalPages}" class="btn btn-primary">Next</a>
+            <a th:href="'/reports/game-details/' + ${gamePage.pageNumber - 1} + '/' + ${gamePage.numberOfElements} + '/' + ${filter}"
+               th:if="${gamePage.pageNumber > 0} AND ${gamePage.pageNumber < gamePage.totalPages}" class="btn btn-primary">Prev</a>
+            <a th:href="'/reports/game-details/' + ${gamePage.pageNumber + 1} + '/' + ${gamePage.numberOfElements} + '/' + ${filter}"
+               th:if="${gamePage.pageNumber < gamePage.totalPages - 1}" class="btn btn-primary">Next</a>
         </div>
     </div>
     
