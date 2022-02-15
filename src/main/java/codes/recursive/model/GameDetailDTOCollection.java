@@ -28,6 +28,8 @@ public class GameDetailDTOCollection {
     private final Map<String, Function<GameDetailDTO, Integer>> integerMethods = Map.ofEntries();
 
     public String lookupMap(String game, String map) {
+        if( map.equals("mp_jalo_oasis") ) return "Casablanca"; //not in the lookup table yet
+        if( map.equals("mp_gondola") ) return "Gondola"; //not in the lookup table yet
         if( map.equals("mp_shipmas_s4") ) return "Shipmas"; //not in the lookup table yet
         if( map.equals("mp_paradise") ) return "Paradise"; //not in the lookup table yet
         if( map.equals("mp_radar") ) return "Radar"; //not in the lookup table yet
