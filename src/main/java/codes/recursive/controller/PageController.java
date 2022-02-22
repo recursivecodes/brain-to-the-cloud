@@ -18,6 +18,7 @@ import java.security.Principal;
 public class PageController {
     private static final Logger LOG = LoggerFactory.getLogger(PageController.class);
 
+    @Secured(SecurityRule.IS_ANONYMOUS)
     @Get("/games")
     ModelAndView gameAnalysis(@Nullable Principal principal) {
         return new ModelAndView("game-analysis", CollectionUtils.mapOf(

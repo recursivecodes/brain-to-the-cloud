@@ -56,6 +56,7 @@ public class ApiController {
         this.codPublicClientService = codPublicClientService;
     }
 
+    @Secured(SecurityRule.IS_ANONYMOUS)
     @Get(uri = "/codLookups")
     public HttpResponse getCodLookups() {
         return HttpResponse.ok(
@@ -63,6 +64,7 @@ public class ApiController {
         );
     }
 
+    @Secured(SecurityRule.IS_ANONYMOUS)
     @Get(uri = "/recentGames{/offsetParam}{/maxParam}")
     public Page<Game> getRecentGames(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
         Integer offset = offsetParam.orElse(0);
@@ -71,6 +73,7 @@ public class ApiController {
         return gameRepository.findAll(pageable);
     }
 
+    @Secured(SecurityRule.IS_ANONYMOUS)
     @Get(uri = "/highlightedGames{/offsetParam}{/maxParam}")
     public Page<Game> getHighlightedGames(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
         Integer offset = offsetParam.orElse(0);
@@ -79,6 +82,7 @@ public class ApiController {
         return gameRepository.findAllByIsHighlightedEqual(true, pageable);
     }
 
+    @Secured(SecurityRule.IS_ANONYMOUS)
     @Get(uri = "/gamesWithBrainReadings{/offsetParam}{/maxParam}")
     public Page<Game> getGamesWithBrainReadings(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
         Integer offset = offsetParam.orElse(0);
@@ -87,6 +91,7 @@ public class ApiController {
         return gameRepository.findAllWithBrainReadings(pageable);
     }
 
+    @Secured(SecurityRule.IS_ANONYMOUS)
     @Get(uri = "/brainForGame/{gameId}")
     public List<Brain> getBrainForMatch(Long gameId) {
         return brainRepository.getBrainForMatch(gameId);

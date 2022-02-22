@@ -39,9 +39,9 @@ public interface GameRepository extends PageableRepository<Game, Long> {
     Page<Game> findAll(Pageable pageable);
 
     @Query(
-            value = "select g.id, g.match, g.created_on, g.is_highlighted, g.is_distracted, g.notes from game g where id in (select mvb.\"id\" from mv_game_details_with_brain mvb where mvb.totalAttention is not null) order by g.match.utcStartSeconds desc",
+            value = "select g.id, g.match, g.created_on, g.is_highlighted, g.is_distracted, g.notes from game g where id in (select mvb.\"id\" from mv_game_details_with_brain mvb where mvb.brainRecords > 0) order by g.match.utcStartSeconds desc",
             nativeQuery = true,
-            countQuery = "select count(id) from game where id in (select mvb.\"id\" from mv_game_details_with_brain mvb where mvb.totalAttention is not null)"
+            countQuery = "select count(id) from game where id in (select mvb.\"id\" from mv_game_details_with_brain mvb where mvb.brainRecords > 0)"
     )
     Page<Game> findAllWithBrainReadings(Pageable pageable);
 

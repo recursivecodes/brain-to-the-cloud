@@ -102,9 +102,9 @@
                         </span>
                     </div>
                     <div class="position-absolute bottom-0 start-0 p-1" style="z-index: 1;">
-                        <button id="addNotesModalBtn" data-bs-toggle="modal" data-bs-target="#gameNotesModal" class="badge badge-sm bg-white border-white text-dark highlight-btn">Notes</button>
+                        <button th:if="${isLoggedIn}" id="addNotesModalBtn" data-bs-toggle="modal" data-bs-target="#gameNotesModal" class="badge badge-sm bg-white border-white text-dark highlight-btn">Notes</button>
 
-                        <div class="modal fade" id="gameNotesModal" tabindex="-1" aria-labelledby="gameNotesModalLabel" aria-hidden="true">
+                        <div th:if="${isLoggedIn}" class="modal fade" id="gameNotesModal" tabindex="-1" aria-labelledby="gameNotesModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -127,10 +127,10 @@
 
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-1" style="z-index: 1;" rv-hide="model.selectedGame.isHighlighted">
-                        <button id="highlightMatchBtn" rv-on-click="model.highlightGame" class="badge badge-sm bg-white border-white text-dark highlight-btn">Highlight</button>
+                        <button th:if="${isLoggedIn}" id="highlightMatchBtn" rv-on-click="model.highlightGame" class="badge badge-sm bg-white border-white text-dark highlight-btn">Highlight</button>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-1 distracted-btn" style="z-index: 1;" rv-hide="model.selectedGame.isDistracted">
-                        <button id="markDistractedBtn" rv-on-click="model.markDistracted" class="badge badge-sm bg-danger border-danger text-white highlight-btn">Distracted</button>
+                        <button th:if="${isLoggedIn}" id="markDistractedBtn" rv-on-click="model.markDistracted" class="badge badge-sm bg-danger border-danger text-white highlight-btn">Distracted</button>
                     </div>
                     <div class="position-absolute bottom-0 end-0 p-1" rv-show="model.selectedGame.isHighlighted">
                         <img src="/img/star.png" alt="highlighted match" class="shadow-lg" />
