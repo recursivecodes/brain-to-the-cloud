@@ -2,8 +2,8 @@ package codes.recursive.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.micronaut.core.annotation.Creator;
 import io.micronaut.data.annotation.DateCreated;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +23,10 @@ import java.sql.Date;
  */
 
 @Entity
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor
+@Data
+@EqualsAndHashCode
 public class Brain {
     @Id @GeneratedValue(strategy= GenerationType.IDENTITY) private Long id;
     @JsonProperty("signalStrength") private Integer signalStrength;
@@ -39,147 +43,4 @@ public class Brain {
     @JsonProperty("isDistracted") private Boolean isDistracted = false;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     @DateCreated private Date createdOn;
-
-    @Creator
-    public Brain(
-            @JsonProperty("signalStrength") Integer signalStrength,
-            @JsonProperty("attention") Integer attention,
-            @JsonProperty("meditation") Integer meditation,
-            @JsonProperty("delta") Integer delta,
-            @JsonProperty("theta") Integer theta,
-            @JsonProperty("lowAlpha") Integer lowAlpha,
-            @JsonProperty("highAlpha") Integer highAlpha,
-            @JsonProperty("lowBeta") Integer lowBeta,
-            @JsonProperty("highBeta") Integer highBeta,
-            @JsonProperty("lowGamma") Integer lowGamma,
-            @JsonProperty("highGamma") Integer highGamma,
-            @JsonProperty("isDistracted") Boolean isDistracted) {
-               this.signalStrength = signalStrength;
-               this.attention = attention;
-               this.meditation = meditation;
-               this.delta = delta;
-               this.theta = theta;
-               this.lowAlpha = lowAlpha;
-               this.highAlpha = highAlpha;
-               this.lowBeta = lowBeta;
-               this.highBeta = highBeta;
-               this.lowGamma = lowGamma;
-               this.highGamma = highGamma;
-               this.isDistracted = isDistracted;
-    }
-
-    public Brain() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getSignalStrength() {
-        return signalStrength;
-    }
-
-    public void setSignalStrength(Integer signalStrength) {
-        this.signalStrength = signalStrength;
-    }
-
-    public Integer getAttention() {
-        return attention;
-    }
-
-    public void setAttention(Integer attention) {
-        this.attention = attention;
-    }
-
-    public Integer getMeditation() {
-        return meditation;
-    }
-
-    public void setMeditation(Integer meditation) {
-        this.meditation = meditation;
-    }
-
-    public Integer getDelta() {
-        return delta;
-    }
-
-    public void setDelta(Integer delta) {
-        this.delta = delta;
-    }
-
-    public Integer getTheta() {
-        return theta;
-    }
-
-    public void setTheta(Integer theta) {
-        this.theta = theta;
-    }
-
-    public Integer getLowAlpha() {
-        return lowAlpha;
-    }
-
-    public void setLowAlpha(Integer lowAlpha) {
-        this.lowAlpha = lowAlpha;
-    }
-
-    public Integer getHighAlpha() {
-        return highAlpha;
-    }
-
-    public void setHighAlpha(Integer highAlpha) {
-        this.highAlpha = highAlpha;
-    }
-
-    public Integer getLowBeta() {
-        return lowBeta;
-    }
-
-    public void setLowBeta(Integer lowBeta) {
-        this.lowBeta = lowBeta;
-    }
-
-    public Integer getHighBeta() {
-        return highBeta;
-    }
-
-    public void setHighBeta(Integer highBeta) {
-        this.highBeta = highBeta;
-    }
-
-    public Integer getLowGamma() {
-        return lowGamma;
-    }
-
-    public void setLowGamma(Integer lowGamma) {
-        this.lowGamma = lowGamma;
-    }
-
-    public Integer getHighGamma() {
-        return highGamma;
-    }
-
-    public void setHighGamma(Integer highGamma) {
-        this.highGamma = highGamma;
-    }
-
-    public Boolean getIsDistracted() {
-        return isDistracted;
-    }
-
-    public void setIsDistracted(Boolean distracted) {
-        isDistracted = distracted;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
 }

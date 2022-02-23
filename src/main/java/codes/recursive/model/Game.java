@@ -6,11 +6,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.micronaut.core.annotation.Creator;
-import io.micronaut.core.annotation.Nullable;
 import io.micronaut.data.annotation.DateCreated;
 import io.micronaut.data.annotation.TypeDef;
 import io.micronaut.data.model.DataType;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +19,10 @@ import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Map;
 @Entity
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor
+@Data
+@EqualsAndHashCode
 public class Game {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -36,16 +39,6 @@ public class Game {
     @DateCreated
     private Date createdOn;
 
-    @Creator
-    public Game(Long id, String match, String notes, Boolean isHighlighted, Boolean isDistracted, @Nullable Date createdOn) {
-        this.id = id;
-        this.match = match;
-        this.notes = notes;
-        this.isHighlighted = isHighlighted;
-        this.isDistracted = isDistracted;
-        this.createdOn = createdOn;
-    }
-
     public Game(Map match) throws JsonProcessingException {
         this.match = new ObjectMapper().writeValueAsString(match);
     }
@@ -54,59 +47,9 @@ public class Game {
         this.match = match;
     }
 
-    public Game() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @JsonProperty("match")
     public Match getMatchSerialized() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(match, Match.class);
-    }
-
-    public String getMatch() {
-        return match;
-    }
-
-    public void setMatch(String data) {
-        this.match = data;
-    }
-
-    public Boolean getIsHighlighted() {
-        return isHighlighted;
-    }
-
-    public void setIsHighlighted(Boolean highlighted) {
-        isHighlighted = highlighted;
-    }
-
-    public Boolean getIsDistracted() {
-        return isDistracted;
-    }
-
-    public void setIsDistracted(Boolean distracted) {
-        isDistracted = distracted;
-    }
-
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
 }
