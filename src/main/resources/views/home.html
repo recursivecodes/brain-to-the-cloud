@@ -15,135 +15,264 @@
 
     <div class="row ps-3 pe-3">
         <div class="col-12">
-            <h1>About This Project...</h1>
-            <p>The goal of this project is to determine the relationship between cognitive function and video game performance. In other words, when I'm focused and attentive, do I play better? Or, when I'm distracted, do I play worse? Or, is there no connection at all? Can I even test this? Who knows! Let's find out!</p>
-
-            <h2>Questions</h2>
-            <p>Like all good experiments, this project begins with a few questions:</p>
+            <h1>About This Project</h1>
+            <p>A few months back, I read a really excellent (but pretty old) <a href="http://www.frontiernerds.com/brain-hack">blog post</a> that explained how to hack a toy called a Mind Flex to extract and analyze the data within it. At first, I couldn't believe that such a thing existed. I mean, sure - gimmicky toys have been around for ages, so I wasn't shocked that the toy claimed to read the user's mind. It's not uncommon to fake this kind of gimmick. But, the fact that the Mind Flex contains a real, legit EEG chip that read your mind seemed almost too good to be true.&nbsp;I wondered if it was possible to take this hack a step further. Instead of just reading the data, or using the data to "control" something else, what if I were to read the data while performing some task and see what the data reveals about my performance during that task? I would need to complete an activity with quantifiable data to properly compare the brain activity to the task results to see if my attention levels correlated to the task's success or failure. Deciding on the actual action to measure wasn't tricky. I am a pretty avid video game player and had recently been trying to think of a way to integrate my gameplay statistics into a project, so I surmised that the combination would be an intriguing one.</p>
+            <p>So I asked myself: "if I could hack the Mind Flex and wear it while playing Call of Duty, what would the data show?" Could I establish a relationship between cognitive function and video game performance? In other words, when I'm focused and attentive, do I play better? Or, when I'm distracted, do I play worse? Is there no connection at all? I wasn't sure if my tests would succeed, but I decided to find out.</p>
+            <p>
+                <ul>
+                    <li><a href="#Asking Questions">Asking Questions</a></li>
+                    <li><a href="#Objectives">Objectives</a></li>
+                    <li><a href="#The Hypothesis">The Hypothesis</a></li>
+                    <li><a href="#The Architecture">The Architecture</a></li>
+                    <li>
+                        <a href="#Building the Application">Building the Micronaut Application</a>
+                        <ul>
+                            <li><a href="#Automatic Autonomous Wallet Download">Persistence Tier and Automatic Autonomous Database Wallets</a></li>
+                            <li><a href="#OCI Vault Secrets">OCI Vault Secrets</a></li>
+                            <li><a href="#HTTPS Support via Micronaut ACME">HTTPS Support via Micronaut ACME</a></li>
+                            <li><a href="#Secured Endpoints">Secured Endpoints</a></li>
+                            <li><a href="#Consuming an MQTT Topic">Consuming an MQTT Topic and Broadcasting Brain Data via WebSockets</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#Collecting the Data">Collecting the Data</a></li>
+                    <li>
+                        <a href="#Analyzing the Data">Analyzing the Data</a>
+                        <ul>
+                            <li><a href="#Faking Parameterized Views">Faking Parameterized Views</a></li>
+                            <li><a href="#Querying the Views from Micronaut">Querying the SQL Views from Micronaut</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#Interpreting the Results">Interpreting the Results</a>
+                        <ul>
+                            <li><a href="#Game Performance Grouped by Attention">Game Performance Grouped by Attention</a></li>
+                            <li><a href="#Game Performance Grouped by Meditation">Game Performance Grouped by Meditation</a></li>
+                            <li><a href="#Game Performance Grouped by Meditation">Game Performance Grouped by Attention to Meditation Ratio</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#Summary">Results and Summary</a></li>
+                    <li><a href="#Links">Links</a></li>
+                </ul>
+            </p>
+            <h2 id="Asking Questions">Asking Questions</h2>
+            <p>Once I established the idea for the project, I started asking myself some questions:</p>
             <ul>
-                <li>Can I read my own brain data?</li>
+                <li>Can I read my brain data?</li>
                 <li>If so, is the data valid?</li>
                 <li>Can I improve my performance in video games by being super focused and concentrating?</li>
-                <li>
-                    If I'm distracted, will I play poorly?
-                    <ul>
-                        <li>Will a "bad game" be visible in my brain activity?</li>
-                    </ul>
-                </li>
-
-                <li>
-                    Is there a direct measurable relationship between superior gaming performance and high levels of attention?
-                    <ul>
-                        <li>Or, are there just too many factors at play?</li>
-                    </ul>
-                </li>
+                <li>If I'm distracted, will I play poorly?</li>
+                <li>Will a "bad game" be visible in my brain activity?</li>
+                <li>Is there a direct, measurable relationship between superior gaming performance and high levels of attention? </li>
+                <li>Or, are there just too many factors at play?</li>
             </ul>
-
-            <h2>Goals & Constraints</h2>
+            <h2 id="Objectives">Objectives</h2>
+            <p>To answer those questions, I decided to establish a few objectives for the project:&nbsp;</p>
+            <ol>
+                <li>Capture my brain data (at home) in an accurate and cost-effective manner </li>
+                <li>Establish a "baseline" mental state </li>
+                <li>Capture my brain data while playing a video game </li>
+                <li>Quantify my video game performance (via data) </li>
+                <li>Establish and visualize a relationship between the cognitive measures and my game performance</li>
+            </ol>
+            <p>Now I should mention that constraints and outside factors come into play. Things like server/network latency, "skill-based matchmaking," opponents' skill-level, and other unknowns. Could those external factors be excluded? The outside factors concerned me a bit, but I decided to move forward and let the data tell me a story.</p>
+            <h2 id="The Hypothesis">The Hypothesis</h2>
+            <p>Since I decided to take a "scientific" approach to this, I decided that it made sense to establish a hypothesis. The hypothesis that I agreed upon is as follows:</p>
+            <p class="info">The more focused I am, the better I will perform at a multiplayer "first-person shooter" (Call of Duty: Vanguard). Conversely, my gameplay will be negatively impacted by a lack of focus and attention.</p>
+            <p>This hypothesis made sense to me at the time when I established it. I figured there would be a linear correlation between my attention levels and video game performance. Indeed, the more I pay attention, the better I will score, right? I assumed the data would ultimately look like this:</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/0f552f13-fae4-4709-9cad-89e79b736904/upload_65f7e225fa0ecc14ca826e0403bcc654.png"></p>
+            <h2 id="The Architecture">The Architecture</h2>
+            <p>I would need to obtain and hack a Mind Flex to test my hypothesis. I decided to use a much smaller ESP-12 board instead of the Arduino board that the original blog post used because the ESP-12 board contains onboard WiFi, and I figured I'd be able to keep it self-contained inside the Mind Flex housing. So my approach was to use the Mind Flex to capture my brain activity by connecting the "transmit" pin on the EEG chip to the "receive" pin on the ESP board and program the board to upload the readings to an MQTT topic. Here's how the ESP board looked once I soldered it to the EEG chip.</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/9edd21fd-426c-488d-80d0-8db8d9ecc301/upload_1fb6b4c97efc8a89d0bb16220318b0c9.png"></p>
+            <p>Separately, I'd need to capture my videogame stats via scheduled calls to the "unofficial" Call of Duty API. I created a Micronaut application and deployed it to the cloud to do that, with a task that runs every hour to persist the data into my Autonomous DB instance.&nbsp;</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/58a4ab74-1884-4c99-a4dc-bdf24a51b1ca/upload_33489cdf62eab2fe9c9d2d14db4007b0.png"></p>
+            <p style="text-align: left;"><i>Let's pause for a small commercial break...</i></p>
+            <p>What if I told you that the entire architecture you see above was straightforward to create and deploy in the cloud? That's right, the MQTT broker, the Micronaut application deployed to a VM instance, and the Autonomous Database instance! All cloud-based and easy to manage and maintain! What do you think you'd have to pay for such an architecture? But wait, there's more! What if I told you that object storage, database backups, and VM backups were all included? Sounds too good to be true, right? Well, it&nbsp;<span style="font-weight: bolder;">is&nbsp;</span>true. And not only do you get all that, but you can get it today (or tomorrow, or the next day) for the low-low price of $0.00. That's right - ZERO dollars and ZERO cents! That's because this entire architecture can be yours on the Oracle Cloud always-free tier! Sign up today at <a href="https://cloud.oracle.com/free">https://cloud.oracle.com/free</a>!</p>
+            <p><i>...and now back to our regularly scheduled blog post.</i></p>
+            <p>For maximum flexibility, I decided to store the video game stats in the raw JSON form, which would be easy to work with from SQL later on. Once the application had stored my videogame stats and brain activity in the database, I'd be able to write some queries to combine the data based on the match start/end timestamps joined to the brain capture timestamps—more on that in just a bit.</p>
+            <h2 id="Building the Application">Building the Micronaut Application</h2>
+            <p>For my cloud application, I chose the <a href="https://micronaut.io">Micronaut</a> Java framework. Micronaut is primarily a cloud-based, microservice framework. But it also includes support for rendering front-end views. My presentation tier isn't complex, so I decided to take a monolithic approach and include the presentation tier in the same application as the back-end API. I'll keep this post more high-level since I've already blogged about many of these features. Still, at the risk of being redundant, I'll mention a few of the highlights here and link to sources for further reading if you are interested in learning more about any of the specific features.</p>
+            <h3 id="Automatic Autonomous Wallet Download">Persistence Tier and Automatic Autonomous Database Wallets</h3>
+            <p>As you might imagine, the cloud application involved quite a bit of database activity. The obvious choice was <a href="https://micronaut-projects.github.io/micronaut-data/latest/guide/">Micronaut Data</a>. It&nbsp;handles creating the database connection and even writes basic CRUD queries. Since I don't have to focus on boilerplate, I can instead focus on the business logic, advanced query logic, and presentation tier instead of writing boilerplate SQL for persistence and basic data retrieval. In a nutshell, Micronaut Data will configure a connection based on the configuration that you provide and implement your persistence repositories based on your mapped domain entities. To make life even easier, I reached for <a href="https://projectlombok.org/">Project Lombok</a>, which meant that I only needed to create domain classes with simple properties. I'd get full CRUD support at runtime, thanks to Micronaut's compile-time implementations. If that's not straightforward enough, I also relied on Micronaut Data's ability to <a href="https://recursive.codes/blog/post/1808">automatically download my Autonomous DB wallet</a> (used for TLS connections to my database) so that I didn't have to worry about downloading the wallet myself and storing it on the VM where I  deployed the application. How about an example?&nbsp;</p>
+            <p>The first step is to include the required dependencies. I'll skip over that in this post because I would rather keep things high-level (refer to the docs). Once the dependencies are in place, I need to provide my configuration info in the <code class="code-inline">application.yml</code> config file.</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/84abe9c6dcae89c7412e516c155e2b0a.js"></script>
+               </span>
+            </p>
+            <p>To download my wallet, Micronaut needs the <code class="code-inline">ocid</code> and <code class="code-inline">walletPassword</code>. Once those are in place, Micronaut can use the <a href="https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/javasdk.htm">Oracle Cloud Infrastructure (OCI) Java SDK</a> to retrieve the wallet, store it safely in memory, and use it for my database connection. I also provided the credentials necessary to make a secure connection. You might be wondering why I've used the <code class="code-inline">${VAR}</code> syntax in my configuration files, and if so, I applaud you for your astute observation! Micronaut will substitute these values at runtime with the proper values based on the values that are stored securely in an OCI Vault. But I'm getting ahead of myself as we'll look at how that works in the next section. To complete my persistence tier, I needed to define my entities. Here's what the&nbsp;<code class="code-inline">Game</code> entity looks like - and I've simplified it somewhat for brevity by removing a few properties, but I have not changed anything necessary for persistence.</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/60714c08d51be88eb005979ad6bf48ab.js"></script>
+               </span>
+            </p>
+            <p>Let's talk briefly about a few noteworthy things in the above class. The class is annotated with <code class="code-inline">@Entity</code> to tell Micronaut it needs to manage this class. The other annotations are Lombok annotations that will handle generating the necessary getters and setters and necessary methods like <code class="code-inline">equals()</code> and <code class="code-inline">hashCode()</code>. The ID property is annotated <code class="code-inline">@Id</code>, and the <code class="code-inline">match</code> column stores the JSON response from the Call of Duty API. The <code class="code-inline">createdOn</code> property stores a timestamp. The entity is now defined, so the next step is to create a repository.</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/d47030d101cea4129b784ab16b71f6ed.js"></script>
+               </span>
+            </p>
+            <p>That's all the necessary code to get full CRUD at runtime in the application. I've defined additional methods in my repository for various queries and reports in my application, and we'll look at those later. But for basic CRUD, the job here is done. The repository is ready to be injected into services and controllers.</p>
+            <h3 id="OCI Vault Secrets">OCI Vault Secrets</h3>
+            <p>As promised above, let's take a quick look at how I kept all of my credentials secure in my application. I've <a href="https://recursive.codes/blog/post/1466">blogged on this topic before</a>, so check out that post for further reference, but let's take a quick look at the feature in this post just as a refresher. I used the Micronaut Oracle Cloud integration module, which enabled me to&nbsp;<a href="https://micronaut-projects.github.io/micronaut-oracle-cloud/snapshot/guide/#vault">store my credentials in a (free) OCI Vault</a> and download a decrypted version of the credentials at runtime. The first step I had to perform was to create a vault and set the values of my credentials into individual secrets in that vault. Next, I had to make a new configuration file called <code class="code-inline">bootstrap.yml</code> in the <code class="code-inline">/src/main/resources</code> directory and set the vault and compartment OCID values into that config file.</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/051733e751914ee06f992e69bac1a210.js"></script>
+               </span>
+            </p>
+            <p>The above configuration was for my local development environment. Note that the <code class="code-inline">VAULT_OCID</code> and <code class="code-inline">VAULT_COMPARTMENT_OCID</code> are the only values passed into the application at runtime. They certainly could have been hardcoded, but I felt better about externalizing all of the configuration values, so I chose to pass them in. Also, note that since I've got the OCI CLI configured locally, I am using my CLI config file to authenticate the SDK by passing in the <code class="code-inline">path-to-config</code> and setting <code class="code-inline">use-instance-principal</code> to false. But since my cloud VM can use instance principal authentication, I created a cloud-specific config file named <code class="code-inline">bootstrap-oraclecloud.yml</code> that is picked up in that environment. That config file looks like this:</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/0cf5b6d2da75af86b09814f74b27a045.js"></script>
+               </span>
+            </p>
+            <p>That's all the necessary configuration for the application. Now, any secrets in the specified vault will be retrieved and injected into properties that exactly match the name of the vault secret. Easy, yet secure! What is better than that?</p>
+            <h3 id="HTTPS Support via Micronaut ACME">HTTPS Support via Micronaut ACME</h3>
+            <p>ACME support is a feature that I don't believe I've ever covered in the past on my blog. I wanted to use TLS (HTTPS) for my web-based application, so I reached for the <a href="https://micronaut-projects.github.io/micronaut-acme/latest/guide/index.html">Micronaut ACME module</a>. To generate a valid TLS cert, you must first create a keypair and create an account with an ACME provider. There are helpful CLI commands (<code class="code-inline">mn create-key</code>&nbsp;and <code class="code-inline">mn create-acme-account</code>) that we can use to generate the keys and account. Once you've created the keys and account, it's a matter of plugging the proper values into your Micronaut config (via <code class="code-inline">application.yml</code>). A valid TLS certificate will be generated (and automatically renewed when appropriate) for you.&nbsp;</p>
+            <h3 id="Secured Endpoints">Secured Endpoints</h3>
+            <p>I wanted to keep specific endpoints and actions restricted to a logged-in user, so it was necessary to implement a login system. Once again, Micronaut has a module for that - <a href="https://micronaut-projects.github.io/micronaut-security/latest/guide/">Micronaut Security</a>. Since the application was monolithic, I chose to use session-based security. Session-based security gave me the ability to annotate specific controllers and endpoints to restrict with&nbsp;<code class="code-inline">@Secured(SecurityRule.IS_AUTHENTICATED)</code>&nbsp;or allow with&nbsp;<code class="code-inline">@Secured(SecurityRule.IS_ANONYMOUS)</code>. I could also specify rules for static endpoints like scripts and images via my <code class="code-inline">application.yml</code>&nbsp;config file. Check out the module documentation or my code on GitHub for more info.</p>
+            <h3 id="Consuming an MQTT Topic">Consuming an MQTT Topic and Broadcasting Brain Data via WebSockets</h3>
+            <p>As mentioned above, the Mind Flex published my brain data on an MQTT topic. To persist that brain data into Autonomous DB and broadcast the data to the front-end for live demo purposes, it was necessary to consume the MQTT topic. I accomplished this via a Micronaut module and core framework support. This time, I used the <a href="https://micronaut-projects.github.io/micronaut-mqtt/latest/guide/">Micronaut MQTT</a> module and the <a href="https://docs.micronaut.io/latest/guide/#websocket">built-in WebSocket support</a>.</p>
+            <p class="info"><b>Need an MQTT Server?</b> Good news - I've blogged about launching your own (free) MQTT server in the cloud using either <a href="https://recursive.codes/blog/post/88">RabbitMQ</a> or <a href="https://recursive.codes/blog/post/2048">Mosquitto</a>. Of course, there are other options, but those two are free and not difficult to get started with.</p>
+            <p>Since one of the central themes of this blog post is gaming, let's do a speed run for this section. First - dependencies (not shown, refer to docs) and config:</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/dcdada7e2c486df855c8a38de4f7133c.js"></script>
+               </span>
+            </p>
+            <p>Next, a consumer annotated <code class="code-inline">@MqttSubscriber</code>. Notice the injection of a&nbsp;<code class="code-inline">BrainRepository</code> so that I can persist the reading, and a class called <code class="code-inline">WebSocketBroadcaster</code> which is available when WebSockets are <a href="https://github.com/recursivecodes/brain-to-the-cloud/blob/main/src/main/java/codes/recursive/websocket/BttcWebSocket.java">enabled via a class</a> annotated with <code class="code-inline">@ServerWebSocket</code>. The application used the WebSocket to broadcast the brain reading data to the front-end for live demos.</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/16fd24da822ab7a28d0319503feaaab4.js"></script>
+               </span>
+            </p>
+            <p>Done.</p>
+            <h2 id="Collecting the Data">Collecting the Data</h2>
+            <p>Now, I know what you're thinking. Indeed, this project required a very grueling, demanding, and time-consuming data collection effort. And - you're right. At least, that's what I told my wife as I the next month playing Call of Duty with the Mind Flex strapped to my head.</p>
+            <p style="text-align: center;"><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/630b6fbb-8962-4b6e-8d82-05e21c5cd42f/upload_4174dc6a10acc316be71b3c30433a406.gif"></p>
+            <p>But seriously, I knew that I had to collect a lot of data to have a proper sample size to analyze the data correctly. So I spent about a month playing Call of Duty while wearing the device and uploading my brain activity to the cloud. Once I hit the 20-hour mark, I figured I had collected enough data to establish some patterns and prevent anomalies from tainting the results. I'm still not sure there's enough data to draw proper conclusions, but I noticed trends started to reveal themselves, so I wasn't sure that additional data would change the underlying results. So, what did the data show?</p>
+            <h2 id="Analyzing the Data">Analyzing the Data</h2>
+            <p>To analyze the data, I needed to construct some SQL queries. To properly examine the data, I would need to "normalize" the JSON-based game data to perform aggregations on it. What do I mean by that? Well, consider my <code class="code-inline">game</code> table used to store individual game results from the Call of Duty API. A basic "select *" query on that table would look like so:</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/573fa63715f436abbb19a6f9865ba9fb.js"></script>
+               </span>
+            </p>
+            <p>This query would produce a result that looked like this:</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/d37a80cd-243d-4726-a8db-61566b46f291/upload_6e3727f96555402bcb228a40f0c26167.png"></p>
+            <p style="text-align: left;">As you can see, the <code class="code-inline">match</code> column contains a JSON object. I like this. I'm OK with this. Since I don't have control over the third-party API, I want to remain flexible and not manually manage the schema every time the API changes. That would be a nightmare, and I don't like such headaches in my applications. So then, how can I query the individual values within the JSON object? By using "dot" notation, I can access the values. Consider the following:</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/d7a68b060b1bcb3dbf06306bd8b64c4e.js"></script>
+               </span>
+            </p>
+            <p>Which gives me results that feel very familiar. I can go as "deep" as I need to (notice the embedded object <code class="code-inline">playerStats</code> inside the JSON object), and if I pass a key that doesn't exist in a given structure, I get a null value instead of an exception. That's one of the keys to remaining flexible with the data schema.</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/04945c62-7bd0-49cb-bd5c-7894fcd2cc1f/upload_5fc2354b9c323a1454d22d59e3281240.png"></p>
+            <p style="text-align: left;">Since I would need to perform joins and many aggregations on this data ultimately, I settled on a materialized view that would make the game data "feel" like it was relational and would be updated any time the underlying game table changed. Here's how I did that:</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/59e4705e80b7c8118ab01e650e5fe207.js"></script>
+               </span>
+            </p>
+            <p>The materialized view makes my aggregation queries much cleaner (instead of using "dot" notation for every element in the JSON object).</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/7f842c40fd04dcfc5ca92174be051ff8.js"></script>
+               </span>
+            </p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/8fff1082-cc49-46b8-bac8-184b6bab6b3e/upload_141cce6746570acf64ed1f3bd70feff1.png"></p>
+            <p style="text-align: left;">For other reports, I created an additional materialized view that joined the game data with the collected brain records where the brain record timestamp was between the game start and end time. If you're interested in that view definition, <a href="https://github.com/recursivecodes/brain-to-the-cloud/blob/main/sql/mv_game_details_with_brain.sql">check it out here</a>.</p>
+            <h3 id="Faking Parameterized Views">Faking Parameterized Views</h3>
+            <p>While constructing additional views to analyze and report on the collected data, I found several views that shared a significant amount of SQL code but varied in how they grouped the resulting data. I quickly grew annoyed at updating each view every time I wanted to add or change a column, but I knew that Oracle DB does not support parameterized views, so I reached out to my boss and mentor,&nbsp;<a href="https://geraldonit.com/">Gerald Venzl</a>, with my issue. As with any matter of SQL, Gerald was quick to suggest a great workaround - SQL macros! Consider the following view definitions and note how they are nearly identical, except for the column used to group the data.</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/e0d65e6baee7578d46af4fbbc00f1163.js"></script>
+               </span>
+            </p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/c036d0a18c0ea78993e861f6dd022f3d.js"></script>
+               </span>
+            </p>
+            <p>As always, when you simplify and reduce redundancies, your code becomes more manageable. In this instance, the answer was to create a SQL macro that allowed me to pass in the factor that I wanted to evaluate and query that column as needed.</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/9a4fcf0786139b5c94a3e799a2e5f698.js"></script>
+               </span>
+            </p>
+            <p>To call the macro, we treat it like a function that returns a result set:</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/0f2afaa64fd506c664eeb29bb346353f.js"></script>
+               </span>
+            </p>
+            <p>Which produces the expected data.</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/85aa206c-f60f-486e-a9b5-5280f82edd95/upload_fb089a5a4d8d7ff386cb97e74b871fdc.png"></p>
+            <p style="text-align: left;">Quite lovely, indeed!</p>
+            <h3 id="Querying the Views from Micronaut">Querying the SQL Views from Micronaut</h3>
+            <p>Since I relied heavily on views and materialized views on the SQL side of things, adding the proper queries to my Micronaut repositories was relatively easy to do. For example, to get a list of game details for games that had associated brain records, I defined a method signature in my repository interface that would return a paged result of DTO projections and annotated the signature with <code class="code-inline">@Query</code> and passed in the native SQL to execute for this method.</p>
+            <p>
+               <span class="gist-ph">
+                  <script src="https://gist.github.com/d929d8d5dc47cf48c627749016086b34.js"></script>
+               </span>
+            </p>
+            <p>And that's it. I can call the necessary <a href="https://github.com/recursivecodes/brain-to-the-cloud/blob/main/src/main/java/codes/recursive/repository/GameRepository.java">repository method</a>&nbsp;at runtime and get my results. The simplicity of Micronaut Data keeps my repository clean and easy to maintain.&nbsp;</p>
+            <h2 id="Interpreting the Results">Interpreting the Results</h2>
+            <p>I spent approximately 21 hours playing around 150 online multiplayer matches and collected over 12k records of brain data.
+                When I consider my original questions, I feel that I collected enough data to answer most of them. The first question I asked myself was: Can I read my brain data, and if so, is the data valid? And the answer is: YES! Well, to the extent that the Mind Flex provides accurate brain data. That's still somewhat debatable, but I did do some baseline experiments that seemed to indicate&nbsp;<i>something</i>&nbsp;to the data. The Mind Flex claims to read your actual brain waves - and it provides values for the individual bands (delta, theta, etc). But those values aren't provided in Hertz as they would be from a medical-grade EEG. Instead, they deliver what they call "ASIC_EEG_POWER_INT" values.  Neurosky, the makers of the chip inside the Mind Flex, state these values would typically
+                "typically be reported in units such as Volts-squared per Hz (V^2/Hz), but since our values have undergone a number of complicated transforms and rescale operations from the original voltage measurements, there is no longer a simple linear correlation to units of Volts."
+                They go on to say that "they are only meaningful compared to each other and to themselves" and that "it would not necessarily be meaningful nor correct to directly compare them to, say, values output by another EEG system. In their currently output form, they are useful as an indication of whether each particular band is increasing or decreasing over time, and how strong each band is relative to the other bands". They also mention that "for display purposes, if you would like to remove the exponential gaps between the bands to make them appear closer to each other, you could display the logarithm of each value, instead of the exponential values themselves." And they're right - it does make the bands appear closer and improves the readability, so that's how I displayed the values in my reports.&nbsp;
+            </p>
+            <p>In my opinion, the most useful part of the data provided by the Neurosky chip is the addition of "attention" and "meditation" values. These values are output on a scale of 1-100 and result from some internal calculations based on proprietary algorithms within the microcontroller on the module. Bottom line - it's not a medical-grade EEG but provides data that indicates your general level of attention and calmness. And that's fair enough in my book. It makes life easier when trying to gauge those specific factors. OK, back to my baseline experiments. So for these, I captured my brain data while performing various activities intended to establish the validity of the data and provide a baseline for comparison purposes later on. For example, I tracked my brain data during a somewhat boring work meeting in one experiment. I observed that my average "attention" level was in the mid 40% range, and my average "meditation" or "calmness" level was in the mid 50% range. That's certainly a much higher quantification than e expected based on how much I feel like I'm paying attention during work meetings!</p>
+            <p>Conversely, I captured my brain data during several actual meditation sessions. I observed a significant decrease in my "attention" levels - low 30% numbers - and a noticeable increase in my "meditation" values - above 70% at times! I also performed a capture while playing various online "memory" type games and observed attention levels in the mid 60% range. Again, there certainly appears to be <i>something</i> to this data. It doesn't seem to be "pseudo-random gibberish."&nbsp;</p>
+            <p>So, more questions. Can I improve my performance in video games by being super focused and concentrating? If I'm distracted, will I play poorly? Will a "bad game" be visible in my brain activity? These questions are harder to answer. It's difficult to say whether or not I can directly influence my performance by really concentrating. Honestly, maybe I didn't quite think through the questions. It's tough to force yourself to focus while playing a video game. The very act of "trying" to focus, at least for me, is distracting in and of itself. So I can't say if it's possible to improve my performance by concentrating, but I can look at the collected data and see if any patterns appear to support my theory. Before we look at that, let's discuss what factors I decided would indicate "good" performance. Your first thought might be that "wins and losses" would be an excellent factor to judge my performance, but since most of the game modes in Call of Duty (at least the ones that I tend to play the most) are team-based, I don't think that wins and losses are the proper metric to determine my success or failure. Also, my win/loss ratio is pretty garbage. Because I mostly play with random teams instead of with a party, I tend to lose <b>a lot</b>. So instead of wins and losses, I decided to look at other factors like my personal kill/death and elimination/death (commonly known as "K/D" and "E/D" ) ratio. I also considered scores and kills per minute and accuracy (how often I hit the intended target). What does the data show? Let's look at some results from a few reports I wrote to combine and analyze the data. As I mentioned earlier, I pulled my Call of Duty stats via some...undocumented...API calls to the Activision API. Once I had the game stats, I joined them to my captured brain activity based on the brain and match start/end timestamps.&nbsp;</p>
+            <h3 id="Game Performance Grouped by Attention">Game Performance Grouped by Attention</h3>
+            <p>First up - Attention. I grouped my stats based on average attention range - 0-10%, 11-20%, etc. Out of the 20+ hours I tracked, this is the amount of time spent in the various ranges.</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/3f5f5c50-c254-4765-bae3-204611d53dd4/upload_3bff9a1bcc2cb991980d8e478b9ba917.png"></p>
+            <p>As you can see, I spent no time playing in the 1-20% or 81-100% range, and well over 95% of my time playing in the 31-60% range. Let's throw out the 21-30 and 71-80 ranges since I spent such little time in them. The 61-70 range might even be a little too small of sample size, so it would be with a rather large grain of salt if I did consider it.&nbsp;My hypothesis stated that the more focused I was, the better I would perform. However, if it's believed, the data tells a different story.</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/705bd8dc-fd00-4196-957f-602779235fd0/upload_e6b8593b9121500179015f832d174dd6.png"></p>
+            <p style="text-align: left;">My K/D and E/D results start low when my attention is low, and increase until they peak at the 41-50% range. They drop in the 51-60% range and grow again in the 61-70% range, but as I said about that range - it's a minimal sample size of 45 minutes, so that could be considered an anomaly, and as I said - grain of salt. This is interesting to me because I hypothesized that there would be a corresponding increase in performance and attention, so this data seems to disprove my hypothesis. In hindsight, this actually makes sense! First-person shooters require attention and focus, but paying <b>too much</b> attention can be detrimental. Ask any gamer about what's going on in their brain when they have a perfect match, and they'll tell you that they are "locked-in" mentally, but not hyper visually focused. Instead, they tend to almost "zone out" and let their eyes/ears/brain observe the entire picture. Instead of visually scanning the screen looking for enemies, you tend to do best when you place visual focus on your crosshairs and listen for footsteps. You have to almost intentionally <b>not</b>&nbsp;focus on every little detail happening on the screen and let your brain react to the minor changes in the environment that might indicate the presence of an enemy and redirect your crosshairs in reaction to the visual or auditory stimuli. If you explicitly <b>try</b> to aim and shoot, you often miss the target. You tend to play best when you're <b>reactive</b> instead of <b>proactive</b>.</p>
+            <p style="text-align: center;"><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/ab4acf98-1da3-4b40-9ffb-0110affb4fb7/upload_bbc4aa6f69b733f8f8e6b998c6f61eb5.png" style="background-color: var(--bs-body-bg); color: var(--bs-body-color); font-family: var(--bs-body-font-family); font-size: var(--bs-body-font-size); font-weight: var(--bs-body-font-weight); text-align: var(--bs-body-text-align);"></p>
+            <p>Score per minute data (shown above) shows a similar trend, with a low score per minute for low attention ranges, rising to a peak at 41-50% and falling with increased attention. As does kills per minute:</p>
+            <p style="text-align: center;"><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/7754c2e6-053f-4193-9302-e3a810831034/upload_58dd4bd59dd77cde281deacb8e79b86d.png" style="background-color: var(--bs-body-bg); color: var(--bs-body-color); font-family: var(--bs-body-font-family); font-size: var(--bs-body-font-size); font-weight: var(--bs-body-font-weight); text-align: var(--bs-body-text-align);"></p>
+            <p>Accuracy (shown below) is an odd "W" shaped graph, but the 31-60% range I spent 99% of my time playing follows the same trend.&nbsp;</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/8fe8cf87-bca9-40ec-b52c-0dd7b77e8ac0/upload_4d9a7deb866d507d59ff65976d225776.png"></p>
+            <p style="text-align: left;">So, my best gaming happens when my attention is in the 41-50% range. If I pay more attention, I actually do worse—fascinating stuff.</p>
+            <h3 id="Game Performance Grouped by Meditation">Game Performance Grouped by Meditation</h3>
+            <p>Let's move on to meditation. I didn't state anything in my hypothesis directly related to calmness, though I hypothesized that distractions would lead to poor performance. Is there a relationship between calmness and distraction? When you're distracted, are you not calm? Perhaps, but maybe that's a stretch. Either way, the calmness data is pretty fascinating. I broke out meditation into the same range of groupings.&nbsp;</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/a22e6178-b87f-467d-8d3e-681cdae05725/upload_c43f9cd437cc73d8fd591307378504e9.png"></p>
+            <p style="text-align: left;">As shown above,&nbsp;<span style="background-color: var(--bs-body-bg); text-align: var(--bs-body-text-align);">I spent all of my time playing in the 41-80% range. 15 minutes in the 71-80% range represents less than a half percent of the time, so I threw that out.&nbsp;</span><span style="background-color: var(--bs-body-bg); text-align: var(--bs-body-text-align);">Interestingly, the data below clearly shows a <b>decline</b> in performance when my meditation value, or calmness, increases. I do <b>better</b> when I'm <b>not calm</b>. This was unexpected, but it makes sense when I think about it! Indeed being calm or relaxed would indicate a decrease in reaction time, and slower reflexes mean I die faster and more often.</span></p>
+            <p style="text-align: center;"><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/491957b0-952d-4034-beb2-4222fe1cc177/upload_c7b0aedd909291a314f22634eab8fb99.png"></p>
+            <p style="text-align: left;">My average score follows this trend:</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/0fa87fb3-84f7-40f5-8043-57f0bd84e771/upload_966ceee70e340d826088b550fbe34659.png"></p>
+            <p style="text-align: left;">As does my score per minute:</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/4d28298d-48f6-48a3-966b-b3947b2b097a/upload_e1b52f297c72486eff1f0afcbb6fc89a.png"></p>
+            <p style="text-align: left;">As well as kills per minute:</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/82e72ca8-2ce0-4a13-a529-6963e7d66f1f/upload_b9efcef78f8c5918ffda1fe85e6c788c.png"></p>
+            <p>The calmness, or meditation values, seem to reflect reality. Certainly, poor gameplay is not increasing my calmness - there's no way a bad game would make me <b>calmer</b>. So I'm going to have to assume that my poor performance is a result of me being too relaxed (or tired). It might be interesting to compare the meditation values to time of day, to see if there is a pattern of increased meditation values and decreased game performance late at night when I'm tired and should be in bed instead of gaming.</p>
+            <h3 id="Game Performance Grouped by Meditation">Game Performance Grouped by Attention to Meditation Ratio</h3>
+            <p>In addition to looking at the impact of attention and meditation on performance, I took another approach and grouped my stats by the ratio of attention to meditation. These were grouped as follows:</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/cc8df898-5d01-42bb-a0c0-e89df938a042/upload_546a2adf1671b0e069913aceff21729d.png"></p>
+            <p>99+% of the stats fell into the .60-1.1 attention to meditation range, so we'll throw out the rest.&nbsp;<span style="background-color: var(--bs-body-bg); text-align: var(--bs-body-text-align);">My K/D and E/D were best when my average attention (45%) was roughly 70-79% of my meditation (almost 60%) value.&nbsp;</span></p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/de99bbf0-b910-4634-9e79-bacd24b3a28c/upload_9620705c51bf109273537379a86bd912.png"></p>
+            <p>I'd like to include the other ranges (shown below) because things get interesting when my attention level is higher than my meditation level. Still, I don't think there is enough data to consider this valid.</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/6cc8fd60-e7e0-4675-96aa-d438140efb7c/upload_8ff6a44d93934cdde56940007bc470be.png"></p>
+            <p>Interestingly, my score per minute (below) does not follow the K/D trend, but trends upwards as my attention level approaches the same or higher level as my meditation.</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/cffdde16-eb83-4057-9ecf-7bd0db11beba/upload_da5d78191f12e3ccbe6c1072421da0ae.png"></p>
+            <p>The kills per minute graph (below) mirrors the score per minute graph. You might think that kills equate to score, but score includes other factors like objective captures, assists, non-lethal equipment usage (stun grenades, smoke grenades), and killstreaks. So it's not as direct a relationship as you might think.</p>
+            <p style="text-align: center; "><img src="https://objectstorage.us-ashburn-1.oraclecloud.com/n/idatzojkinhi/b/img.recursive.codes/o/5be3b85f-4b05-4458-aabb-5bf359429601/upload_6b4f2f8e8f97dd6d51b6a464dc2d4dd4.png"></p>
+            <p style="text-align: left;">I'm not sure how to interpret the data related to the attention to meditation ratio or if that's even a valid approach to looking at it at all. But, I did include it here as an alternative, because I wanted to take an alternative approach to look at things.</p>
+            <h2 id="Summary">Results and Summary</h2>
+            <p>So, is there a direct, measurable relationship between superior gaming performance and high levels of attention? Or, are there just too many factors at play? It's hard to say definitively, but there certainly seems to be trends that indicate my performance relates to my brain activity. My game performance is best when my attention and meditation values are moderate. When I pay too much attention or am too calm, my performance decreases.&nbsp;I've spent a lot of time on this project - from the idea phase to the hardware and software builds to the data collection - it's been a passion that has spanned several months. I'm not a neuroscientist, but I've learned a bit about focus, attention, and calmness and how they relate to my video game performance. I've gotten to spend time on things that I'm highly passionate about - hardware tinkering, writing software, and analyzing data in the cloud. Overall, I'd say the project was a huge success. To learn more about this project, check out the links below. If you have any insight that you'd like to share or have an opinion about a different approach or ways to look at the data, leave a comment below.</p>
+            <h2 id="Links">Links</h2>
+            <p>If you'd like to check out the code behind this project, or read about the inspiration, see the following GitHub repos and links:</p>
             <ul>
-                <li>Capture brain data (at home) in an accurate, and cost-effective manner</li>
-                <li>Establish a "baseline" mental state</li>
-                <li>Observe the difference between the baseline state and the "game playing" state</li>
-                <li>Observe my brain's "relaxation" state while playing the game</li>
-                <li>Quantify video game performance (via stats)</li>
-                <li>Establish and visualize a relationship between my cognitive measures and my game performance</li>
-                <li>
-                    Can outside factors be excluded?
-                    <ul>
-                        <li>Server/network latency</li>
-                        <li>"Skill based match making"</li>
-                        <li>Other unknowns</li>
-                    </ul>
-                </li>
+                <li><a href="https://github.com/recursivecodes/brain-to-the-cloud-arduino">https://github.com/recursivecodes/brain-to-the-cloud-arduino</a></li>
+                <li><a href="https://github.com/recursivecodes/brain-to-the-cloud">https://github.com/recursivecodes/brain-to-the-cloud</a></li>
+                <li><a href="https://github.com/kitschpatrol/Brain">https://github.com/kitschpatrol/Brain</a></li>
+                <li><a href="https://github.com/plapointe6/EspMQTTClient">https://github.com/plapointe6/EspMQTTClient</a></li>
+                <li><a href="http://www.frontiernerds.com/brain-hack">http://www.frontiernerds.com/brain-hack</a></li>
             </ul>
-            
-            <h2>Hypothesis</h2>
-
-            <div class="p-5 mb-4 bg-light rounded-3">
-                <div class="row">
-                    <div class="col-md-8 fs-4 border-3 border-start">The more focused I am, the better I will perform at a multiplayer "first-person shooter" (Call of Duty: Vanguard). Conversely, when I'm distracted, my performance will be negatively impacted.</div>
-                </div>
-            </div>
-
-            <h2>Detailed Approach</h2>
-            <ul>
-                <li>Using a "mind flex" toy, brain activity will be captured by "hacking" the serial output of the device to collect the EEG related information from the toy.</li>
-                <li>Brain activity will be uploaded to the cloud</li>
-                <li>Separately, video game stats will be captured via a scheduled task in a cloud based application</li>
-                <li>Brain and video game data will be combined and analyzed</li>
-            </ul>
-
-            <h2>Testing Steps</h2>
-            <ul>
-                <li>
-                    Hack "Mind Flex" toy by inserting ESP/Arduino to read serial data
-                    <ul>
-                        <li>
-                            Produce brain data to MQTT endpoint (`bttc/brain`)
-                            <ul>
-                                <li>Capture "distractions" via button</li>
-                            </ul>
-                        </li>
-                        <li>Produce brain data to "live demo" endpoint (to avoid persisting conference volunteer data) (`bttc/demo`)</li>
-                    </ul>
-                </li>
-    
-                <li>
-                    Create serverless function to obtain video game stats
-                    <ul>
-                        <li>Use third-party API to retrieve match info</li>
-                    </ul>
-                </li>
-    
-                <li>
-                    Create server side application
-                    <ul>
-                        <li>
-                            Consume MQTT endpoints
-                            <ul>
-                                <li>Persist brain data to cloud DB</li>
-                                <li>Persist distractions to cloud DB</li>
-                            </ul>
-                        </li>
-                        <li>
-                            Schedule task to invoke serverless function
-                            <ul>
-                                <li>Persist match information to cloud DB</li>
-                            </ul>
-                        </li>
-                        <li>
-                            Create a user interface (UI) to demo "live" brain data
-                            <ul>
-                                <li>Chart metrics in near real-time</li>
-                            </ul>
-                        </li>
-                        <li>Create a user interface (UI) to compare persisted brain data with persisted video game stats</li>
-                    </ul>
-                </li>
-    
-                <li>
-                    Collect data
-                    <ul>
-                        <li>
-                            Play game while wearing "mind flex"
-                            <ul>
-                                <li>Play without distractions</li>
-                                <li>Play with distractions</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
-            <h2>Result overview (analyze)</h2>
-            <h2>Result details</h2>
-            <h2>Modify hypothesis (optional - back to step 1)</h2>
-            <h2>Summary</h2>
-
-            <h2>Credits</h2>
-
-            <p>Much of the work on hacking the Mind Flex toy is based heavily (but not entirely) on the <a href="http://frontiernerds.com/brain-hack">work done by Frontier Nerds</a>.</p>
-            <p>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></p>
+            <style id="enhanced-styles" type="text/css">#editor .slideshow-container{border:5px dotted green}#editor .slideshow-container:before{content:'SlideShow Content...';display:inline-block;color:#00f}.gist{border-left:none!important}@media only screen and (max-width:640px){.gist .blob-num{padding:1px 10px!important}.gist table{display:table}.gist tr{display:table-row}.gist td{display:table-cell;border:1px solid #ddd}.gist table td:before{position:inherit;top:0;left:0;padding-right:0}}.code-inline{display:inline;margin:0;white-space:pre!important;word-wrap:normal;font-size:inherit;background-color:#272822;color:#f8f8f2;border-radius:.3em;padding: 2px 4px;}.error,.info,.intro,.success,.warning{-webkit-box-shadow:4px 4px 9px -1px #666;-moz-box-shadow:4px 4px 9px -1px #666;box-shadow:4px 4px 9px -1px #666;border:1px solid !important;border-radius:2px !important;margin:10p !importantx 0;padding:15px 10px !important}.info{color:#00529b;background-color:#bde5f8}.success{color:#4f8a10;background-color:#dff2bf}.warning{color:#9f6000;background-color:#feefb3}.error{color:#d8000c;background-color:#ffbaba}.intro{color:#484848;background-color:#f5f5f5;border:1px solid}.shadow{-webkit-box-shadow:4px 4px 9px -1px #666;-moz-box-shadow:4px 4px 9px -1px #666;box-shadow:4px 4px 9px -1px #666}p{line-height: 30px;}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote::before{color:#ccc;content:open-quote;font-size:4em;line-height:.1em;margin-right:.25em;vertical-align:-.4em}blockquote::after{content:no-close-quote}</style>
         </div>
     </div>
 
