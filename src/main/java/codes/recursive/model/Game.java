@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Map;
+
 @Entity
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor

@@ -11,10 +11,10 @@ import io.micronaut.websocket.annotation.ServerWebSocket;
 import java.util.function.Predicate;
 
 @ServerWebSocket("/ws/{topic}")
-public class DemoWebSocket {
+public class BttcWebSocket {
     private final WebSocketBroadcaster broadcaster;
 
-    public DemoWebSocket(
+    public BttcWebSocket(
             WebSocketBroadcaster broadcaster) {
         this.broadcaster = broadcaster;
     }
