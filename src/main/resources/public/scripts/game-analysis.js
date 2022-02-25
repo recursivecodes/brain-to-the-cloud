@@ -34,6 +34,7 @@ rivets.formatters.avg = function(arr, key){
 rivets.formatters.gameMode = function(value){
     // we're making an inflexible assumption here by hardcoding vanguard
     if( value === "kspoint" ) return 'Armageddon';
+    if( value === "control" ) return 'Control';
     let mode = `game-modes:vg-${value}:1`
     return window.model.codLookups[mode];
 }

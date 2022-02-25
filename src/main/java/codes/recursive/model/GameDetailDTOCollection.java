@@ -38,6 +38,7 @@ public class GameDetailDTOCollection {
 
     public String lookupMode(String game, String mode) {
         if( mode.equals("kspoint") ) return "Armageddon";
+        if( mode.equals("control") ) return "Control";
         return ((String) codLookups.get("game-modes:" + game + "-" + mode + ":1")).replace("’", "'");
     }
 
