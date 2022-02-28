@@ -74,9 +74,11 @@ const init = () => {
                 window.activityDatasource[5].data = response.map((it) => {return {"x": it.createdOn, "y": Math.log(it.highBeta)}})
                 window.activityDatasource[6].data = response.map((it) => {return {"x": it.createdOn, "y": Math.log(it.lowGamma)}})
                 window.activityDatasource[7].data = response.map((it) => {return {"x": it.createdOn, "y": Math.log(it.highGamma)}})
-                window.attentionChart = window.brainCharts.renderLineChart('attentionChart', 'Attention', false, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, window.attentionDatasource);
-                window.meditationChart = window.brainCharts.renderLineChart('meditationChart', 'Meditation', false, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, window.meditationDatasource);
-                window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, window.brainCharts.activityXAxes, window.brainCharts.defaultYAxes, window.activityDatasource);
+                const scales = {xAxes: window.brainCharts.xAxes, yAxes: window.brainCharts.defaultYAxes};
+                const activityScales = {xAxes: window.brainCharts.activityXAxes, yAxes: window.brainCharts.defaultYAxes};
+                window.attentionChart = window.brainCharts.renderLineChart('attentionChart', 'Attention', false, scales, window.attentionDatasource);
+                window.meditationChart = window.brainCharts.renderLineChart('meditationChart', 'Meditation', false, scales, window.meditationDatasource);
+                window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, activityScales, window.activityDatasource);
             });
         });
     })

@@ -109,14 +109,28 @@ const init = () => {
             let tr = evt.target.closest('tr');
             let checkboxes = Array.prototype.slice.call(tr.querySelectorAll('.data-check'));
 
+            let scales = {xAxes: window.brainCharts.defaultXAxes, y0: window.brainCharts.defaultYAxes};
+            scales.y0.title = {};
+
+            let checkedColCount = checkboxes.filter(c => c.checked).length;
+            let processedCols = 0;
             for(let c=0; c<=checkboxes.length-1; c++) {
                 if(checkboxes[c].checked) {
+                    let title = headRow[c+1].innerText.trim();
+                    if(checkedColCount === 2 && processedCols === 0) {
+                        scales.y0.title = {text: title, display: true};
+                    }
+                    if(checkedColCount === 2 && processedCols === 1) {
+                        scales.y1 = window.brainCharts.secondaryYAxes;
+                        scales.y1.title = {text: title, display: true};
+                    }
                     let dataset = {
-                        label: headRow[c+1].innerText.trim(),
+                        label: title,
                         backgroundColor: colorScheme[c],
                         pointBackgroundColor: colorScheme[c],
                         borderColor: colorScheme[c],
                         data: [],
+                        yAxisID: checkedColCount === 2 && processedCols === 1 ? 'y1': 'y0',
                     }
                     for(let i=0; i<=rows.length-2; i++) {
                         let row = rows[i].children;
@@ -136,11 +150,12 @@ const init = () => {
                         }
                     }
                     if(lineChart) datasource.push(dataset);
+                    processedCols = processedCols + 1;
                 }
             }
             let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('tableChartModal'));
             if(lineChart) {
-                window.chart = window.brainCharts.renderLineChart('tableChart', table.parentElement.previousElementSibling.innerText, true, window.brainCharts.defaultXAxes, window.brainCharts.defaultYAxes, datasource);
+                window.chart = window.brainCharts.renderLineChart('tableChart', table.parentElement.previousElementSibling.innerText, true, scales, datasource);
             }
             else {
                 window.chart = window.brainCharts.renderDonutPieChart('tableChart', table.parentElement.previousElementSibling.innerText, true, datasource, 'pie');

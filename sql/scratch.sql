@@ -5,7 +5,7 @@ order by utcStartSeconds desc;
 
 select count(1) from brain;
 
-select count("id"), sum(brainRecords), avg(brainRecords) from mv_game_details_with_brain where brainRecords > 0;
+select * from mv_game_details_with_brain where brainRecords > 0;
 
 delete from game where id in (607,608,600);
 

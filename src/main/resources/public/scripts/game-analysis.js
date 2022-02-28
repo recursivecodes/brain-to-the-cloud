@@ -165,8 +165,10 @@ window.model = {
                     activityDatasource[6].data = brainData.map(brain => {return {y: Number(Math.log(brain.lowGamma)).toFixed(2), x: new Date(brain.createdOn)}});
                     activityDatasource[7].data = brainData.map(brain => {return {y: Number(Math.log(brain.highGamma)).toFixed(2), x: new Date(brain.createdOn)}});
 
-                    window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, window.brainCharts.activityXAxes, window.brainCharts.defaultYAxes, activityDatasource);
-                    window.brainChart = window.brainCharts.renderLineChart('brainChart', 'Attention/Meditation', true, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, datasource);
+                    const scales = {xAxes: window.brainCharts.xAxes, yAxes: window.brainCharts.defaultYAxes};
+                    const activityScales = {xAxes: window.brainCharts.activityXAxes, yAxes: window.brainCharts.defaultYAxes};
+                    window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, activityScales, activityDatasource);
+                    window.brainChart = window.brainCharts.renderLineChart('brainChart', 'Attention/Meditation', true, scales, datasource);
                     //window.model.renderScoreChart('meditation', 'scoreMeditationChart', 'Score Adjusted for Meditation');
                     //window.model.renderScoreChart('attention', 'scoreAttentionChart', 'Score Adjusted for Attention');
                 }

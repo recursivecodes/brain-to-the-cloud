@@ -25,7 +25,20 @@ export class BrainCharts {
                     if(!this.chart._yAxisValues) this.chart._yAxisValues = values;
                     return value;
                 }
-            }
+            },
+            position: 'left',
+        };
+        this.secondaryYAxes = {
+            ticks: {
+                callback : function(value, index, values){
+                    if(!this.chart._yAxisValues) this.chart._yAxisValues = values;
+                    return value;
+                }
+            },
+            position: 'right',
+            grid: {
+                drawOnChartArea: false, // only want the grid lines for one axis to show up
+            },
         };
         this.xAxes = {
             legend: {display: false},
@@ -137,7 +150,7 @@ export class BrainCharts {
         });
     }
 
-    renderLineChart(chartId, title, showLegend, xAxes, yAxes, datasource) {
+    renderLineChart(chartId, title, showLegend, scales, datasource) {
         return new Chart(document.getElementById(chartId).getContext('2d'), {
             type: 'line',
             options: {
@@ -208,10 +221,7 @@ export class BrainCharts {
                     title: {text: title, display: true},
                 },
                 radius: 3,
-                scales: {
-                    xAxes: xAxes,
-                    yAxes: yAxes,
-                },
+                scales: scales,
             },
             data: {
                 datasets: datasource

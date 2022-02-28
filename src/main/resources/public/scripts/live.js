@@ -25,9 +25,11 @@ const initCharts = () => {
     }];
     let activityDatasource = BrainCharts.defaultActivityDatasource();
 
-    window.attentionChart = window.brainCharts.renderLineChart('attentionChart', 'Attention', false, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, attentionDatasource);
-    window.meditationChart = window.brainCharts.renderLineChart('meditationChart', 'Meditation', false, window.brainCharts.xAxes, window.brainCharts.defaultYAxes, meditationDatasource);
-    window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, window.brainCharts.activityXAxes, window.brainCharts.defaultYAxes,activityDatasource);
+    const scales = {xAxes: window.brainCharts.xAxes, yAxes: window.brainCharts.defaultYAxes};
+    const activityScales = {xAxes: window.brainCharts.activityXAxes, yAxes: window.brainCharts.defaultYAxes};
+    window.attentionChart = window.brainCharts.renderLineChart('attentionChart', 'Attention', false, scales, attentionDatasource);
+    window.meditationChart = window.brainCharts.renderLineChart('meditationChart', 'Meditation', false, scales, meditationDatasource);
+    window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, activityScales, activityDatasource);
 }
 
 const init = () => {
