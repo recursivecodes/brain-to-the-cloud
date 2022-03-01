@@ -108,38 +108,31 @@ const init = () => {
             };
             let tr = evt.target.closest('tr');
             let checkboxes = Array.prototype.slice.call(tr.querySelectorAll('.data-check'));
-
-            let scales = {xAxes: window.brainCharts.defaultXAxes, y0: window.brainCharts.defaultYAxes};
-            scales.y0.title = {};
-
-            let checkedColCount = checkboxes.filter(c => c.checked).length;
+            let scales = {xAxes: window.brainCharts.defaultXAxes};
             let processedCols = 0;
             for(let c=0; c<=checkboxes.length-1; c++) {
                 if(checkboxes[c].checked) {
-                    let title = headRow[c+1].innerText.trim();
-                    if(checkedColCount === 2 && processedCols === 0) {
-                        scales.y0.title = {text: title, display: true};
-                    }
-                    if(checkedColCount === 2 && processedCols === 1) {
-                        scales.y1 = window.brainCharts.secondaryYAxes;
-                        scales.y1.title = {text: title, display: true};
-                    }
-                    let dataset = {
+                    const title = headRow[c+1].innerText.trim();
+                    const titleObj = {text: title, display: true}
+                    const yAxisTitle = `y${processedCols}`
+                    scales[yAxisTitle] = processedCols === 0 ? window.brainCharts.defaultYAxes : BrainCharts.getSecondaryYAxis();
+                    scales[yAxisTitle].title = titleObj;
+                    const dataset = {
                         label: title,
                         backgroundColor: colorScheme[c],
                         pointBackgroundColor: colorScheme[c],
                         borderColor: colorScheme[c],
                         data: [],
-                        yAxisID: checkedColCount === 2 && processedCols === 1 ? 'y1': 'y0',
+                        yAxisID: yAxisTitle,
                     }
                     for(let i=0; i<=rows.length-2; i++) {
-                        let row = rows[i].children;
-                        let includeRow = row[0].querySelector('.col-check:checked')
+                        const row = rows[i].children;
+                        const includeRow = row[0].querySelector('.col-check:checked')
                         if(includeRow) {
-                            let x = row[0].innerText;
-                            let y = (row[c+1].innerHTML).replace(',', '').replace('%', '');
+                            const x = row[0].innerText;
+                            const y = (row[c+1].innerHTML).replace(',', '').replace('%', '');
                             if(lineChart) {
-                                let datapoint = { x: x, y: parseFloat(y) };
+                                const datapoint = { x: x, y: parseFloat(y) };
                                 dataset.data.push(datapoint)
                             }
                             else {

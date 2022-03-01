@@ -28,18 +28,6 @@ export class BrainCharts {
             },
             position: 'left',
         };
-        this.secondaryYAxes = {
-            ticks: {
-                callback : function(value, index, values){
-                    if(!this.chart._yAxisValues) this.chart._yAxisValues = values;
-                    return value;
-                }
-            },
-            position: 'right',
-            grid: {
-                drawOnChartArea: false, // only want the grid lines for one axis to show up
-            },
-        };
         this.xAxes = {
             legend: {display: false},
             ticks: this.ticks,
@@ -66,6 +54,21 @@ export class BrainCharts {
             legend: {display: true},
             type: 'category',
         };
+    }
+
+    static getSecondaryYAxis() {
+        return {
+            ticks: {
+                callback : function(value, index, values){
+                    if(!this.chart._yAxisValues) this.chart._yAxisValues = values;
+                    return value;
+                }
+            },
+            position: 'right',
+            grid: {
+                drawOnChartArea: false, // only want the grid lines for one axis to show up
+            }
+        }
     }
 
     static defaultActivityDatasource() {
