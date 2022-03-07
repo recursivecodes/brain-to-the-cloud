@@ -98,6 +98,7 @@ th:not([scope]) {
 .text-outline {
     -webkit-text-stroke-width: 0.25px;
     -webkit-text-stroke-color: rgba(21, 21, 21, 0.8);
+    -webkit-font-smoothing: antialiased;
 }
 .text-somewhat-muted {
     color: #bfc6cd !important;
