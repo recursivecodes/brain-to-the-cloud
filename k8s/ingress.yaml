@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: toddrsharp-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: 'true'
+spec:
+  rules:
+    - host: 'bttc.toddrsharp.com'
+      http:
+        paths:
+          - path: "/"
+            backend:
+              serviceName: bttc-client
+              servicePort: 80
+  tls:
+    - hosts:
+        - 'bttc.toddrsharp.com'
+      secretName: bttc-tls-cert
