@@ -1,20 +1,26 @@
-apiVersion: extensions/v1beta1
 kind: Ingress
+apiVersion: extensions/v1beta1
 metadata:
-  name: toddrsharp-ingress
+  name: insulin-helper
+  namespace: default
   annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: 'true'
+    cert-manager.io/issuer: "letsencrypt-prod"
 spec:
-  rules:
-    - host: 'bttc.toddrsharp.com'
-      http:
-        paths:
-          - path: "/"
-            backend:
-              serviceName: bttc-client
-              servicePort: 80
+  ingressClassName: nginx
   tls:
     - hosts:
         - 'bttc.toddrsharp.com'
       secretName: bttc-tls-cert
+  rules:
+    - host: bttc.toddrsharp.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              serviceName: bttc-client
+              servicePort: 80
+status:
+  loadBalancer:
+    ingress:
+      - ip: 129.153.205.125
