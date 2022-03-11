@@ -42,7 +42,7 @@
                     <div class="col p-2 mt-0 pointer rounded" rv-selectedGame="game" rv-each-game="model.recentGames.content"  data-bs-toggle="offcanvas" data-bs-target="#gameDetails" rv-on-click="model.selectGame">
                         <div class="card game-card shadow border border-dark">
                             <div class="position-relative">
-                                <img rv-mapsrc="game.match.map" class="card-img-top" onerror="this.src = '/img/maps/mp_default.jpg';" rv-alt="game.match.map | map">
+                                <img rv-mapsrc="game.match.map" class="card-img-top" decoding="async" onerror="this.src = '/img/maps/mp_default.jpg';" rv-alt="game.match.map | map">
                                 <div class="position-absolute top-0 end-0 d-flex">
                                     <span class="badge text-white text-shadow" rv-winlossbg="game.match.result">
                                         <strong>{game.match.result | winLoss}</strong>

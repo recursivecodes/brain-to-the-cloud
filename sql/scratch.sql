@@ -5,7 +5,7 @@ order by utcStartSeconds desc;
 
 select count(1) from brain;
 
-select * from mv_game_details_with_brain where brainRecords > 0;
+select * from mv_game_details_with_brain where brainRecords > 0 order by utcStartSeconds desc;
 
 delete from game where id in (607,608,600);
 
