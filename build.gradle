@@ -59,7 +59,7 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
     // acme
-    implementation("io.micronaut.acme:micronaut-acme")
+    implementation("io.micronaut.acme:micronaut-acme:3.1.1-SNAPSHOT")
 
     // security
     implementation 'io.projectreactor:reactor-core'
