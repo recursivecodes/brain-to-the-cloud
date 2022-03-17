@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Repository
 public interface GameRepository extends PageableRepository<Game, Long> {
-    CompletableFuture<Game> saveAsync(@NonNull Game reading);
+    CompletableFuture<Game> saveAsync(@NonNull Game game);
 
     @Query("FROM Game g where g.match.matchID = :matchID")
     Game getGameByMatchID(BigInteger matchID);
