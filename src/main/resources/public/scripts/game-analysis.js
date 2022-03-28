@@ -36,6 +36,7 @@ rivets.formatters.gameMode = function(value){
     // we're making an inflexible assumption here by hardcoding vanguard
     if( value === "kspoint" ) return 'Armageddon';
     if( value === "control" ) return 'Control';
+    if( value === "base" ) return 'Arms Race';
     let mode = `game-modes:vg-${value}:1`
     return window.model.codLookups[mode];
 }

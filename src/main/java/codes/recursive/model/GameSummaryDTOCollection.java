@@ -63,6 +63,7 @@ public class GameSummaryDTOCollection {
     public String lookupMode(String game, String mode) {
         if( mode.equals("kspoint") ) return "Armageddon";
         if( mode.equals("control") ) return "Control";
+        if( mode.equals("base") ) return "Arms Race";
         return ((String) codLookups.get("game-modes:" + game + "-" + mode + ":1")).replace("’", "'");
     }
 
