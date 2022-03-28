@@ -33,6 +33,7 @@ public class GameDetailDTOCollection {
         if( map.equals("mp_shipmas_s4") ) return "Shipmas"; //not in the lookup table yet
         if( map.equals("mp_paradise") ) return "Paradise"; //not in the lookup table yet
         if( map.equals("mp_radar") ) return "Radar"; //not in the lookup table yet
+        if( map.equals("mp_ar_alps") ) return "Alps"; //not in the lookup table yet
         return ((String) codLookups.get("maps:" + game + "-" + map + ":1")).replace("’", "'");
     }
 

@@ -23,6 +23,7 @@ rivets.formatters.map = function(value){
     if( value === 'mp_shipmas_s4' ) return 'Shipmas'; //not in the lookup table yet
     if( value === 'mp_paradise' ) return 'Paradise'; //not in the lookup table yet
     if( value === 'mp_radar' ) return 'Radar'; //not in the lookup table yet
+    if( value === 'mp_ar_alps' ) return 'Alps'; //not in the lookup table yet
     let map = `maps:vg-${value}:1`
     if(!window.model.codLookups.hasOwnProperty(map)) return value;
     return window.model.codLookups[map];
