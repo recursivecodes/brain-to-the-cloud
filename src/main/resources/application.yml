@@ -6,6 +6,10 @@ micronaut:
       pool:
         enabled: true
       read-timeout: 5s
+      #proxy-address: http://localhost:8000
+      #proxy-type: http
+      #ssl:
+        #insecure-trust-all-certificates: true
   router:
     static-resources:
       default:
@@ -50,6 +54,7 @@ micronaut:
     endpoints:
       logout:
         get-allowed: true
+
 datasources:
   default:
     dialect: ORACLE

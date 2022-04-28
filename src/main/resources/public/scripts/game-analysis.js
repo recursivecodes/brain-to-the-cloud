@@ -19,6 +19,7 @@ rivets.binders.winlossbg = function(el, value) {
 rivets.formatters.map = function(value){
     // we're making an inflexible assumption here by hardcoding vanguard
     if( value === 'mp_jalo_oasis' ) return 'Casablanca'; //not in the lookup table yet
+    if( value === 'mp_monsters' ) return 'Mayhem'; //not in the lookup table yet
     if( value === 'mp_gondola' ) return 'Gondola'; //not in the lookup table yet
     if( value === 'mp_shipmas_s4' ) return 'Shipmas'; //not in the lookup table yet
     if( value === 'mp_paradise' ) return 'Paradise'; //not in the lookup table yet

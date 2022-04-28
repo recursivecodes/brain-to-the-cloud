@@ -13,3 +13,4 @@ out/
 .classpath
 .factorypath
 k8s/secret.yaml
+.vscode/

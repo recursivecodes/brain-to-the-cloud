@@ -29,6 +29,7 @@ public class GameDetailDTOCollection {
 
     public String lookupMap(String game, String map) {
         if( map.equals("mp_jalo_oasis") ) return "Casablanca"; //not in the lookup table yet
+        if( map.equals("mp_monsters") ) return "Mayhem"; //not in the lookup table yet
         if( map.equals("mp_gondola") ) return "Gondola"; //not in the lookup table yet
         if( map.equals("mp_shipmas_s4") ) return "Shipmas"; //not in the lookup table yet
         if( map.equals("mp_paradise") ) return "Paradise"; //not in the lookup table yet
