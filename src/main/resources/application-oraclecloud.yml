@@ -71,7 +71,7 @@ codes:
     xbox-gamertag: ${XBOX_GAMERTAG}
     app-user: ${APP_USER}
     app-password: ${APP_PASSWORD}
-    secret-ocid: ocid1.vaultsecret.oc1.phx.amaaaaaaxronvgyajz44fyk2qdzqk2bitrvp5ruqfqsr7o6f5kb56muqewpa
+    secret-ocid: ocid1.vaultsecret.oc1.iad.amaaaaaasnwafwyaz5g46qftozwom2ythimq35mg4int6thnxq5ceuhcwl5a
 cod:
   sso-token: ${ACTIVISION_TOKEN}
   xsrf-token: ${random.uuid}

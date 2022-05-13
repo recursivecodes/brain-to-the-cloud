@@ -26,15 +26,15 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.OCIR_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.OCIR_PASSWORD }}
-        DOCKER_REGISTRY_URL: phx.ocir.io
+        DOCKER_REGISTRY_URL: iad.ocir.io
       
     - name: 'Docker Build'
-      run: docker build -t phx.ocir.io/toddrsharp/bttc/bttc-client:latest .
+      run: docker build -t iad.ocir.io/idatzojkinhi/bttc/bttc-client:latest .
 
     - name: 'Docker Push'
       uses: actions-hub/docker@master
       with:
-        args: push phx.ocir.io/toddrsharp/bttc/bttc-client:latest
+        args: push iad.ocir.io/idatzojkinhi/bttc/bttc-client:latest
 
     - name: 'Deploy Container'
       uses: appleboy/ssh-action@master
@@ -43,5 +43,5 @@ jobs:
         username: opc
         key: ${{ secrets.VM_PRIV_KEY }}
         script: |
-          echo ${{ secrets.OCIR_PASSWORD }} | docker login phx.ocir.io --username toddrsharp/registry --password-stdin
+          echo ${{ secrets.OCIR_PASSWORD }} | docker login iad.ocir.io --username idatzojkinhi/registry --password-stdin
           ./restart-remote.sh
