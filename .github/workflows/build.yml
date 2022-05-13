@@ -43,5 +43,5 @@ jobs:
         username: opc
         key: ${{ secrets.VM_PRIV_KEY }}
         script: |
-          echo ${{ secrets.OCIR_PASSWORD }} | docker login iad.ocir.io --username idatzojkinhi/registry --password-stdin
+          echo "${{ secrets.OCIR_PASSWORD }}" | docker login iad.ocir.io --username idatzojkinhi/registry --password-stdin
           ./restart-remote.sh
