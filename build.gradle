@@ -85,7 +85,7 @@ dockerfile {
 }
 */
 dockerBuild {
-    images = ["phx.ocir.io/toddrsharp/bttc/bttc-client:latest"]
+    images = ["iad.ocir.io/idatzojkinhi/bttc/bttc-client:latest"]
 }
 
 

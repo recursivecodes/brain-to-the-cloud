@@ -12,5 +12,5 @@ oraclecloud:
         compartment-ocid: ${VAULT_COMPARTMENT_OCID}
     use-instance-principal: true
     path-to-config: ~/.oci/config
-    profile: DEFAULT
-    region: US-PHOENIX-1
+    profile: recursivecodes
+    region: US-ASHBURN-1

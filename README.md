@@ -38,6 +38,11 @@ $ docker build -t phx.ocir.io/toddrsharp/bttc/bttc-client:latest .
 $ docker push phx.ocir.io/toddrsharp/bttc/bttc-client:latest
 ```
 
+```shell
+$ docker build -t iad.ocir.io/idatzojkinhi/bttc/bttc-client:latest .
+$ docker push iad.ocir.io/idatzojkinhi/bttc/bttc-client:latest
+```
+
 ## SSL
 
 Create key
