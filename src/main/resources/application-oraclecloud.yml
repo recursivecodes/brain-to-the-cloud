@@ -66,6 +66,8 @@ mqtt:
     client-id: bttc-client-prod-ft
     user-name: ${MQTT_USERNAME}
     password: ${MQTT_PASSWORD}
+    connection-timeout: 0m
+    automatic-reconnect: true
 codes:
   recursive:
     xbox-gamertag: ${XBOX_GAMERTAG}
