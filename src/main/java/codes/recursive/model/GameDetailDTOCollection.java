@@ -44,6 +44,7 @@ public class GameDetailDTOCollection {
         if( mode.equals("kspoint") ) return "Armageddon";
         if( mode.equals("control") ) return "Control";
         if( mode.equals("base") ) return "Arms Race";
+        if( mode.equals("gun") ) return "Gun Game";
         return ((String) codLookups.get("game-modes:" + game + "-" + mode + ":1")).replace("’", "'");
     }
 

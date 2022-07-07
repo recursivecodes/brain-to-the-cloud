@@ -40,6 +40,7 @@ rivets.formatters.gameMode = function(value){
     if( value === "kspoint" ) return 'Armageddon';
     if( value === "control" ) return 'Control';
     if( value === "base" ) return 'Arms Race';
+    if( value === "gun" ) return 'Gun Game';
     let mode = `game-modes:vg-${value}:1`
     return window.model.codLookups[mode];
 }
