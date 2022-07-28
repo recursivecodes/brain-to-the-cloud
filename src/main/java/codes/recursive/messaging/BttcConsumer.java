@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ivs.IvsClient;
 import software.amazon.awssdk.services.ivs.model.ChannelNotBroadcastingException;
 import software.amazon.awssdk.services.ivs.model.PutMetadataRequest;
@@ -26,6 +27,7 @@ public class BttcConsumer {
     private final WebSocketBroadcaster broadcaster;
     private final String accessKeyId;
     private final String secretKey;
+    private final String region;
     private IvsClient ivsClient;
     private final String channelArn;
 
@@ -34,14 +36,17 @@ public class BttcConsumer {
             WebSocketBroadcaster broadcaster,
             @Property(name = "aws.accessKeyId") String accessKeyId,
             @Property(name = "aws.secretKey") String secretKey,
+            @Property(name = "aws.region") String region,
             @Property(name = "codes.recursive.ivs.channel-arn") String channelArn) {
         this.brainRepository = brainRepository;
         this.broadcaster = broadcaster;
         this.accessKeyId = accessKeyId;
         this.secretKey = secretKey;
+        this.region = region;
         AwsBasicCredentials credentials = AwsBasicCredentials.create(accessKeyId, secretKey);
         this.ivsClient = IvsClient.builder()
                 .credentialsProvider(StaticCredentialsProvider.create(credentials))
+                .region(Region.of(region))
                 .build();
         this.channelArn = channelArn;
     }
