@@ -77,8 +77,14 @@ codes:
     app-user: ${APP_USER}
     app-password: ${APP_PASSWORD}
     secret-ocid: ocid1.vaultsecret.oc1.iad.amaaaaaasnwafwyaz5g46qftozwom2ythimq35mg4int6thnxq5ceuhcwl5a
+    ivs:
+      channel-arn: ${IVS_CHANNEL_ARN}
+      playback-url: https://f99084460c35.us-east-1.playback.live-video.net/api/video/v1/us-east-1.639934345351.channel.x4aGUUxIp5Vw.m3u8
 cod:
   sso-token: ${ACTIVISION_TOKEN}
   xsrf-token: ${random.uuid}
   user-agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36"
-oci.config.profile: recursivecodes
+aws:
+  accessKeyId: ${AWS_ACCESS_KEY}
+  secretKey: ${AWS_SECRET_KEY}
+  region: us-east-1

@@ -67,6 +67,11 @@ dependencies {
     implementation 'io.projectreactor:reactor-core'
     implementation("io.micronaut.security:micronaut-security-annotations")
     implementation("io.micronaut.security:micronaut-security-session")
+
+    // aws sdk
+    implementation("io.micronaut.aws:micronaut-aws-sdk-v2")
+    implementation("software.amazon.awssdk:ivs:2.17.229")
+
 }
 
 

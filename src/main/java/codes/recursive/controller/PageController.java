@@ -1,5 +1,6 @@
 package codes.recursive.controller;
 
+import io.micronaut.context.annotation.Property;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.http.annotation.Controller;
@@ -17,6 +18,7 @@ import java.security.Principal;
 @SuppressWarnings("rawtypes")
 public class PageController {
     private static final Logger LOG = LoggerFactory.getLogger(PageController.class);
+    @Property(name = "codes.recursive.ivs.playback-url") String playbackUrl;
 
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Get("/games")
@@ -32,6 +34,15 @@ public class PageController {
         return new ModelAndView("live", CollectionUtils.mapOf(
                 "currentView", "live",
                 "isLoggedIn", principal != null
+        ));
+    }
+
+    @Get(uri ="/live-stream")
+    ModelAndView liveStream(@Nullable Principal principal) {
+        return new ModelAndView("live-stream", CollectionUtils.mapOf(
+                "currentView", "live-stream",
+                "isLoggedIn", principal != null,
+                "playbackUrl", playbackUrl
         ));
     }
 

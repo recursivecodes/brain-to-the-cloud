@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutFile :: head(~{::title}, ~{:: #extraHead})}">
+    <title>BttC: Demo</title>
+    <!--/*/
+    <div id="extraHead" th:remove="tag">
+    /*/-->
+    <script src="/scripts/chart/chart.min.js" </script>
+    <script src="/scripts/chart/chartjs-plugin-annotation.min.js"></script>
+    <script src="/scripts/moment/moment.js"></script>
+    <script src="/scripts/chart/chartjs-adapter-moment.min.js"></script>
+    <script src="/scripts/live-stream.js" type="module"></script>
+    <script src="https://player.live-video.net/1.11.0/amazon-ivs-player.min.js"></script>
+    <!--/*/
+    </div>
+    /*/-->
+</head>
+<body th:replace="~{layoutFile :: body(~{::section})}">
+<section>
+    <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
+    <h1>Live Stream</h1>
+    <div class="row mb-3">
+        <div class="col-md-8 offset-md-2">
+            <div class="row row-cols-1 row-cols-md-3 g-4 h-100">
+                <div class="col h-100">
+                    <div class="card text-center h-100 bg-light shadow">
+                        <div class="card-header text-white bg-dark bg-gradient">Signal Strength</div>
+                        <div class="card-body d-flex align-items-center justify-content-center">
+                            <span class="fs-1" id="currentSignalStrength">0</span>
+                        </div>
+                        <div class="mt-auto">
+                            <button id="connectBtn" class="btn btn-primary btn-sm" style="margin-bottom: 10px;"><span id="connectBtnLbl">Connect</span></button>
+                            <button id="createSessionModalBtn" class="btn btn-success btn-sm" style="margin-bottom: 10px;">Capture Session</button>
+
+                            <div class="modal fade" id="sessionModal" tabindex="-1" aria-labelledby="sessionModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="sessionModalLabel">Capture Session</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="sessionForm" name="sessionForm" class="needs-validation" novalidate>
+                                                <div class="form-floating text-dark mb-3">
+                                                    <input type="text" class="form-control" autofocus placeholder="Name" id="sessionName" required="required" />
+                                                    <label for="sessionName" class="text-dark">Name</label>
+                                                    <div class="invalid-feedback">
+                                                        Please enter a name!
+                                                    </div>
+                                                </div>
+                                                <div class="form-floating text-dark">
+                                                    <textarea class="form-control" placeholder="Notes" id="sessionNotes" style="height: 100px" required="required"></textarea>
+                                                    <label for="sessionNotes" class="text-dark">Notes</label>
+                                                    <div class="invalid-feedback">
+                                                        Please enter some notes!
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button id="createSessionBtn" type="button" class="btn btn-primary">Start Session</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col h-100">
+                    <div class="card text-center h-100 bg-light shadow">
+                        <div class="card-header text-white bg-dark bg-gradient">Current Attention</div>
+                        <div class="card-body d-flex align-items-center justify-content-center">
+                            <span class="fs-1" id="currentAttention">N/A</span>
+                        </div>
+                        <div class="mt-auto p-2">
+                            <span class="badge bg-success bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Highest value"><span class="fw-bold">High:</span><span id="attentionHigh">N/A</span></span>
+                            <span class="badge bg-danger bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lowest value"><span class="fw-bold">Low:</span><span id="attentionLow">N/A</span></span>
+                            <span class="badge bg-primary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Average value"><span class="fw-bold">Mean:</span><span id="attentionMean">N/A</span></span>
+                            <span class="badge bg-secondary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Middle value"><span class="fw-bold">Median:</span><span id="attentionMedian">N/A</span></span>
+                            <span class="badge bg-info bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Most common value"><span class="fw-bold">Mode:</span><span id="attentionMode">N/A</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col h-100">
+                    <div class="card text-center h-100 bg-light shadow">
+                        <div class="card-header text-white bg-dark bg-gradient">Current Meditation</div>
+                        <div class="card-body d-flex align-items-center justify-content-center">
+                            <span class="fs-1" id="currentMeditation">N/A</span>
+                        </div>
+                        <div class="mt-auto p-2">
+                            <span class="badge bg-success bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Highest value"><span class="fw-bold">High:</span><span id="meditationHigh">N/A</span></span>
+                            <span class="badge bg-danger bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lowest value"><span class="fw-bold">Low:</span><span id="meditationLow">N/A</span></span>
+                            <span class="badge bg-primary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Average value"><span class="fw-bold">Mean:</span><span id="meditationMean">N/A</span></span>
+                            <span class="badge bg-secondary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Middle value"><span class="fw-bold">Median:</span><span id="meditationMedian">N/A</span></span>
+                            <span class="badge bg-info bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Most common value"><span class="fw-bold">Mode:</span><span id="meditationMode">N/A</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-8 offset-md-2">
+            <video id="video-player" class="w-100" controls autoplay playsinline></video>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2 col-12 pt-0 mb-3">
+            <canvas id="attentionChart" class="border p-1 rounded shadow" style="height: 300px; width:100%;"></canvas>
+        </div>
+    </div>
+    <div class="row"></div>
+        <div class="col-md-8 offset-md-2 col-12 pt-0 mb-3">
+            <canvas id="meditationChart" class="border p-1 rounded shadow" style="height: 300px; width:100%;"></canvas>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2 col-12 pt-0 mb-3 position-relative">
+            <div class="position-absolute top-0 end-0 pe-3 pt-1">
+                <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#activityOffcanvas" aria-controls="activityOffcanvas"><i class="fa fa-question-mark"></i> Help</button>
+            </div>
+            <canvas id="activityChart" class="border p-1 rounded shadow" style="height: 400px; width:100%;"></canvas>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="activityOffcanvas" aria-labelledby="activityOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="activityOffcanvasLabel"></h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div>
+                <h2>About The Mind Flex Chip</h2>
+                <figure>
+                    <blockquote class="p-3 bg-light border-3 border-start border-start-3">
+                        <p>The ASIC_EEG_POWER_INT values are indications of relative amplitudes of the individual EEG bands.</p>
+                        <p>Typically, power spectrum band powers would be reported in units such as Volts-squared per Hz (V^2/Hz), but since <b>our values have undergone a number of complicated transforms and rescale operations from the original voltage measurements, there is no longer a simple linear correlation to units of Volts</b>. Hence, we do not try to label them with any conventional unit. You can think of them as ASIC_EEG_POWER units, if you must.</p>
+                        <p>The reason we say <b>they are only meaningful compared to each other and to themselves</b> is primarily due to the fact they have their own units as described above. It would not necessarily be meaningful nor correct to directly compare them to, say, values output by another EEG system. In their currently output form, they are useful as an indication of whether each particular band is increasing or decreasing over time, and how strong each band is relative to the other bands.</p>
+                        <p>Because the EEG wave bands represent a power spectrum, their values will vary exponentially, meaning the lower-frequency bands (such as delta and theta) will be exponentially larger values than the higher-frequency bands (alpha and beta). For analysis purposes, note the comparison warning above. <b>For display purposes, if you would like to remove the exponential gaps between the bands to make them appear closer to each other, you could display the logarithm of each value, instead of the exponential values themselves.</b></p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer pt-2">
+                        Neurosky Documentation <cite title="Neurosky Documentation"><a href="http://support.neurosky.com/kb/development-2/eeg-band-power-values-units-amplitudes-and-meaning">http://support.neurosky.com/kb/development-2/eeg-band-power-values-units-amplitudes-and-meaning</a></cite>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div>
+                <h2>About Brain Waves</h2>
+                <dl>
+                    <dt class="delta text-outline"><h3>Delta</h3></dt>
+                    <dd class="">Delta waves <span class="fw-bold">(1-4 Hz)</span> are slow brainwaves. <b>Related to sleep</b>.</dd>
+                    <dt class="theta text-outline"><h3>Theta</h3></dt>
+                    <dd class="">Theta waves <span class="fw-bold">(4-8 Hz)</span> are involved in <b>day-dreaming and sleep</b>.</dd>
+                    <dt class="low-alpha text-outline"><h3>Alpha</h3></dt>
+                    <dd class="">Alpha waves <span class="fw-bold">(8-12 Hz)</span> dominate during <b>moments of quiet thought, and similar meditative states</b>.</dd>
+                    <dt class="low-beta text-outline"><h3>Beta</h3></dt>
+                    <dd class="">Beta waves <span class="fw-bold">(12-38 Hz)</span> represent our normal waking state of consciousness when attention is directed at cognitive tasks and the outside world. Dominant when we are <b>alert, attentive and problem-solving or decision-making</b>. Low beta <span class="fw-bold">(12-15 Hz)</span> is thought to be 'fast idle', or musing thought, Beta <span class="fw-bold">(15-22 Hz)</span> is high-engagement and actively figuring things out, and finally, High Beta <span class="fw-bold">(22-38 Hz)</span> is highly complex thought, integrating new experiences, high anxiety or excitement.</dd>
+                    <dt class="low-gamma text-outline"><h3>Gamma</h3></dt>
+                    <dd class="">Gamma brainwaves have the highest frequencies of any brainwave, oscillating between <span class="fw-bold">(~30-100 Hz)</span>. Associated with <b>peak concentration and high levels of cognitive functioning</b>.</dd>
+                </dl>
+                <p>Credit: <a href="https://neurofeedbackalliance.org/understanding-brain-waves/">https://neurofeedbackalliance.org/understanding-brain-waves/</a></p>
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>
