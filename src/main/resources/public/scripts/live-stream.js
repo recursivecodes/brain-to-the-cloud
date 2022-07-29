@@ -31,7 +31,6 @@ const initCharts = () => {
     const activityScales = {xAxes: window.brainCharts.activityXAxes, yAxes: window.brainCharts.defaultYAxes};
     window.attentionChart = window.brainCharts.renderLineChart('attentionChart', 'Attention', false, scales, attentionDatasource);
     window.meditationChart = window.brainCharts.renderLineChart('meditationChart', 'Meditation', false, scales, meditationDatasource);
-    window.activityChart = window.brainCharts.renderLineChart('activityChart', 'Activity', true, activityScales, activityDatasource);
 }
 
 const initPlayer = () => {
@@ -60,31 +59,14 @@ const handleMeta = (msg) => {
     // keep the latest `maxPoints`
     if( window.attentionChart.data.datasets[0].data.length > window.maxPoints ) window.attentionChart.data.datasets[0].data.shift();
     if( window.meditationChart.data.datasets[0].data.length > window.maxPoints ) window.meditationChart.data.datasets[0].data.shift();
-    if( window.activityChart.data.datasets[0].data.length > window.maxPoints ) window.activityChart.data.datasets[0].data.shift();
-    if( window.activityChart.data.datasets[1].data.length > window.maxPoints ) window.activityChart.data.datasets[1].data.shift();
-    if( window.activityChart.data.datasets[2].data.length > window.maxPoints ) window.activityChart.data.datasets[2].data.shift();
-    if( window.activityChart.data.datasets[3].data.length > window.maxPoints ) window.activityChart.data.datasets[3].data.shift();
-    if( window.activityChart.data.datasets[4].data.length > window.maxPoints ) window.activityChart.data.datasets[4].data.shift();
-    if( window.activityChart.data.datasets[5].data.length > window.maxPoints ) window.activityChart.data.datasets[5].data.shift();
-    if( window.activityChart.data.datasets[6].data.length > window.maxPoints ) window.activityChart.data.datasets[6].data.shift();
-    if( window.activityChart.data.datasets[7].data.length > window.maxPoints ) window.activityChart.data.datasets[7].data.shift();
 
     window.brainCharts.brainReadings.push(brain);
     window.attentionChart.data.datasets[0].data.push({y: brain.attention, x: brain.createdOn});
     window.meditationChart.data.datasets[0].data.push({y: brain.meditation, x: brain.createdOn});
-    window.activityChart.data.datasets[0].data.push({y: Math.log(brain.delta), x: brain.createdOn});
-    window.activityChart.data.datasets[1].data.push({y: Math.log(brain.theta), x: brain.createdOn});
-    window.activityChart.data.datasets[2].data.push({y: Math.log(brain.lowAlpha), x: brain.createdOn});
-    window.activityChart.data.datasets[3].data.push({y: Math.log(brain.highAlpha), x: brain.createdOn});
-    window.activityChart.data.datasets[4].data.push({y: Math.log(brain.lowBeta), x: brain.createdOn});
-    window.activityChart.data.datasets[5].data.push({y: Math.log(brain.highBeta), x: brain.createdOn});
-    window.activityChart.data.datasets[6].data.push({y: Math.log(brain.lowGamma), x: brain.createdOn});
-    window.activityChart.data.datasets[7].data.push({y: Math.log(brain.highGamma), x: brain.createdOn});
 
     if (window.chartsInit) {
         window.attentionChart.update();
         window.meditationChart.update();
-        window.activityChart.update();
     }
 
     if(brain.meditation > window.brainCharts.meditationHigh) window.brainCharts.meditationHigh = brain.meditation;

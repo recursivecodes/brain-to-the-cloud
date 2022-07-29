@@ -158,3 +158,15 @@ th:not([scope]) {
     background-size: cover;
     width: 100%;
 }
+
+#current-signal-overlay {
+    width: 150px;
+}
+#current-meditation-overlay {
+    width: 150px;
+    top: 200px !important;
+}
+#current-attention-overlay {
+    width: 150px;
+    top: 100px !important;
+}
