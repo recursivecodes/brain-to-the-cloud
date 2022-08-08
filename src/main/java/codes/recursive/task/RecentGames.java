@@ -24,7 +24,6 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class RecentGames {
     private static final Logger LOG = LoggerFactory.getLogger(RecentGames.class);
-
     private final String gamerTag;
     private final GameRepository gameRepository;
     private final AbstractGameRepository abstractGameRepository;
