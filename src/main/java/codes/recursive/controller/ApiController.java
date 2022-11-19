@@ -3,6 +3,7 @@ package codes.recursive.controller;
 import codes.recursive.client.CodPublicClient;
 import codes.recursive.model.Brain;
 import codes.recursive.model.BrainSession;
+import codes.recursive.model.CallOfDuty;
 import codes.recursive.model.Game;
 import codes.recursive.repository.AbstractBrainRepository;
 import codes.recursive.repository.BrainRepository;
@@ -74,21 +75,23 @@ public class ApiController {
     }
 
     @Secured(SecurityRule.IS_ANONYMOUS)
-    @Get(uri = "/highlightedGames{/offsetParam}{/maxParam}")
-    public Page<Game> getHighlightedGames(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
+    @Get(uri = "/highlightedGames{/offsetParam}{/maxParam}/{/gameParam}")
+    public Page<Game> getHighlightedGames(Optional<Integer> offsetParam, Optional<Integer> maxParam, Optional<String> gameParam) {
+        String game = gameParam.orElse(CallOfDuty.VANGUARD);
         Integer offset = offsetParam.orElse(0);
         Integer max = maxParam.orElse(25);
         Pageable pageable = Pageable.from(offset, max);
-        return gameRepository.findAllByIsHighlightedEqual(true, pageable);
+        return gameRepository.findAllByIsHighlightedEqual(true, pageable, game);
     }
 
     @Secured(SecurityRule.IS_ANONYMOUS)
-    @Get(uri = "/gamesWithBrainReadings{/offsetParam}{/maxParam}")
-    public Page<Game> getGamesWithBrainReadings(Optional<Integer> offsetParam, Optional<Integer> maxParam) {
+    @Get(uri = "/gamesWithBrainReadings{/offsetParam}{/maxParam}/{/gameParam}")
+    public Page<Game> getGamesWithBrainReadings(Optional<Integer> offsetParam, Optional<Integer> maxParam, Optional<String> gameParam) {
+        String game = gameParam.orElse(CallOfDuty.VANGUARD);
         Integer offset = offsetParam.orElse(0);
         Integer max = maxParam.orElse(25);
         Pageable pageable = Pageable.from(offset, max);
-        return gameRepository.findAllWithBrainReadings(pageable);
+        return gameRepository.findAllWithBrainReadings(pageable, game);
     }
 
     @Secured(SecurityRule.IS_ANONYMOUS)

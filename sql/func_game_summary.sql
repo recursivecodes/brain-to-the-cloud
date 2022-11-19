@@ -1,4 +1,4 @@
-create or replace function gameSummary(withBrain in number) return varchar2 sql_macro is
+create or replace function gameSummary(withBrain in number, game in varchar2) return varchar2 sql_macro is
 begin
     return q'{
         select
@@ -21,26 +21,26 @@ begin
             cast(avg(kdRatio) as number(18,2)) as avgKdRatio,
             cast(case when sum(deaths) > 0 then sum(kills) / sum(deaths) else 0 end as number(18,2)) as totalKdRatio,
             cast(case when sum(deaths) > 0 then (sum(kills) + sum(assists)) / sum(deaths) else 0 end as number(18,2)) as totalEdRatio,
-        
+
             cast(sum( case when "result" = 'win' then 1 else 0 end ) as number(18,2)) as totalWins,
             cast(sum( case when "result" = 'loss' then 1 else 0 end ) as number(18,2)) as totalLosses,
             cast(case
                 when sum( case when "result" = 'loss' then 1 else 0 end ) > 0
                 then sum( case when "result" = 'win' then 1 else 0 end ) / sum( case when "result" = 'loss' then 1 else 0 end )
             else 0 end as number(18,2)) as wlRatio,
-        
-        
+
+
             sum(shotsLanded) as totalShotsLanded,
             sum(shotsMissed) as totalShotsMissed,
             sum(shotsFired) as totalShotsFired,
             cast(avg(accuracy) as number(18,2)) as averageAccuracy,
             cast(case when sum(shotsFired) > 0 then sum(shotsLanded) / sum(shotsFired) else 0 end as number(18,2)) as totalAccuracy,
-        
+
             cast(sum(damageDone) as number(18,2)) as totalDamageDone,
             cast(sum(damageTaken) as number(18,2)) as totalDamageTaken,
-        
+
             max(to_number(longestStreak)) as longestStreak,
-        
+
             cast(avg(score) as number(18,2)) as avgScore,
             cast(case when sum(timePlayed) > 0 then sum(score) / (sum(timePlayed) / 60) else 0 end as number(18,2)) as totalScorePerMinute,
             cast(case when sum(timePlayed) > 0 then sum(kills) / (sum(timePlayed) / 60) else 0 end as number(18,2)) as totalKillsPerMinute,
@@ -50,5 +50,5 @@ begin
             cast(avg(percentTimeMoving) as number(18,2)) as avgPctTimeMoving,
             cast(avg(averageSpeedDuringMatch) as number(18,2)) as avgSpeedDuringMatch
         from mv_game_details_with_brain
-        where (gameSummary.withBrain = 1 and brainRecords > 0) OR (gameSummary.withBrain = 0) }';
+        where "game" = gameSummary.game AND (gameSummary.withBrain = 1 and brainRecords > 0) OR (gameSummary.withBrain = 0) }';
 end gameSummary;

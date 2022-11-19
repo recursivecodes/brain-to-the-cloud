@@ -3,6 +3,7 @@ drop view vw_game_summary_with_brain;
 create view vw_game_summary_with_brain
     as
 select
+    game,
     count("id") as totalGames,
     cast(coalesce(avg(avgAttention), 0) as number(18,2)) as avgAttention,
     cast(coalesce(avg(avgMeditation), 0) as number(18,2)) as avgMeditation,
@@ -50,4 +51,5 @@ select
     cast(avg(percentTimeMoving) as number(18,2)) as avgPctTimeMoving,
     cast(avg(averageSpeedDuringMatch) as number(18,2)) as avgSpeedDuringMatch
 from mv_game_details_with_brain
-where brainRecords > 0;
+where brainRecords > 0
+group by game;

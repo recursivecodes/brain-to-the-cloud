@@ -7,6 +7,7 @@ create materialized view mv_game_details
     select
         g.rowid as "rowid",
         g.id as "id",
+        g.game as game,
         g.is_highlighted as isHighlighted,
         g.is_distracted as isDistracted,
         g.match.utcStartSeconds as utcStartSeconds,

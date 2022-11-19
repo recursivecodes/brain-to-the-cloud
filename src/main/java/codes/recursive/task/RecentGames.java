@@ -41,13 +41,18 @@ public class RecentGames {
     }
 
     @Scheduled(fixedDelay = "1h")
-    public void getRecentMatchData() {
-        LOG.info("Running getRecentMatchData");
+    public void getAllRecentMatchData() {
+        getRecentMatchData(CallOfDuty.VANGUARD);
+        getRecentMatchData(CallOfDuty.MODERN_WARFARE_II);
+    }
+
+    public void getRecentMatchData(String codGame) {
+        LOG.info("Running getRecentMatchData for: {}", codGame);
 
         /* generate the payload */
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
-        Map<String, Object> matchDetails = codAuthClient.getMatchDetails(CallOfDuty.VANGUARD, CallOfDuty.XBL, gamerTag);
+        Map<String, Object> matchDetails = codAuthClient.getMatchDetails(codGame, CallOfDuty.XBL, gamerTag);
         Map<String, Object> recentMatches = (Map<String, Object>) matchDetails.get("data");
 
         /* loop over list of matches and persist each match if necessary */
@@ -66,6 +71,7 @@ public class RecentGames {
                             try {
                                 matchJson = mapper.writeValueAsString(match);
                                 Game game = new Game(matchJson);
+                                game.setGame(codGame);
                                 LOG.info("Persisting game with matchID: {}", match.matchID);
                                 gameRepository.saveAsync(game);
                                 LOG.info("Game persisted!");

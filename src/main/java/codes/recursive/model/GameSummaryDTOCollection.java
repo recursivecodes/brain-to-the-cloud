@@ -60,6 +60,7 @@ public class GameSummaryDTOCollection {
         if( map.equals("mp_ar_alps") ) return "Alps"; //not in the lookup table yet
         if( map.equals("mp_growhouse") ) return "Sphere"; //not in the lookup table yet
         if( map.equals("mp_texas") ) return "USS Texas 1945"; //not in the lookup table yet
+        if( game.equals(CallOfDuty.MODERN_WARFARE_II) ) return "Not Found";
         return ((String) codLookups.get("maps:" + game + "-" + map + ":1")).replace("’", "'");
     }
 
@@ -68,6 +69,7 @@ public class GameSummaryDTOCollection {
         if( mode.equals("control") ) return "Control";
         if( mode.equals("base") ) return "Arms Race";
         if( mode.equals("gun") ) return "Gun Game";
+        if( game.equals(CallOfDuty.MODERN_WARFARE_II) ) return "Unknown";
         return ((String) codLookups.get("game-modes:" + game + "-" + mode + ":1")).replace("’", "'");
     }
 

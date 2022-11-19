@@ -39,6 +39,7 @@ public class Game {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     @DateCreated
     private Date createdOn;
+    private String game;
 
     public Game(Map match) throws JsonProcessingException {
         this.match = new ObjectMapper().writeValueAsString(match);

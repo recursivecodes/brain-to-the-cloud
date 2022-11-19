@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 @Data
 @EqualsAndHashCode
 public class GameDetailDTO {
+    private String game;
     private Boolean isHighlighted;
     private Boolean isDistracted;
     private BigInteger utcStartSeconds;

@@ -22,8 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 
 @Controller("/reports")
 @Secured(SecurityRule.IS_ANONYMOUS)
@@ -45,26 +43,27 @@ public class ReportController {
     }
 
     //@Secured(SecurityRule.IS_AUTHENTICATED)
-    @Get("/game-details{/offsetParam}{/maxParam}{/filter}")
-    ModelAndView gameDetails(@Nullable Principal principal, @PathVariable @Nullable Integer offsetParam, @PathVariable @Nullable Integer maxParam, @PathVariable @Nullable String filter) {
+    @Get("/game-details{/offsetParam}{/maxParam}{/filter}{/selectedGame}")
+    ModelAndView gameDetails(@Nullable Principal principal, @PathVariable @Nullable Integer offsetParam, @PathVariable @Nullable Integer maxParam, @PathVariable @Nullable String filter, @PathVariable @Nullable String selectedGame) {
+        String game = selectedGame != null ? selectedGame : CallOfDuty.VANGUARD;
         int offset = offsetParam != null ? offsetParam : 0;
         int max = maxParam != null ? maxParam : 25;
         Pageable pageable = Pageable.from(offset, max);
         Page<GameDetailDTO> page;
 
         if(filter == null || filter.equals("all")) {
-            page = gameRepository.listGameDetails(pageable);
+            page = gameRepository.listGameDetails(pageable, game);
         }
         else {
             switch (filter) {
                 case "highlight":
-                    page = gameRepository.listHighlightedGameDetails(pageable);
+                    page = gameRepository.listHighlightedGameDetails(pageable, game);
                     break;
                 case "brain":
-                    page = gameRepository.listGameDetailsWithBrain(pageable);
+                    page = gameRepository.listGameDetailsWithBrain(pageable, game);
                     break;
                 default:
-                    page = gameRepository.listGameDetails(pageable);
+                    page = gameRepository.listGameDetails(pageable, game);
                     break;
             }
         }
@@ -76,6 +75,8 @@ public class ReportController {
         return new ModelAndView("game-details", CollectionUtils.mapOf(
                 "collection", collection,
                 "vanguard", CallOfDuty.VANGUARD,
+                "games", CallOfDuty.GAMES,
+                "selectedGame", game,
                 "gamePage", page,
                 "currentView", "game-details",
                 "isLoggedIn", principal != null,
@@ -87,14 +88,17 @@ public class ReportController {
         ));
     }
 
-    @Get(uri = "/attention-meditation")
-    ModelAndView timeMovingReport(@Nullable Principal principal) {
-        RangeSummaryDTOCollection attentionCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getBrainSummary("attention")).build();
-        RangeSummaryDTOCollection meditationCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getBrainSummary("meditation")).build();
-        RangeSummaryDTOCollection ratioCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getBrainSummary("ratio")).build();
+    @Get(uri = "/attention-meditation{/selectedGame}")
+    ModelAndView timeMovingReport(@Nullable Principal principal, @PathVariable @Nullable String selectedGame) {
+        String game = selectedGame != null ? selectedGame : CallOfDuty.VANGUARD;
+        RangeSummaryDTOCollection attentionCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getBrainSummary("attention", game)).build();
+        RangeSummaryDTOCollection meditationCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getBrainSummary("meditation", game)).build();
+        RangeSummaryDTOCollection ratioCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getBrainSummary("ratio", game)).build();
 
         return new ModelAndView("attention-meditation-report", CollectionUtils.mapOf(
                 "currentView", "attention-meditation",
+                "games", CallOfDuty.GAMES,
+                "selectedGame", game,
                 "isLoggedIn", principal != null,
                 "attentionCollection", attentionCollection,
                 "meditationCollection", meditationCollection,
@@ -102,53 +106,49 @@ public class ReportController {
         ));
     }
 
-    @Get(uri = "/time-moving")
-    ModelAndView attentionMeditationSummary(@Nullable Principal principal) {
-        RangeSummaryDTOCollection summaryCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getTimeMovingSummary(0)).build();
-        RangeSummaryDTOCollection brainSummaryCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getTimeMovingSummary(1)).build();
+    @Get(uri = "/time-moving{/selectedGame}")
+    ModelAndView attentionMeditationSummary(@Nullable Principal principal, @PathVariable @Nullable String selectedGame) {
+        String game = selectedGame != null ? selectedGame : CallOfDuty.VANGUARD;
+        RangeSummaryDTOCollection summaryCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getTimeMovingSummary(0, game)).build();
+        RangeSummaryDTOCollection brainSummaryCollection = RangeSummaryDTOCollection.builder().rangeSummaryDTOList(gameRepository.getTimeMovingSummary(1, game)).build();
 
         return new ModelAndView("time-moving-report", CollectionUtils.mapOf(
                 "currentView", "time-moving",
+                "games", CallOfDuty.GAMES,
+                "selectedGame", game,
                 "isLoggedIn", principal != null,
                 "summaryCollection", summaryCollection,
                 "brainSummaryCollection", brainSummaryCollection
         ));
     }
 
-    @Get(uri = "/game-summary/{withBrain}")
-    ModelAndView overallSummary(@Nullable Principal principal, @PathVariable Boolean withBrain) {
+    @Get(uri = "/game-summary/{withBrain}{/selectedGame}")
+    ModelAndView overallSummary(@Nullable Principal principal, @PathVariable Boolean withBrain, @PathVariable @Nullable String selectedGame) {
+        String game = selectedGame != null ? selectedGame : CallOfDuty.VANGUARD;
         GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
-                .gameSummaryDTOList(gameRepository.getGameSummary(withBrain ? 1 : 0))
+                .gameSummaryDTOList(gameRepository.getGameSummary(withBrain ? 1 : 0, game))
                 .build();
 
         return new ModelAndView("game-summary", CollectionUtils.mapOf(
                 "currentView", withBrain ? "game-summary-with-brain" : "game-summary",
+                "games", CallOfDuty.GAMES,
+                "selectedGame", game,
                 "withBrain", withBrain,
                 "isLoggedIn", principal != null,
                 "summaryCollection", summaryCollection
         ));
     }
 
-    public Map<String, Function<GameRepository, List<GameSummaryDTO>>> gameSummaryTypes = Map.ofEntries(
-        Map.entry("byMap", GameRepository::getGameSummaryByMap),
-        Map.entry("byMode", GameRepository::getGameSummaryByMode),
-        Map.entry("byOperator", GameRepository::getGameSummaryByOperator),
-        Map.entry("byTeam", GameRepository::getGameSummaryByTeam),
-        Map.entry("byMapWithBrain", GameRepository::getGameSummaryByMapWithBrain),
-        Map.entry("byModeWithBrain", GameRepository::getGameSummaryByModeWithBrain),
-        Map.entry("byOperatorWithBrain", GameRepository::getGameSummaryByOperatorWithBrain),
-        Map.entry("byTeamWithBrain", GameRepository::getGameSummaryByTeamWithBrain)
-    );
-
-    @Get(uri = "/game-summary-by-type/{type}")
-    ModelAndView summaryByType(@Nullable Principal principal, @PathVariable String type) {
+    @Get(uri = "/game-summary-by-type/{type}{/selectedGame}")
+    ModelAndView summaryByType(@Nullable Principal principal, @PathVariable String type, @PathVariable @Nullable String selectedGame) {
+        String game = selectedGame != null ? selectedGame : CallOfDuty.VANGUARD;
         Boolean withBrain = type.toLowerCase().contains("withbrain");
         String viewSuffix = NameUtils.hyphenate(type);
         String currentView = "game-summary-" + viewSuffix;
         String viewFriendlyName = WordUtils.capitalizeFully(viewSuffix.replaceAll("-", " "));
         String groupingType = type.toLowerCase().replace("by", "").replace("withbrain", "");
 
-        List<GameSummaryDTO> summaries = gameRepository.getGameSummaryByType(groupingType, withBrain ? 1 : 0);
+        List<GameSummaryDTO> summaries = gameRepository.getGameSummaryByType(groupingType, withBrain ? 1 : 0, game);
         GameSummaryDTOCollection summaryCollection = GameSummaryDTOCollection.builder()
                 .gameSummaryDTOList(summaries)
                 .codLookups(codPublicClientService.getCodLookups())
@@ -156,12 +156,15 @@ public class ReportController {
 
         return new ModelAndView("game-summary-by-type", CollectionUtils.mapOf(
                 "currentView", currentView,
+                "games", CallOfDuty.GAMES,
+                "selectedGame", game,
                 "withBrain", withBrain,
                 "isLoggedIn", principal != null,
                 "summaryCollection", summaryCollection,
                 "vanguard", CallOfDuty.VANGUARD,
                 "grouping", groupingType,
-                "type", viewFriendlyName
+                "type", viewFriendlyName,
+                "rawType", type
         ));
     }
 

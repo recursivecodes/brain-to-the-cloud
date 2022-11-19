@@ -5,6 +5,7 @@
     <!--/*/
     <div id="extraHead" th:remove="tag">
     /*/-->
+    <script src="/scripts/game-summary-by-type.js" type="module"></script>
     <!--/*/
     </div>
     /*/-->
@@ -16,6 +17,12 @@
     <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
 
     <div class="row">
+        <div class="col-12 mb-3">
+            <select name="game" id="game" class="form-select w-100 me-3">
+                <option th:each="g : ${games}" th:value="${g.game}" th:text="${g.name}" th:selected="${#strings.equals(selectedGame, g.game)}"></option>
+            </select>
+            <input type="hidden" id="type" th:value="${rawType}" />
+        </div>
         <div class="col-12">
             <h1 th:text="'Kills/Assists/Deaths (' + ${type} + ')'"></h1>
             <!--/*@thymesVar id="summaryCollection" type="codes.recursive.model.GameSummaryDTOCollection"*/-->

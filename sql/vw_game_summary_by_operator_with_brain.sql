@@ -2,7 +2,8 @@ drop view vw_game_summary_by_operator_with_brain;
 
 create view vw_game_summary_by_operator_with_brain
     as  
-select 
+select
+    game,
     operator as grouping,
     count("id") as totalGames,
     cast(coalesce(avg(avgAttention), 0) as number(18,2)) as avgAttention,
@@ -53,4 +54,4 @@ select
     cast(avg(percentTimeMoving) as number(18,2)) as avgPctTimeMoving,
     cast(avg(averageSpeedDuringMatch) as number(18,2)) as avgSpeedDuringMatch
 from mv_game_details_with_brain
-group by operator;
+group by game, operator;

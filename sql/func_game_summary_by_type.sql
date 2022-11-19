@@ -1,8 +1,8 @@
-create or replace function summaryByType(typeGrouping in varchar2, withBrain in number) return varchar2 sql_macro is
+create or replace function summaryByType(typeGrouping in varchar2, withBrain in number, game in varchar2) return varchar2 sql_macro is
 begin
     return q'{
-        select 
-            case 
+        select
+            case
                 when summaryByType.typeGrouping = 'map' then map
                 when summaryByType.typeGrouping = 'mode' then "mode"
                 when summaryByType.typeGrouping = 'operator' then operator
@@ -59,7 +59,7 @@ begin
             cast(avg(percentTimeMoving) as number(18,2)) as avgPctTimeMoving,
             cast(avg(averageSpeedDuringMatch) as number(18,2)) as avgSpeedDuringMatch
             from mv_game_details_with_brain 
-        where (summaryByType.withBrain = 1 and brainRecords > 0) OR (summaryByType.withBrain = 0) 
+        where "game" = summaryByType.game AND (summaryByType.withBrain = 1 and brainRecords > 0) OR ((summaryByType.withBrain = 0) AND "game" = summaryByType.game)
         group by 
             case 
                 when summaryByType.typeGrouping = 'map' then map

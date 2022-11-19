@@ -23,7 +23,7 @@ public interface GameRepository extends PageableRepository<Game, Long> {
     @Query("FROM Game g where g.match.matchID = :matchID")
     Game getGameByMatchID(BigInteger matchID);
 
-    Page<Game> findAllByIsHighlightedEqual(Boolean isHighlighted, Pageable pageable);
+    Page<Game> findAllByIsHighlightedEqual(Boolean isHighlighted, Pageable pageable, String game);
 
     void updateIsHighlighted(@Id Long id, Boolean isHighlighted);
 
@@ -39,66 +39,66 @@ public interface GameRepository extends PageableRepository<Game, Long> {
     Page<Game> findAll(Pageable pageable);
 
     @Query(
-            value = "select g.id, g.match, g.created_on, g.is_highlighted, g.is_distracted, g.notes from game g where id in (select mvb.\"id\" from mv_game_details_with_brain mvb where mvb.brainRecords > 0) order by g.match.utcStartSeconds desc",
+            value = "select g.id, g.match, g.created_on, g.is_highlighted, g.is_distracted, g.notes from game g where id in (select mvb.\"id\" from mv_game_details_with_brain mvb where mvb.brainRecords > 0 and mvb.game = :game) order by g.match.utcStartSeconds desc",
             nativeQuery = true,
-            countQuery = "select count(id) from game where id in (select mvb.\"id\" from mv_game_details_with_brain mvb where mvb.brainRecords > 0)"
+            countQuery = "select count(id) from game where id in (select mvb.\"id\" from mv_game_details_with_brain mvb where mvb.brainRecords > 0 and mvb.game = :game)"
     )
-    Page<Game> findAllWithBrainReadings(Pageable pageable);
+    Page<Game> findAllWithBrainReadings(Pageable pageable, String game);
 
     @Query(
-            value = "select * from mv_game_details_with_brain where isHighlighted = 1 order by matchStart desc",
+            value = "select * from mv_game_details_with_brain where isHighlighted = 1 and \"game\" = :game order by matchStart desc",
             nativeQuery = true,
             countQuery = "select count(1) from mv_game_details_with_brain where isHighlighted = 1"
     )
-    Page<GameDetailDTO> listHighlightedGameDetails(Pageable pageable);
+    Page<GameDetailDTO> listHighlightedGameDetails(Pageable pageable, String game);
 
     @Query(
-            value = "select * from mv_game_details_with_brain where brainRecords > 0 order by matchStart desc",
+            value = "select * from mv_game_details_with_brain where brainRecords > 0 and \"game\" = :game order by matchStart desc",
             nativeQuery = true,
             countQuery = "select count(1) from mv_game_details_with_brain where brainRecords > 0"
     )
-    Page<GameDetailDTO> listGameDetailsWithBrain(Pageable pageable);
+    Page<GameDetailDTO> listGameDetailsWithBrain(Pageable pageable, String game);
 
     @Query(
-            value = "select * from mv_game_details_with_brain order by matchStart desc",
+            value = "select * from mv_game_details_with_brain where \"game\" = :game order by matchStart desc",
             nativeQuery = true,
-            countQuery = "select count(1) from mv_game_details_with_brain"
+            countQuery = "select count(1) from mv_game_details_with_brain where \"game\" = :game"
     )
-    Page<GameDetailDTO> listGameDetails(Pageable pageable);
+    Page<GameDetailDTO> listGameDetails(Pageable pageable, String game);
 
-    @Query(value = "select * from rangeSummary(:type)", nativeQuery = true)
-    List<RangeSummaryDTO> getBrainSummary(String type);
+    @Query(value = "select * from rangeSummary(:type, :game)", nativeQuery = true)
+    List<RangeSummaryDTO> getBrainSummary(String type, String game);
 
-    @Query(value = "select * from timeMovingSummary(:withBrain)", nativeQuery = true)
-    List<RangeSummaryDTO> getTimeMovingSummary(Integer withBrain);
+    @Query(value = "select * from timeMovingSummary(:withBrain, :game)", nativeQuery = true)
+    List<RangeSummaryDTO> getTimeMovingSummary(Integer withBrain, String game);
 
-    @Query(value = "select * from gameSummary(:withBrain)", nativeQuery = true)
-    List<GameSummaryDTO> getGameSummary(Integer withBrain);
+    @Query(value = "select * from gameSummary(:withBrain, :game)", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummary(Integer withBrain, String game);
 
-    @Query(value = "select * from summaryByType(:type, :withBrain) order by totalEdRatio desc", nativeQuery = true)
-    List<GameSummaryDTO> getGameSummaryByType(String type, Integer withBrain);
+    @Query(value = "select * from summaryByType(:type, :withBrain, :game) order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByType(String type, Integer withBrain, String game);
 
-    @Query(value = "select * from summaryByType('map', 0) order by totalEdRatio desc", nativeQuery = true)
-    List<GameSummaryDTO> getGameSummaryByMap();
+    @Query(value = "select * from summaryByType('map', 0, :game) order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByMap(String game);
 
-    @Query(value = "select * from summaryByType('mode', 0) order by totalEdRatio desc", nativeQuery = true)
-    List<GameSummaryDTO> getGameSummaryByMode();
+    @Query(value = "select * from summaryByType('mode', 0, :game) order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByMode(String game);
 
-    @Query(value = "select * from summaryByType('operator', 0) order by totalEdRatio desc", nativeQuery = true)
-    List<GameSummaryDTO> getGameSummaryByOperator();
+    @Query(value = "select * from summaryByType('operator', 0, :game) order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByOperator(String game);
 
-    @Query(value = "select * from summaryByType('team', 0) order by totalEdRatio desc", nativeQuery = true)
-    List<GameSummaryDTO> getGameSummaryByTeam();
+    @Query(value = "select * from summaryByType('team', 0, :game) order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByTeam(String game);
 
-    @Query(value = "select * from summaryByType('map', 1) order by totalEdRatio desc", nativeQuery = true)
-    List<GameSummaryDTO> getGameSummaryByMapWithBrain();
+    @Query(value = "select * from summaryByType('map', 1, :game) order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByMapWithBrain(String game);
 
-    @Query(value = "select * from summaryByType('mode', 1) order by totalEdRatio desc", nativeQuery = true)
-    List<GameSummaryDTO> getGameSummaryByModeWithBrain();
+    @Query(value = "select * from summaryByType('mode', 1, :game) order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByModeWithBrain(String game);
 
-    @Query(value = "select * from summaryByType('operator', 1) order by totalEdRatio desc", nativeQuery = true)
-    List<GameSummaryDTO> getGameSummaryByOperatorWithBrain();
+    @Query(value = "select * from summaryByType('operator', 1, :game) order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByOperatorWithBrain(String game);
 
-    @Query(value = "select * from summaryByType('team', 1) order by totalEdRatio desc", nativeQuery = true)
-    List<GameSummaryDTO> getGameSummaryByTeamWithBrain();
+    @Query(value = "select * from summaryByType('team', 1, :game) order by totalEdRatio desc", nativeQuery = true)
+    List<GameSummaryDTO> getGameSummaryByTeamWithBrain(String game);
 }

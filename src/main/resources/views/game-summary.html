@@ -5,6 +5,7 @@
     <!--/*/
     <div id="extraHead" th:remove="tag">
     /*/-->
+    <script src="/scripts/game-summary.js" type="module"></script>
     <!--/*/
     </div>
     /*/-->
@@ -20,6 +21,12 @@
         <div class="row">
             <div class="col-12 mb-3">
                 <h1>Game Summary <span th:if="${withBrain}">(With Brain Data)</span> <span th:if="${!withBrain}">(All Games)</span></h1>
+            </div>
+            <div class="col-12 mb-3">
+                <select name="game" id="game" class="form-select w-100 me-3">
+                    <option th:each="g : ${games}" th:value="${g.game}" th:text="${g.name}" th:selected="${#strings.equals(selectedGame, g.game)}"></option>
+                </select>
+                <input type="hidden" id="withBrain" th:value="${withBrain}" />
             </div>
         </div>
         <div class="row">

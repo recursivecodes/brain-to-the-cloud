@@ -3,6 +3,7 @@ drop view vw_game_summary;
 create view vw_game_summary
     as
 select
+    game,
     count("id") as totalGames,
     sum(kills) as totalKills,
     sum(assists) as totalAssists,
@@ -47,4 +48,5 @@ select
     cast(sum(distanceTraveled) as number(18,2)) as totalDistanceTraveled,
     cast(avg(percentTimeMoving) as number(18,2)) as avgPctTimeMoving,
     cast(avg(averageSpeedDuringMatch) as number(18,2)) as avgSpeedDuringMatch
-from mv_game_details;
+from mv_game_details
+group by game;

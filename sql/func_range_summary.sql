@@ -1,4 +1,4 @@
-create or replace function rangeSummary(factor in varchar2) return varchar2 sql_macro is
+create or replace function rangeSummary(factor in varchar2, game in varchar2) return varchar2 sql_macro is
 begin
     return q'{
     with ranges as (
@@ -46,7 +46,7 @@ begin
         cast(coalesce(avgMeditation, 0) as number(18,2)) as avgMeditation,
         cast(coalesce(avgAmRatio, 0) as number(18,2)) as avgAmRatio
     from ranges r
-        left outer join summaryByRange(rangeSummary.factor) d
+        left outer join summaryByRange(rangeSummary.factor, rangeSummary.game) d
             on r."range" = d."range"
     where ((rangeSummary.factor = 'attention' OR rangeSummary.factor = 'meditation') AND r.factor = 'attentionMeditation')
     or (rangeSummary.factor = 'ratio' AND r.factor = 'ratio')

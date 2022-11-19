@@ -33,6 +33,9 @@
             <h1>Game Details (<span th:text="${startRecord}"></span> - <span th:text="${endRecord}"></span>)</h1>
         </div>
         <div class="col-12 col-xl-3 d-flex align-self-center justify-content-end mb-3 mb-xl-0 offset-xl-3">
+            <select name="game" id="game" class="form-select w-100 me-3">
+                <option th:each="g : ${games}" th:value="${g.game}" th:text="${g.name}" th:selected="${#strings.equals(selectedGame, g.game)}"></option>
+            </select>
             <select name="gameType" id="gameType" class="form-select w-100">
                 <option value="all" th:selected="${#strings.equals(filter, 'all')} OR ${filter} == null">All Games</option>
                 <option value="highlight" th:selected="${#strings.equals(filter, 'highlight')}">Highlighted Games</option>
@@ -71,7 +74,7 @@
             <tr th:each="record, s: ${collection.getGameDetailDTOList()}">
                 <!--/*@thymesVar id="record" type="codes.recursive.model.GameDetailDTO"*/-->
                 <th scope="row" class="bg-theme text-white" th:data-sort="${record.getUtcStartSeconds()}" th:text="${record.getFormattedStartDate()}"></th>
-                <td th:text="${collection.lookupMap(vanguard, record.getMap())}"></td>
+                <td th:text="${collection.lookupMap(selectedGame, record.getMap())}"></td>
                 <td th:text="${#strings.capitalize(record.getResult())}"></td>
                 <td th:text="${record.getFriendlyTimePlayed()}" th:data-sort="${record.getTimePlayed()}"></td>
                 <td th:text="${#numbers.formatDecimal(record.getKdRatio(), 1, 'COMMA', 2, 'POINT')}"></td>

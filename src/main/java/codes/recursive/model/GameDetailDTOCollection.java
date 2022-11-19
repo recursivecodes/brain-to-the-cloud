@@ -37,6 +37,7 @@ public class GameDetailDTOCollection {
         if( map.equals("mp_ar_alps") ) return "Alps"; //not in the lookup table yet
         if( map.equals("mp_growhouse") ) return "Sphere"; //not in the lookup table yet
         if( map.equals("mp_texas") ) return "USS Texas 1945"; //not in the lookup table yet
+        if( game.equals(CallOfDuty.MODERN_WARFARE_II) ) return "Not Found";
         return ((String) codLookups.get("maps:" + game + "-" + map + ":1")).replace("’", "'");
     }
 

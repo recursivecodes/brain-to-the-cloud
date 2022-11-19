@@ -16,7 +16,6 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ivs.IvsClient;
 import software.amazon.awssdk.services.ivs.model.ChannelNotBroadcastingException;
 import software.amazon.awssdk.services.ivs.model.PutMetadataRequest;
-import software.amazon.awssdk.services.ivs.model.PutMetadataResponse;
 
 import java.util.Map;
 
@@ -25,10 +24,7 @@ public class BttcConsumer {
     private static final Logger LOG = LoggerFactory.getLogger(BttcConsumer.class);
     private final BrainRepository brainRepository;
     private final WebSocketBroadcaster broadcaster;
-    private final String accessKeyId;
-    private final String secretKey;
-    private final String region;
-    private IvsClient ivsClient;
+    private final IvsClient ivsClient;
     private final String channelArn;
 
     public BttcConsumer(
@@ -40,9 +36,6 @@ public class BttcConsumer {
             @Property(name = "codes.recursive.ivs.channel-arn") String channelArn) {
         this.brainRepository = brainRepository;
         this.broadcaster = broadcaster;
-        this.accessKeyId = accessKeyId;
-        this.secretKey = secretKey;
-        this.region = region;
         AwsBasicCredentials credentials = AwsBasicCredentials.create(accessKeyId, secretKey);
         this.ivsClient = IvsClient.builder()
                 .credentialsProvider(StaticCredentialsProvider.create(credentials))
@@ -61,12 +54,10 @@ public class BttcConsumer {
                 .channelArn(channelArn)
                 .metadata(mapper.writeValueAsString(brain))
                 .build();
-        PutMetadataResponse putMetadataResponse;
         try {
-            putMetadataResponse = ivsClient.putMetadata(putMetadataRequest);
+            ivsClient.putMetadata(putMetadataRequest);
             LOG.info("IVS Metadata published.");
-        }
-        catch(ChannelNotBroadcastingException e) {
+        } catch (ChannelNotBroadcastingException e) {
             LOG.warn(e.getMessage());
         }
         LOG.info("Brain data persisted!");

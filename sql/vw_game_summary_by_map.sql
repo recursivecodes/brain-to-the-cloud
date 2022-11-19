@@ -2,7 +2,8 @@ drop view vw_game_summary_by_map;
 
 create view vw_game_summary_by_map
     as  
-select 
+select
+    game,
     map as grouping,
     count("id") as totalGames,
     sum(kills) as totalKills,  
@@ -51,4 +52,4 @@ select
     cast(avg(percentTimeMoving) as number(18,2)) as avgPctTimeMoving,
     cast(avg(averageSpeedDuringMatch) as number(18,2)) as avgSpeedDuringMatch
     from mv_game_details
-group by map;
+group by game, map;

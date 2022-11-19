@@ -1,4 +1,4 @@
-create or replace function timeMovingSummary(withBrain in number) return varchar2 sql_macro is
+create or replace function timeMovingSummary(withBrain in number, game in varchar2) return varchar2 sql_macro is
 begin
     return q'{
         with ranges as (
@@ -38,7 +38,7 @@ begin
             case when timeMovingSummary.withBrain = 1 then cast(coalesce(avgAttention, 0) as number(18,2)) else null end as avgAttention,
             case when timeMovingSummary.withBrain = 1 then cast(coalesce(avgMeditation, 0) as number(18,2)) else null end as avgMeditation
         from ranges r
-            left outer join timeMovingRange(timeMovingSummary.withBrain) d
+            left outer join timeMovingRange(timeMovingSummary.withBrain, timeMovingSummary.game) d
                 on r.timeRange = d.timeRange
         order by r.timeRange }';
 end timeMovingSummary;

@@ -5,6 +5,7 @@
     <!--/*/
     <div id="extraHead" th:remove="tag">
     /*/-->
+    <script src="/scripts/attention-meditation.js" type="module"></script>
     <!--/*/
     </div>
     /*/-->
@@ -16,6 +17,11 @@
     <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
 
     <div class="row">
+        <div class="col-12">
+            <select name="game" id="game" class="form-select w-100 me-3">
+                <option th:each="g : ${games}" th:value="${g.game}" th:text="${g.name}" th:selected="${#strings.equals(selectedGame, g.game)}"></option>
+            </select>
+        </div>
         <div class="col-12">
             <h1>Summary by Attention Range</h1>
             <!--/*@thymesVar id="attentionCollection" type="codes.recursive.model.RangeSummaryDTOCollection"*/-->

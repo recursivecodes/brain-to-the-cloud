@@ -8,6 +8,7 @@ create materialized view mv_game_details_with_brain
     as
 select
     g.id as "id",
+    g.game as "game",
     cast(g.is_highlighted as number(18,0)) as isHighlighted,
     cast(g.is_distracted as number(18,0)) as isDistracted,
     g.match.utcStartSeconds as utcStartSeconds,

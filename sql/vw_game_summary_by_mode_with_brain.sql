@@ -2,7 +2,8 @@ drop view vw_game_summary_by_mode_with_brain;
 
 create view vw_game_summary_by_mode_with_brain
     as  
-select 
+select
+    game,
     "mode" as grouping,
     count("id") as totalGames,
     cast(coalesce(avg(avgAttention), 0) as number(18,2)) as avgAttention,

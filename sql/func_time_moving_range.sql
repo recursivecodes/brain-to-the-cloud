@@ -1,6 +1,6 @@
-create or replace function timeMovingRange(withBrain in number) return varchar2 sql_macro is
+create or replace function timeMovingRange(withBrain in number, game in varchar2) return varchar2 sql_macro is
 begin
-    return q'{
+return q'{
         select
         case
             --when percentTimeMoving = 0 then '0'
@@ -30,7 +30,7 @@ begin
         avg(avgAttention) as avgAttention,
         avg(avgMeditation) as avgMeditation
         from mv_game_details_with_brain
-        where (timeMovingRange.withBrain = 1 and brainRecords > 0) OR (timeMovingRange.withBrain = 0)
+        where "game" = timeMovingRange.game AND (timeMovingRange.withBrain = 1 and brainRecords > 0) OR ((timeMovingRange.withBrain = 0) AND "game" = timeMovingRange.game)
         group by
             case
                 --when percentTimeMoving = 0 then '0'
