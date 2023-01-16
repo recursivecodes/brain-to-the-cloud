@@ -82,6 +82,7 @@ codes:
       playback-url: https://f99084460c35.us-east-1.playback.live-video.net/api/video/v1/us-east-1.639934345351.channel.x4aGUUxIp5Vw.m3u8
       ingest-endpoint: ${IVS_INGEST_ENDPOINT}
       stream-key: ${IVS_STREAM_KEY}
+      lambda-url: ${IVS_LAMBDA_URL}
 cod:
   sso-token: ${ACTIVISION_TOKEN}
   xsrf-token: ${random.uuid}

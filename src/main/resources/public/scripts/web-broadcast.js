@@ -165,7 +165,7 @@ const toggleBroadcast = async () => {
 };
 
 const sendMetadata = async (metadata) => {
-  const metaRequest = await fetch('https://8xyigjo5yg.execute-api.us-east-1.amazonaws.com/Prod/send-metadata', {
+  const metaRequest = await fetch(`${window.config.lambdaUrl}/send-metadata`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
