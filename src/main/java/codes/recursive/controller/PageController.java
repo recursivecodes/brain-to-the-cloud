@@ -23,6 +23,7 @@ public class PageController {
     @Property(name = "codes.recursive.ivs.ingest-endpoint") String ingestEndpoint;
     @Property(name = "codes.recursive.ivs.stream-key") String streamKey;
     @Property(name = "codes.recursive.ivs.channel-arn") String channelArn;
+    @Property(name = "codes.recursive.ivs.lambda-url") String lambdaUrl;
 
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Get("/games")
@@ -63,7 +64,8 @@ public class PageController {
       return Map.of(
         "ingestEndpoint", ingestEndpoint,
         "streamKey", streamKey,
-        "channelArn", channelArn
+        "channelArn", channelArn,
+        "lambdaUrl", lambdaUrl
       );
     }
 
