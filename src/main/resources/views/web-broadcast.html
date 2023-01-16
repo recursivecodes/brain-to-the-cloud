@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layoutFile :: head(~{::title}, ~{:: #extraHead})}">
+  <title>BttC: Web Broadcast</title>
+  <!--/*/
+    <div id="extraHead" th:remove="tag">
+    /*/-->
+  <script src="/scripts/web-broadcast.js" type="module"></script>
+  <script src="https://web-broadcast.live-video.net/1.2.0/amazon-ivs-web-broadcast.js"></script>
+  <!--/*/
+    </div>
+    /*/-->
+</head>
+
+<body th:replace="~{layoutFile :: body(~{::section})}">
+  <section>
+    <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
+    <div class="col-lg-8 offset-lg-2 pb-3">
+      <div class="card">
+        <div class="position-relative">
+          <div class="ratio ratio-16x9">
+            <canvas id="broadcast-preview" class="rounded-top"></canvas>
+          </div>
+          <div class="position-absolute top-0 end-0 p-3">
+            <span class="badge bg-white text-dark" id="online-indicator">Offline</span>
+          </div>
+        </div>
+        <div class="card-footer d-flex justify-content-center flex-column flex-lg-row">
+          <div class="w-100 me-3">
+            <select name="camera-select" id="camera-select" class="h-100 form-select me-lg-3 mb-2 mb-lg-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Select Video Source"></select>
+          </div>
+          <div class="w-100 me-3">
+            <select name="mic-select" id="mic-select" class="h-100 form-select me-lg-3 mb-2 mb-lg-0" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Select Audio Source"></select>
+          </div>
+          <div class="flex-fill mb-2 mb-lg-0">
+            <button id="broadcast-btn" class="btn btn-outline-success text-nowrap h-100 w-100" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Toggle Broadcast">Broadcast</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+
+</html>

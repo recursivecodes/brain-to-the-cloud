@@ -24,6 +24,7 @@
                     <li class="nav-item"><a class="nav-link" th:classappend="${currentPage == 'home'} ? 'active' : ''" href="/">Home</a></li>
                     <li class="nav-item"><a class="nav-link" th:classappend="${currentPage == 'game-analysis'} ? 'active' : ''" href="/games">Game Analysis</a></li>
                     <li class="nav-item" th:if="${isLoggedIn}"><a class="nav-link" th:classappend="${currentPage == 'live'} ? 'active' : ''" href="/live">Live Demo</a></li>
+                    <li class="nav-item" th:if="${isLoggedIn}"><a class="nav-link" th:classappend="${currentPage == 'web-broadcast'} ? 'active' : ''" href="/web-broadcast">Live Stream Broadcast</a></li>
                     <li class="nav-item" th:if="${isLoggedIn}"><a class="nav-link" th:classappend="${currentPage == 'live-stream'} ? 'active' : ''" href="/live-stream">Live Stream</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Reports</a>

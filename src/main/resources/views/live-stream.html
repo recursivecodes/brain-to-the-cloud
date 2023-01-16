@@ -1,77 +1,79 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{layoutFile :: head(~{::title}, ~{:: #extraHead})}">
-    <title>BttC: Demo</title>
-    <!--/*/
+  <title>BttC: Demo</title>
+  <!--/*/
     <div id="extraHead" th:remove="tag">
     /*/-->
-    <script src="/scripts/chart/chart.min.js" </script>
-    <script src="/scripts/chart/chartjs-plugin-annotation.min.js"></script>
-    <script src="/scripts/moment/moment.js"></script>
-    <script src="/scripts/chart/chartjs-adapter-moment.min.js"></script>
-    <script src="/scripts/live-stream.js" type="module"></script>
-    <script src="https://player.live-video.net/1.11.0/amazon-ivs-player.min.js"></script>
-    <!--/*/
+  <script src="/scripts/chart/chart.min.js"></script>
+  <script src="/scripts/chart/chartjs-plugin-annotation.min.js"></script>
+  <script src="/scripts/moment/moment.js"></script>
+  <script src="/scripts/chart/chartjs-adapter-moment.min.js"></script>
+  <script src="/scripts/live-stream.js" type="module"></script>
+  <script src="https://player.live-video.net/1.14.0/amazon-ivs-player.min.js"></script>
+  <!--/*/
     </div>
     /*/-->
 </head>
+
 <body th:replace="~{layoutFile :: body(~{::section})}">
-<section>
+  <section>
     <div th:replace="fragments/nav :: navmenu(${currentView}, ${isLoggedIn})"></div>
-    <h1>Live Stream</h1>
     <div class="row mb-3">
-        <div class="col-md-12">
-            <div class="row row-cols-1 row-cols-md-3 g-4 h-100">
-                <div class="col h-100">
-                    <div class="card text-center h-100 bg-light shadow">
-                        <div class="card-header text-white bg-dark bg-gradient">Signal Strength</div>
-                        <div class="card-body d-flex align-items-center justify-content-center">
-                            <span class="fs-1" id="currentSignalStrength">0</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col h-100">
-                    <div class="card text-center h-100 bg-light shadow">
-                        <div class="card-header text-white bg-dark bg-gradient">Current Attention</div>
-                        <div class="card-body d-flex align-items-center justify-content-center">
-                            <span class="fs-1" id="currentAttention">N/A</span>
-                        </div>
-                        <div class="mt-auto p-2">
-                            <span class="badge bg-success bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Highest value"><span class="fw-bold">High:</span><span id="attentionHigh">N/A</span></span>
-                            <span class="badge bg-danger bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lowest value"><span class="fw-bold">Low:</span><span id="attentionLow">N/A</span></span>
-                            <span class="badge bg-primary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Average value"><span class="fw-bold">Mean:</span><span id="attentionMean">N/A</span></span>
-                            <span class="badge bg-secondary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Middle value"><span class="fw-bold">Median:</span><span id="attentionMedian">N/A</span></span>
-                            <span class="badge bg-info bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Most common value"><span class="fw-bold">Mode:</span><span id="attentionMode">N/A</span></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col h-100">
-                    <div class="card text-center h-100 bg-light shadow">
-                        <div class="card-header text-white bg-dark bg-gradient">Current Meditation</div>
-                        <div class="card-body d-flex align-items-center justify-content-center">
-                            <span class="fs-1" id="currentMeditation">N/A</span>
-                        </div>
-                        <div class="mt-auto p-2">
-                            <span class="badge bg-success bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Highest value"><span class="fw-bold">High:</span><span id="meditationHigh">N/A</span></span>
-                            <span class="badge bg-danger bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lowest value"><span class="fw-bold">Low:</span><span id="meditationLow">N/A</span></span>
-                            <span class="badge bg-primary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Average value"><span class="fw-bold">Mean:</span><span id="meditationMean">N/A</span></span>
-                            <span class="badge bg-secondary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Middle value"><span class="fw-bold">Median:</span><span id="meditationMedian">N/A</span></span>
-                            <span class="badge bg-info bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Most common value"><span class="fw-bold">Mode:</span><span id="meditationMode">N/A</span></span>
-                        </div>
-                    </div>
-                </div>
+      <div class="col-md-12">
+        <div class="row row-cols-1 row-cols-md-3 g-4 h-100">
+          <div class="col h-100">
+            <div class="card text-center h-100 bg-light shadow">
+              <div class="card-header text-white bg-dark bg-gradient">Signal Strength</div>
+              <div class="card-body d-flex align-items-center justify-content-center">
+                <span class="fs-1" id="currentSignalStrength">0</span>
+              </div>
             </div>
+          </div>
+          <div class="col h-100">
+            <div class="card text-center h-100 bg-light shadow">
+              <div class="card-header text-white bg-dark bg-gradient">Current Attention</div>
+              <div class="card-body d-flex align-items-center justify-content-center">
+                <span class="fs-1" id="currentAttention">N/A</span>
+              </div>
+              <div class="mt-auto p-2">
+                <span class="badge bg-success bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Highest value"><span class="fw-bold">High:</span><span id="attentionHigh">N/A</span></span>
+                <span class="badge bg-danger bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lowest value"><span class="fw-bold">Low:</span><span id="attentionLow">N/A</span></span>
+                <span class="badge bg-primary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Average value"><span class="fw-bold">Mean:</span><span id="attentionMean">N/A</span></span>
+                <span class="badge bg-secondary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Middle value"><span class="fw-bold">Median:</span><span id="attentionMedian">N/A</span></span>
+                <span class="badge bg-info bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Most common value"><span class="fw-bold">Mode:</span><span id="attentionMode">N/A</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="col h-100">
+            <div class="card text-center h-100 bg-light shadow">
+              <div class="card-header text-white bg-dark bg-gradient">Current Meditation</div>
+              <div class="card-body d-flex align-items-center justify-content-center">
+                <span class="fs-1" id="currentMeditation">N/A</span>
+              </div>
+              <div class="mt-auto p-2">
+                <span class="badge bg-success bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Highest value"><span class="fw-bold">High:</span><span id="meditationHigh">N/A</span></span>
+                <span class="badge bg-danger bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Lowest value"><span class="fw-bold">Low:</span><span id="meditationLow">N/A</span></span>
+                <span class="badge bg-primary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Average value"><span class="fw-bold">Mean:</span><span id="meditationMean">N/A</span></span>
+                <span class="badge bg-secondary bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Middle value"><span class="fw-bold">Median:</span><span id="meditationMedian">N/A</span></span>
+                <span class="badge bg-info bg-gradient" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Most common value"><span class="fw-bold">Mode:</span><span id="meditationMode">N/A</span></span>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
     <div class="row mb-3">
-        <div class="col-md-8">
-            <video id="video-player" class="w-100" controls autoplay playsinline></video>
-        </div>
-        <div class="col-md-4">
-            <canvas id="attentionChart" class="border p-1 rounded shadow mb-3" style="height: 285px; width:100%;"></canvas>
-            <canvas id="meditationChart" class="border p-1 rounded shadow" style="height: 285px; width:100%;"></canvas>
-        </div>
+      <div class="col-md-8">
+        <video id="video-player" class="w-100" controls autoplay playsinline></video>
+      </div>
+      <div class="col-md-4">
+        <canvas id="attentionChart" class="border p-1 rounded shadow mb-3" style="height: 285px; width:100%;"></canvas>
+        <canvas id="meditationChart" class="border p-1 rounded shadow" style="height: 285px; width:100%;"></canvas>
+      </div>
     </div>
-</section>
+  </section>
 </body>
+
 </html>

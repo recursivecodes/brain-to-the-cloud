@@ -14,8 +14,6 @@ import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ivs.IvsClient;
-import software.amazon.awssdk.services.ivs.model.ChannelNotBroadcastingException;
-import software.amazon.awssdk.services.ivs.model.PutMetadataRequest;
 
 import java.util.Map;
 
@@ -50,16 +48,6 @@ public class BttcConsumer {
         ObjectMapper mapper = new ObjectMapper();
         Brain brain = mapper.convertValue(data, Brain.class);
         brainRepository.saveAsync(brain);
-        PutMetadataRequest putMetadataRequest = PutMetadataRequest.builder()
-                .channelArn(channelArn)
-                .metadata(mapper.writeValueAsString(brain))
-                .build();
-        try {
-            ivsClient.putMetadata(putMetadataRequest);
-            LOG.info("IVS Metadata published.");
-        } catch (ChannelNotBroadcastingException e) {
-            LOG.warn(e.getMessage());
-        }
         LOG.info("Brain data persisted!");
     }
 

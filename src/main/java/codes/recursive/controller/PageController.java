@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.Principal;
+import java.util.Map;
 
 @Controller()
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -19,6 +20,9 @@ import java.security.Principal;
 public class PageController {
     private static final Logger LOG = LoggerFactory.getLogger(PageController.class);
     @Property(name = "codes.recursive.ivs.playback-url") String playbackUrl;
+    @Property(name = "codes.recursive.ivs.ingest-endpoint") String ingestEndpoint;
+    @Property(name = "codes.recursive.ivs.stream-key") String streamKey;
+    @Property(name = "codes.recursive.ivs.channel-arn") String channelArn;
 
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Get("/games")
@@ -44,6 +48,23 @@ public class PageController {
                 "isLoggedIn", principal != null,
                 "playbackUrl", playbackUrl
         ));
+    }
+
+    @Get(uri ="/web-broadcast")
+    ModelAndView webBroadcast(@Nullable Principal principal) {
+        return new ModelAndView("web-broadcast", CollectionUtils.mapOf(
+                "currentView", "web-broadcast",
+                "isLoggedIn", principal != null
+        ));
+    }
+
+    @Get(uri = "/web-broadcast-config")
+    Map getBroadcastConfig(@Nullable Principal principal) {
+      return Map.of(
+        "ingestEndpoint", ingestEndpoint,
+        "streamKey", streamKey,
+        "channelArn", channelArn
+      );
     }
 
     @Secured(SecurityRule.IS_ANONYMOUS)
