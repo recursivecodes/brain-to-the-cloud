@@ -24,6 +24,8 @@ public class PageController {
     @Property(name = "codes.recursive.ivs.stream-key") String streamKey;
     @Property(name = "codes.recursive.ivs.channel-arn") String channelArn;
     @Property(name = "codes.recursive.ivs.lambda-url") String lambdaUrl;
+    @Property(name = "mqtt.client.user-name") String mqttUsername;
+    @Property(name = "mqtt.client.password") String mqttPassword;
 
     @Secured(SecurityRule.IS_ANONYMOUS)
     @Get("/games")
@@ -65,7 +67,9 @@ public class PageController {
         "ingestEndpoint", ingestEndpoint,
         "streamKey", streamKey,
         "channelArn", channelArn,
-        "lambdaUrl", lambdaUrl
+        "lambdaUrl", lambdaUrl,
+        "mqttUsername", mqttUsername,
+        "mqttPassword", mqttPassword
       );
     }
 

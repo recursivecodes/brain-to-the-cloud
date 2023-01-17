@@ -50,6 +50,13 @@ const initPlayer = () => {
         ivsPlayer.addEventListener(IVSPlayer.PlayerEventType.TEXT_METADATA_CUE, (e) => {
             handleMeta(JSON.parse(e.text));
         });
+
+        setInterval(() => {
+            document.getElementById('quality').innerHTML = ivsPlayer.getQuality().name;
+            document.getElementById('bitrate').innerHTML = `${ivsPlayer.getQuality().bitrate / 1000} kbps`;
+            document.getElementById('latency').innerHTML = `${ivsPlayer.getLiveLatency().toFixed(2)} seconds`;
+            document.getElementById('buffer').innerHTML = `${ivsPlayer.getBufferDuration().toFixed(2)} seconds`;
+        }, 1500);
     }
 }
 

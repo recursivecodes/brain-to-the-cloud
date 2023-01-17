@@ -180,31 +180,30 @@ const sendMetadata = async (metadata) => {
   console.log(metaResponse);
 };
 
-const connectWebsocket = async () => {
-  console.log('Connecting to WebSocket...')
-  const protocol = location.protocol.indexOf("https") > -1 ? "wss" : "ws";
-  window.ws = new WebSocket(`${protocol}://${location.hostname}:${location.port}/ws/demo`);
-  window.ws.onopen = (msg) => {
-    console.log('Connected!')
-  };
-  window.ws.onmessage = async (msg) => {
-    const parsedMsg = JSON.parse(msg.data);
+const connectMqtt = async () => {
+  window.client = mqtt.connect('ws://rabbitmq.toddrsharp.com/ws', {
+    username: window.config.mqttUsername,
+    password: window.config.mqttPassword,
+    protocolId: 'MQIsdp',
+    protocolVersion: 3,
+    port: 15675,
+  });
+  window.client.on('connect', function (a) {
+    window.client.subscribe('bttc/demo', function (err) {
+    });
+
+  })
+  window.client.on('message', function (topic, message) {
+    console.log(message.toString())
+    const parsedMsg = JSON.parse(message.toString());
     if( parsedMsg.hasOwnProperty("joined") || parsedMsg.hasOwnProperty("closed") ) {
       return
     }
     const brain = new Brain(parsedMsg);
     console.log(brain);
     if(window.isBroadcasting) sendMetadata(brain);
-  };
-  window.ws.onclose = (e) => {
-    console.log('WebSocket closed!')
-  };
-  window.ws.onerror = function(err) {
-    console.error('Socket encountered error: ', err.message, 'Closing socket');
-    window.ws.close();
-  };
-};
-
+  })
+}
 
 const init = async () => {
   let tooltipTriggers = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -231,7 +230,7 @@ const init = async () => {
   document.getElementById('camera-select').addEventListener('change', selectCamera);
   document.getElementById('mic-select').addEventListener('change', selectMic);
 
-  connectWebsocket();
+  connectMqtt();
 };
 
 document.addEventListener('DOMContentLoaded', init);

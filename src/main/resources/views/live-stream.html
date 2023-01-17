@@ -66,7 +66,23 @@
     </div>
     <div class="row mb-3">
       <div class="col-md-8">
-        <video id="video-player" class="w-100" controls autoplay playsinline></video>
+        <div class="position-relative">
+          <video id="video-player" class="w-100" muted controls autoplay playsinline></video>
+          <div class="position-absolute top-0 start m-2 p-2 rounded border bg-light" style="font-size: 12px; font-weight: bold; --bs-bg-opacity: .25;">
+            <div class="mb-1">
+              Quality: <span id="quality"></span>
+            </div>
+            <div class="mb-1">
+              Bitrate: <span id="bitrate"></span>
+            </div>
+            <div class="mb-1">
+              Latency: <span id="latency"></span>
+            </div>
+            <div class="mb-1">
+              Buffer: <span id="buffer"></span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-md-4">
         <canvas id="attentionChart" class="border p-1 rounded shadow mb-3" style="height: 285px; width:100%;"></canvas>
