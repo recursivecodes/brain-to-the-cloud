@@ -181,7 +181,8 @@ const sendMetadata = async (metadata) => {
 };
 
 const connectMqtt = async () => {
-  window.client = mqtt.connect('ws://rabbitmq.toddrsharp.com/ws', {
+  const protocol = location.protocol.indexOf("https") > -1 ? "wss" : "ws";
+  window.client = mqtt.connect(`${protocol}://rabbitmq.toddrsharp.com/ws`, {
     username: window.config.mqttUsername,
     password: window.config.mqttPassword,
     protocolId: 'MQIsdp',

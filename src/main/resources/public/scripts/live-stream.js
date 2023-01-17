@@ -33,9 +33,22 @@ const initCharts = () => {
     window.meditationChart = window.brainCharts.renderLineChart('meditationChart', 'Meditation', false, scales, meditationDatasource);
 }
 
+const pollForVideo = (interval = 1000) => {
+    if (!window.loadInterval) {
+        window.loadInterval = setInterval(() => {
+            window.ivsPlayer.load(window.streamUrl);
+            window.ivsPlayer.play();
+        }, interval);
+    }
+};
+
+const stopPolling = () => {
+    clearInterval(window.loadInterval);
+    window.loadInterval = null;
+}
+
 const initPlayer = () => {
     if (IVSPlayer.isPlayerSupported) {
-
         // create player
         window.ivsPlayer = IVSPlayer.create();
         // attach to <video> element
@@ -46,9 +59,21 @@ const initPlayer = () => {
         window.ivsPlayer.play();
         // listen for 'stream playing' event and toggle status indicator
         window.ivsPlayer.addEventListener(IVSPlayer.PlayerEventType.STATE_CHANGED, async (state) => {
+            toggleIndicators(state.toLowerCase() === 'playing');
         });
-        ivsPlayer.addEventListener(IVSPlayer.PlayerEventType.TEXT_METADATA_CUE, (e) => {
+        window.ivsPlayer.addEventListener(IVSPlayer.PlayerEventType.TEXT_METADATA_CUE, (e) => {
             handleMeta(JSON.parse(e.text));
+        });
+        window.ivsPlayer.addEventListener(IVSPlayer.PlayerState.PLAYING, (evt) => {
+            window.isPlaying = true;
+            stopPolling();
+        });
+        window.ivsPlayer.addEventListener(IVSPlayer.PlayerState.ENDED, (evt) => {
+            window.isPlaying = false;
+            pollForVideo();
+        });
+        window.ivsPlayer.addEventListener(IVSPlayer.PlayerEventType.ERROR, (evt) => {
+            if(!window.isPlaying) pollForVideo();
         });
 
         setInterval(() => {
@@ -57,6 +82,25 @@ const initPlayer = () => {
             document.getElementById('latency').innerHTML = `${ivsPlayer.getLiveLatency().toFixed(2)} seconds`;
             document.getElementById('buffer').innerHTML = `${ivsPlayer.getBufferDuration().toFixed(2)} seconds`;
         }, 1500);
+    }
+}
+
+const toggleIndicators = (playing) => {
+    const indicator = document.getElementById('online-indicator');
+
+    if (playing) {
+        indicator.classList.remove('bg-white');
+        indicator.classList.remove('text-dark');
+        indicator.classList.add('bg-danger');
+        indicator.classList.add('text-white');
+        indicator.innerHTML = 'LIVE';
+    }
+    else {
+        indicator.classList.remove('bg-danger');
+        indicator.classList.remove('text-white');
+        indicator.classList.add('bg-white');
+        indicator.classList.add('text-dark');
+        indicator.innerHTML = 'Offline';
     }
 }
 

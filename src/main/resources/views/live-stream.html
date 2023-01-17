@@ -67,8 +67,11 @@
     <div class="row mb-3">
       <div class="col-md-8">
         <div class="position-relative">
-          <video id="video-player" class="w-100" muted controls autoplay playsinline></video>
-          <div class="position-absolute top-0 start m-2 p-2 rounded border bg-light" style="font-size: 12px; font-weight: bold; --bs-bg-opacity: .25;">
+          <video id="video-player" class="w-100 rounded shadow bg-dark" style="height: 585px;" muted controls autoplay playsinline></video>
+          <div class="position-absolute top-0 end-0 p-2">
+            <span class="badge bg-white text-dark" id="online-indicator">Offline</span>
+          </div>
+          <div class="position-absolute top-0 start m-2 p-2 rounded border bg-dark text-white text-outline" style="font-size: 12px; font-weight: bold; --bs-bg-opacity: .25;">
             <div class="mb-1">
               Quality: <span id="quality"></span>
             </div>
