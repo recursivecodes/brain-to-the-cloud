@@ -187,7 +187,7 @@ const connectMqtt = async () => {
     password: window.config.mqttPassword,
     protocolId: 'MQIsdp',
     protocolVersion: 3,
-    port: 15675,
+    port: 15676,
   });
   window.client.on('connect', function (a) {
     window.client.subscribe('bttc/demo', function (err) {
